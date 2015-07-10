@@ -1,0 +1,21 @@
+<div class="header" >
+	<a class="menu_open" href="#"></a>
+	<h2>注册</h2>
+	<a class="search_open" href="#signIn"></a>
+</div>
+<div class="sign">
+	<div class="line1">
+		<input type="tel" placeholder="填写手机号码" class="input1 input0" ng-model="data.mobile">
+	</div>
+	<div class="line1">
+	  <input type="text" placeholder="验证码" class="input2 input0" ng-model="data.verifyCode">
+	  <a ng-click="getVri();" class="btn3" ng-show="!sending" >获取验证码</a>
+	  <a class="btn4" ng-show="sending">{{count}}秒后重新获取</a>
+	</div>
+	<div class="line1 mt2">
+	  <input type="password" placeholder="填写密码" class="input1 input0" ng-model="data.password">
+	</div>
+	<div class="line1 mt2">
+		<a class="btn0" ng-click="signUp()">注册</a>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<div class="header" >
+	<i class="menu_open"></i>
+	<h2>{{title}}</h2>
+	<a href="#signIn" class="search_open"></a>
+</div>
+<div class="pb50">
+	<nav class="drawNav"><a ng-class="showStock" ng-click="change(1)">分时图</a><a ng-class="showK" ng-click="change(2)">K线图</a></nav>
+	<div id="stockDraw">
+		<div id="stockDraw1" ng-class="showStock"><canvas id="canvas1"></canvas></div>
+		<div id="stockDraw2" ng-class="showK"><canvas id="canvas2"></canvas></div>
+	</div>
+	<ul class="ul">
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+		<li>5</li>
+		<li>6</li>
+		<li>7</li>
+	</ul>
+</div>
+<nav class="mainNav">
+	<a href="#" class=""><span>首页</span></a>
+	<a href="#/recharge" class=""><span>充值</span></a>
+	<a href="#/signUp" class=""><span>注册</span></a>
+	<a href="#/signIn" class=""><span>登录</span></a>
+</nav>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

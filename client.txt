@@ -1,0 +1,175 @@
+
+localhost  我会在调试的时候 给你们服务器的IP
+
+http://localhost:8080/finance-server
+
+客户端 请求文档
+
+
+(1) /register/sendMobile
+
+填写号码 获取验证码
+参数
+
+mobile 手机号码
+imei 手机唯一标示
+requestType 请求类型
+version 版本号
+
+返回;  {"flag":1}  表示这一步操作成功
+
+      {"flag":0,"errorMessage":"操作失败信息"}
+
+
+(2) /register/registerByMobile
+
+参数
+mobile 手机号
+password 用户输入的密码
+verifyCode 用户的验证码
+requestType 用户的请求类型
+imei 用户的唯一标示
+version 请求版本号
+
+返回;  {"flag":1}  表示这一步操作成功
+
+      {"flag":0,"errorMessage":"操作失败信息"}
+      
+      
+(3) /user/loginPost 用户登录
+
+参数
+requestType 请求类型
+version 版本号
+userName 用户名
+imei 唯一标示
+passWord 密码
+
+返回;  {"flag":1}  表示这一步操作成功
+
+      {"flag":0,"errorMessage":"操作失败信息"}
+
+
+(4) /user/get_forget_password 忘记密码
+
+参数
+
+requestType 请求类型
+version 版本号
+username 用户名
+mobile 手机号码
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+(5) /user/checkMobileVerifyCode 校验手机验证码
+
+参数
+
+requestType 请求类型
+version 版本号
+mobile 手机号码
+verifyCode 验证码
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+
+(6) /user/core/update_password 更新密码
+
+参数
+
+requestType 请求类型
+version 版本号
+newPassword 新密码
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+
+(7) /user/core/setAccount
+
+requestType 请求类型
+version 版本号
+username 用户名
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+(8) /user/core/updateUserMobile 更新手机号码
+
+requestType 请求类型
+version 版本号
+mobile 手机号码
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+
+(9) /user/core/verifyUpdateMobile 验证重新绑定手机验证码
+
+requestType 请求类型
+version 版本号
+mobile 手机号码
+validateCodeCheck 验证码
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+
+(10) /user/core/bind_identify_name 绑定身份证信息
+
+requestType 请求类型
+version 版本号
+name 姓名
+identityNumber 身份证号码
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+(11) /user/core/bind_bank_card 绑定银行卡信息
+
+requestType 请求类型
+version 版本号
+name 姓名
+identityNumber 身份证号码
+bankAccount 银行卡号
+bank 银行名称
+province 省份
+city 城市
+isDefault 是否默认 1 表示设置当前的银行卡为默认  0 不是默认
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+(12) /user/core/my_info 查询个人信息
+
+requestType 请求类型
+version 版本号
+
+返回;  {"flag”:1,”message”:”操作成功提示”}  表示这一步操作成功
+
+      {"flag”:0,”message”:”操作失败信息"}
+
+username 用户名
+name 用户的真实姓名
+identify 身份证号码
+bankName 银行名称
+bindingIdentify 是否绑定了身份证信息 1 绑定了 0 没绑定
+mobile 手机号码
+mobileBinded 是否绑定了手机号码 1 绑定了 0 没绑定
+bankAccount 银行卡号
+bindingBanked 是否绑定了银行卡 1 绑定了 0 没绑定
+
+
+
+
+

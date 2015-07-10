@@ -1,0 +1,13 @@
+<div class="header"><i class="menu_open"></i><h2>{{title}}</h2><i class="search_open"></i></div>
+<nav class="stockList"></nav>
+<div class="stockDraw">
+	<div id="stockDraw2"><canvas id="canvas2"></canvas></div>
+</div>
+<nav class="mainNav">
+	<a href="#" class=""><span>首页</span></a>
+	<a href="#" class=""><span>交易</span></a>
+	<a href="#" class=""><span>自选</span></a>
+	<a href="#" class=""><span>我的</span></a>
+</nav>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
