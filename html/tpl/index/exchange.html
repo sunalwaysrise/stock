@@ -1,0 +1,71 @@
+<div class="header" >
+	<h2>交易</h2>
+</div>
+<div class="exchangeContain">
+	<nav class="exchangeNav">
+		<a class="n1 nc1">下单</a>
+		<a class="n2" href="#/myFinances">订单<i ng-if="count">{{count}}</i></a>
+		<!-- <a class="n3" href="#/broadcast">播报</a> -->
+	</nav>
+	<div class="exchangeList">
+		<ul>
+			<li><a ng-href="#/t1">
+				<i>HOT</i>
+				<section>
+					<p>T+1</p>
+					<p>
+						<span><em>{{d.tAnd1Times}}</em><b>{{d.tAnd1Times}}倍资金</b></span>
+						<span><em>今</em><b>今买明卖</b></span>
+						<span><em>简</em><b>操盘简单</b></span>
+					</p>
+				</section>
+				<div><p>参与人数：{{d.tAnd1People}}人</p><p>共计盈利：<span>{{d.tAnd1TotalProfit|number:2}}</span>元</p></div></a>
+			</li>
+
+			<li><a ng-href="#/t1/10">
+				<i>HOT</i>
+				<section>
+					<p>T+D</p>
+					<p>
+						<span><em>{{d.tAndDTimes}}</em><b>{{d.tAndDTimes}}倍资金</b></span>
+						<span><em>{{d.tAndDDays}}</em><b>{{d.tAndDDays}}交易日</b></span>
+						<span><em>自</em><b>自由操盘</b></span>
+					</p>
+				</section>
+				<div><p>参与人数：{{d.tAndDPeople}}人</p><p>共计盈利：<span>{{d.tAndDTotalProfit|number:2}}</span>元</p></div></a>
+			</li>
+
+			<li><a ng-href="#/t1/5">
+				<i>NEW</i>
+				<section>
+					<p>
+						<strong>新用户</strong>
+						<var>首次专享</var>
+					</p>
+					<p>
+						<span><em>免</em><b>免费领取1万</b></span>
+						<span><em>免</em><b>免管理费</b></span>
+						<span><em>免</em><b>免保证金</b></span>
+					</p>
+				</section>
+				<div><p>参与人数：{{d.newUserProple}}人</p><p>共计盈利：<span>{{d.newUserTotalProfit|number:2}}</span>元</p></div></a>
+			</li>
+
+		</ul>
+	</div>
+	<ul class="exchangeTop" id="exchangeTop">
+		<li ng-repeat="i in list"><i></i><h2>{{i.username}}</h2><p>申购{{i.balance}} 今日盈利<b>{{i.totalProfit}}</b>元</p></li>
+	</ul>
+</div>
+<nav class="mainNav">
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+</nav>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

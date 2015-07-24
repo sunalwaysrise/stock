@@ -1,0 +1,23 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/home"></a>
+    <h2>我的消息</h2>
+  </div>
+  <ul class="pt45 pb50 message">
+    <li ng-repeat="i in list">
+      <a ng-href="#/messageDetail/{{i.type}}/0/">
+        <img ng-src="http://res2.cp2y.com/h5/stock/res/images/message{{i.type}}.png" alt="" />
+        <div>
+          <h2 ng-if="i.type==1">系统消息</h2>
+          <h2 ng-if="i.type==2">交易提醒</h2>
+          <h2 ng-if="i.type==3">风控提醒</h2>
+          <h2 ng-if="i.type==4">清算提醒</h2>
+          <p>{{i.summary}}</p>
+          <span>{{i.time|date:'yyyy.MM.dd'}}</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

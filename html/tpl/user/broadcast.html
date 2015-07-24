@@ -1,0 +1,29 @@
+<div ng-if="show">
+<div class="header" >
+	<h2>交易</h2>
+</div>
+<div class="exchangeContain">
+	<nav class="exchangeNav">
+		<a class="n1" href="#/exchange">下单</a>
+		<a class="n2" href="#/myFinances">订单</a>
+		<a class="n3 nc1">播报</a>
+	</nav>
+	<ul class="boradcast">
+		<li ng-repeat="i in lists">
+			<p>{{i.userName}}申请<b>{{i.money}}</b>实盘资金</p><span>{{i.time|date:"MM-dd hh:mm:ss"}}</span>
+		</li>
+	</ul>
+</div>
+</div>
+<nav class="mainNav">
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+</nav>
+<loading ng-if='loading'></loading>
+<myfinances ng-if="openMyFinances"  ordernumber='{{dialog.orderNumber}}' created='{{dialog.created}}' name='{{dialog.name}}' endtime='{{dialog.endTime}}' balance='{{dialog.balance}}' deposit='{{dialog.deposit}}' assetbalance='{{dialog.assetbalance}}' keepriskratio='{{dialog.keepRiskRatio}}' closeriskratio='{{dialog.closeRiskRatio}}' sure='dialog.sure()' cancel='dialog.cancel()'></myfinances>

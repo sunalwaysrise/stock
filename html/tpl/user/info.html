@@ -1,0 +1,26 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/home"></a>
+    <h2>个人信息</h2>
+  </div>
+  <div class="pt45 info">
+    <div class="infoTop">
+      <img src="http://res2.cp2y.com/h5/stock/res/images/wdzh_touxiang01.png"/><span>{{username}}</span>
+    </div>
+    <nav class="homenav">
+      <a href="#/infoUsername" ng-if="usernameSet"><span>用户名</span><em>{{username}}</em></a>
+      <a class="noIcon" ng-if="!usernameSet"><span>用户名</span><em>{{username}}</em></a>
+    </nav>
+    <nav class="homenav">
+      <a href="#/infoMobile"><span>绑定手机</span><em>{{mobile}}</em></a>
+      <a href="#/infoVerify"><span>实名认证</span><em>{{name}}</em></a>
+      <a href="#/infoBank"><span>绑定银行卡</span><em>{{bankName}}</em></a>
+    </nav>
+    <nav class="homenav">
+      <a href="#/infoPassword"><span>修改登录/支付密码</span><em></em></a>
+    </nav>
+    <a class="btn5" ng-click="signOut()">退出登录</a>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

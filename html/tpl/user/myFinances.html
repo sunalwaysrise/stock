@@ -1,0 +1,58 @@
+<div ng-if="show">
+<div class="header" >
+	<h2>交易</h2>
+</div>
+<div class="exchangeContain">
+	<nav class="exchangeNav">
+		<a class="n1" href="#/exchange">下单</a>
+		<a class="n2 nc1">订单<i ng-if="count">{{count}}</i></a>
+		<!-- <a class="n3" href="#/broadcast">播报</a> -->
+	</nav>
+	<div class="myFinancesList">
+		<ul>
+			<li ng-repeat="i in lists" class="s{{i.status}}">
+				<p ng-click='showdetail($index)'><b>{{i.name}}</b><span>{{i.balance|to10thousand}}</span></p>
+				<section>
+					<span ng-click='showdetail($index)'><em>股票</em><b>{{i.stockCounts}}支</b></span>
+					<span ng-click='showdetail($index)'><em>可用</em><b>{{i.enableBalance}}</b></span>
+					<span ng-click='showdetail($index)'><em>截至</em><b>{{i.endTime | date:'MM-dd'}}</b></span>
+					<span ng-if='i.status==1'>
+						<article ng-click='showdetail($index)'>
+							<em>总盈亏</em><b class="{{i.incomeBalance|toUpDown}}">{{i.incomeBalance}}</b>
+						</article>
+						<!-- <article ng-if='i.deposit+i.balance == i.enableBalance' class="myFinancesBtn">
+							<a ng-href="#/buy/{{i.id}}">买入</a>
+							<a ng-click="detail($index)">详情</a>
+						</article>
+						<article ng-if='i.deposit+i.balance != i.enableBalance' ng-click='showdetail($index)'>
+							<em>总盈亏</em><b class="{{i.incomeBalance|toUpDown}}">{{i.incomeBalance}}</b>
+						</article> -->
+					</span>
+					<span ng-if='i.status!=1'>
+						<article ng-click='showdetail($index)'>
+							<em ng-if="i.status==4">到期终止</em>
+							<em ng-if="i.status==5">手动结束</em>
+							<b>清算中</b>
+						</article>
+					</span>
+				</section>
+				<i>订单{{$index+1}}</i>
+			</li>
+		</ul>
+	</div>
+	<a href="#/history" class="goHistory">查看历史订单</a>
+</div>
+</div>
+<nav class="mainNav">
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+</nav>
+<loading ng-if='loading'></loading>
+<myfinances ng-if="openMyFinances"  ordernumber='{{dialog.orderNumber}}' created='{{dialog.created}}' name='{{dialog.name}}' endtime='{{dialog.endTime}}' balance='{{dialog.balance}}' deposit='{{dialog.deposit}}' assetbalance='{{dialog.assetbalance}}' keepriskratio='{{dialog.keepRiskRatio}}' closeriskratio='{{dialog.closeRiskRatio}}' suretext='{{dialog.suretext}}' sure='dialog.sure()' cancel='dialog.cancel()'></myfinances>
+<mydialog ng-if='openDialog' title='{{dialog.title}}' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

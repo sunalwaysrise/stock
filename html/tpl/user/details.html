@@ -1,0 +1,57 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/home"></a>
+    <h2>明细</h2>
+  </div>
+  <div class="pt45 pb50 details">
+  	<nav>
+  		<a class="n{{yen}}" ng-click="sety()">余额</a>
+  		<a class="n{{hbn}}" ng-click="seth()">红包</a>
+  	</nav>
+  	<ul ng-show="yen">
+  		<li ng-repeat="i in ye">
+  			<a ng-href="#/detail/{{i.id}}/{{yep}}">
+  				<h2>{{i.info}}</h2>
+  				<p>{{i.created | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+  				<em ng-if="i.type==1" class="red">+{{i.occurBalance}}</em>
+  				<em ng-if="i.type==0" class="green">-{{i.occurBalance}}</em>
+  				<span ng-if="i.status==1">处理成功</span>
+  				<span ng-if="i.status==0">处理失败</span>
+  				<span ng-if="i.status==-1">申请处理</span>
+  			</a>
+  		</li>
+  	</ul>
+  	<ul ng-show="hbn">
+  		<li ng-repeat="i in bn">
+  			<a>
+  				<h2>{{i.title}}</h2>
+  				<p>{{i.title}}</p>
+  				<em>{{i.title}}</em>
+  				<span>{{i.title}}</span>
+  			</a>
+  		</li>
+  	</ul>
+  	<section ng-show="yen">
+  		<a ng-click="yeprev()"></a>
+  		<p>
+  			第{{yep+1}}页
+  			<select ng-model="yep" ng-change="setCitys()">
+  				<option ng-repeat="i in yepages" value="{{i}}">第{{i}}页</option>
+  			</select>
+  		</p>
+  		<a ng-click="yenext()"></a>
+  	</section>
+  	<section ng-show="hbn">
+  		<a ng-click="hbprev()"></a>
+  		<p>
+  			第{{hbp+1}}页
+  			<select ng-model="hbp" ng-change="hbpage()">
+  				<option ng-repeat="i in hbpages" value="{{i}}">第{{i}}页</option>
+  			</select>
+  		</p>
+  		<a ng-click="hbnext()"></a>
+  	</section>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

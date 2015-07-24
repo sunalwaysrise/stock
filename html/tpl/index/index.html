@@ -1,29 +1,41 @@
 <div class="header" >
-	<i class="menu_open"></i>
+	<i class="menu_left">新手</i>
 	<h2>{{title}}</h2>
-	<a href="#signIn" class="search_open"></a>
+	<a href="#search" class="search_open"></a>
 </div>
-<div class="pb50">
-	<nav class="drawNav"><a ng-class="showStock" ng-click="change(1)">分时图</a><a ng-class="showK" ng-click="change(2)">K线图</a></nav>
-	<div id="stockDraw">
-		<div id="stockDraw1" ng-class="showStock"><canvas id="canvas1"></canvas></div>
-		<div id="stockDraw2" ng-class="showK"><canvas id="canvas2"></canvas></div>
-	</div>
-	<ul class="ul">
-		<li>1</li>
-		<li>2</li>
-		<li>3</li>
-		<li>4</li>
-		<li>5</li>
-		<li>6</li>
-		<li>7</li>
+<div id="banners">
+	<ul id="banner" ontouchstart="touch.touchStart(event)" ontouchmove="touch.touchMove(event);" ontouchend="touch.touchEnd();">
+		<li ng-repeat="i in banners"><a ng-href="{{i.picLink}}"><img ng-src="{{i.picUrl}}" alt=""/></a></li>
 	</ul>
+	<p><i ng-repeat="i in banners"></i></p>
 </div>
+<div class="indexTop">
+	<div ng-repeat="i in selfNav" class="{{i.waveRatio | toUpDown}}" ng-click="stock2($index)">
+		<h2>{{i.stockName}}</h2>
+		<p>{{i.lastPrize}}<i></i></p>
+		<span>{{i.wave | addPlus}}({{i.waveRatio}}%)</span>
+	</div>
+</div>
+<div class="indexNav">
+	<div><b>资讯</b></div>
+	<div><b>公告</b></div>
+	<div><b>活动</b></div>
+</div>
+<dl class="indexList">
+	<dt>投资参考 <a href="#/investment">更多&gt;</a></dt>
+	<dd ng-repeat="i in introduces">
+		<a ng-href="#/investmentDetail/{{i.id}}">{{i.title}}</a>
+	</dd>
+</dl>
 <nav class="mainNav">
-	<a href="#" class=""><span>首页</span></a>
-	<a href="#/recharge" class=""><span>充值</span></a>
-	<a href="#/signUp" class=""><span>注册</span></a>
-	<a href="#/signIn" class=""><span>登录</span></a>
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
 </nav>
 <loading ng-if='loading'></loading>
 <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

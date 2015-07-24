@@ -1,0 +1,92 @@
+<div class="header" >
+	<a href="#/exchange" class="menu_open"></a>
+	<h2>{{title}}</h2>
+</div>
+<div class="t1">
+	<h2 ng-if="!customBox">请选择实盘额度</h2>
+	<h2 ng-if="customBox">请输入实盘额度</h2>
+	<div class="t11 customBox" ng-show="customBox">
+		<p class="input">
+			<numberinput dplaceholder="输入申请资金，能被1000整除" dlen="6" dclass="" model="money" clear="clearMoney()" ck=""></numberinput>
+		</p>
+		<div>
+			<a ng-click="custom()">取消</a>
+			<a ng-click="setcustom()">确定</a>
+		</div>
+		<span>注：最低5000，最高150000</span>
+	</div>
+	<div class="sp" id="sp" ng-show="!customBox">
+		<a ng-repeat="i in customList" ng-click="setmoney($index)"><b>{{i}}</b><i>实盘资金</i></a>
+		<span id="customArea"></span>
+		<a id="customBtn" ng-click="custom()">自定义</a>
+	</div>
+	<div ng-if="t_d" class="t_d">
+		<div class="t_d_1">
+			<p class="bzjbl_{{bzjbl_of}}" ng-click="bzjblToggle()"><span>{{bzjbl |toPercentage }}</span><em>保证金比例</em></p><i ng-click="bzjbltipT()"></i>
+			<ul ng-show="bzjbl_of" id="bzjbl_of">
+				<li ng-repeat='i in bzjbl_list' ng-click="bzjblSet($index)">{{i |toPercentage }}</li>
+			</ul>
+		</div>
+		<div class="t_d_2"><div><span ng-click="jry_ins()">-</span><p><i>{{jyr}}</i>交易日</p><span ng-click="jry_plus()">+</span></div><b>10元/交易日</b></div>
+	</div>
+	<div class="t11">
+		<p><span>买卖范围：</span><a>沪深A股</a></p>
+		<p><span>使用期限：</span><a>截止{{endtime}}</a>
+			<i ng-click="t1timeT()" ng-if="!t_d"></i>
+			<i ng-click="tdtimeT()" ng-if="t_d"></i>
+		</p>
+		<p><span>仓位要求：</span><a>无</a></p>
+		<p><span>保证金比例：</span><a>{{leverage_ratio*100}}%</a></p>
+		<p><span>收益分配：</span><a>{{share_ratio*100}}%归您</a></p>
+		<p class="bb"><span>总操盘额：</span><a>{{total_money}}元</a></p>
+		<p><span>预警线：</span><a>{{yjx}}元</a><span class="ml10">平仓线：</span><a>{{pcx}}元</a><i ng-click="t1pcxT()"></i></p>
+	</div>
+	<div class="t11">
+		<p>支付管理费：{{glf}}元</p>
+		<p>冻结保证金：{{fxbzj}}元</p>
+	</div>
+	<div class="t12"><i></i><span>我阅读并同意</span><a>《T+1实盘申请规则》</a></div>
+	<a class="sq" ng-click="apply()">立即申请</a>
+	<div class="t1lock" ng-if="t1time">
+		<div class="t1content">
+			<h2>什么是T+1使用期限？</h2>
+			<p>交易日00:00:00至14:59:59期间申请的实盘以当天为首，交易日15:00:00至23:59:59期间以及非交易日申请期间申请的实盘以申请后首个交易日为首日。</p>
+			<div>申请日为T日，T+1（次交易日）为结算日，结算日不可买入股票，14:54:59前需将持有股票卖出。</div>
+			<a ng-click="t1timeT()">我知道了</a>
+		</div>
+	</div>
+	<div class="t1lock" ng-if="t1yjx">
+		<div class="t1content">
+			<h2>什么是预警线？</h2>
+			<p>预警线=申请的实盘资金+（保证金*15%），当总操盘资金（实盘余额+股票市值）低于等于预警线以下时，只能平仓不能建仓。</p>
+			<a ng-click="t1yjxT()">我知道了</a>
+		</div>
+	</div>
+	<div class="t1lock" ng-if="t1pcx">
+		<div class="t1content">
+			<h2>什么是预警线？</h2>
+			<p>预警线=申请的实盘资金+（保证金*15%），当总操盘资金（实盘余额+股票市值）低于等于预警线以下时，只能平仓不能建仓。</p>
+			<h2>什么是平仓线？</h2>
+			<p>平仓线=申请的实盘资金+（保证金*12%），当总操盘资金（实盘余额+股票市值）低于等于平仓线以下时，系统将会自动止损平仓，对账户持有的相关股票按市价卖出，最终成交价以实际成交为准。</p>
+			<a ng-click="t1pcxT()">我知道了</a>
+		</div>
+	</div>
+
+	<div class="t1lock" ng-if="tdtime">
+		<div class="t1content">
+			<h2>什么是T+D使用期限？</h2>
+			<p>最短一天（交易日），最长20天（交易日），交易日00:00:00至14:59:59期间申请的实盘以当天为首，交易日15:00:00至23:59:59期间以及非交易日申请期间申请的实盘以申请后首个交易日为首日。</p>
+			<div>申请日为T日，D日（交易日）为结算日，结算日不可买入股票，14:54:59前需将持有股票卖出；账户管理费按照您选择的天数将一次性扣除，如在中途终止操盘，扣除的管理费不予退还。</div>
+			<a ng-click="tdtimeT()">我知道了</a>
+		</div>
+	</div>
+	<div class="t1lock" ng-if="bzjbltip">
+		<div class="t1content">
+			<h2>什么是保证金比例？</h2>
+			<p>保证金：在您操盘亏损后用户支付亏损金，结束时如无亏损，保证金将全额退还。</p>
+			<a ng-click="bzjbltipT()">我知道了</a>
+		</div>
+	</div>
+</div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' title='{{dialog.title}}' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

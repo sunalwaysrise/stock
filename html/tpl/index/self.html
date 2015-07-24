@@ -1,0 +1,43 @@
+<div class="header" >
+	<a href="#/index" class="menu_open"></a>
+	<h2>{{title}}</h2>
+	<a href="#search" class="search_open"></a>
+</div>
+<div class="pt45 pb50">
+	<div class="selfNav">
+		<div ng-repeat="i in selfNav" class="{{i.waveRatio | toUpDown}}" ng-click="stock2($index)">
+			<h2>{{i.stockName}}</h2>
+			<p>{{i.lastPrize}}<i></i></p>
+			<span>{{i.wave | addPlus}}({{i.waveRatio}}%)</span>
+		</div>
+	</div>
+	<dl class="selfList">
+		<dt><div>名称</div><div>最新</div><div>涨跌</div><div>涨幅</div></dt>
+		<dd ng-repeat="i in selfList" class="{{i.waveRatio | toUpDown}}" >
+			<a ng-href="#/stock/{{i.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/1" ng-if="i.isSuspense==false">
+				<div><h2>{{i.stockName}}</h2><p>{{i.stockCode}}</p></div>
+				<div>{{i.lastPrize}}</div>
+				<div>{{i.wave | addPlus}}</div>
+				<div>{{i.waveRatio | addPlus}}%</div>
+			</a>
+			<a ng-href="#/stock/{{i.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/1" ng-if="i.isSuspense==true" class="isSuspense">
+				<div><h2>{{i.stockName}}</h2><p>{{i.stockCode}}</p></div>
+				<div>--</div>
+				<div>--</div>
+				<div>--</div>
+			</a>
+		</dd>
+	</dl>
+</div>
+<nav class="mainNav">
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+</nav>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

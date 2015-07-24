@@ -1,0 +1,45 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" ng-click="back()"></a>
+    <h2>明细</h2>
+  </div>
+  <div class="pt45 pb50 detail">
+    <div class="d1">
+      <h2><span>交易流水号：</span><em>{{o.id}}</em></h2>
+      <h2><span>交易时间：</span><em>{{o.created | date:'yyyy-MM-dd HH:mm:ss'}}</em></h2>
+      <h2><span>交易结果：</span>
+        <em ng-if="o.status==1">处理成功</em>
+        <em ng-if="o.status==0">处理失败</em>
+        <em ng-if="o.status==-1">申请处理</em>
+      </h2>
+    </div>
+    <div class="d2">
+      <h3><label>交易类型</label>
+        <span ng-if="o.source==1">充值</span>
+        <span ng-if="o.source==2">提现</span>
+        <span ng-if="o.source==3">保证金冻结</span>
+        <span ng-if="o.source==4">配资返回</span>
+        <span ng-if="o.source==5">配资收益</span>
+        <span ng-if="o.source==7">配资手续费</span>
+        <span ng-if="o.source==8">配资清算转入配资收益</span>
+        <span ng-if="o.source==9">配资收益转入账户余额</span>
+      </h3>
+      <h3>
+        <label>交易金额</label>
+        <span ng-if="o.type==0">-{{o.occurBalance}}</span>
+        <span ng-if="o.type==1">+{{o.occurBalance}}</span>
+      </h3>
+      <h3><label>可用金额</label><span>{{o.postBalance}}</span></h3>
+      <h3><label>冻结金额</label>
+        <span ng-if="o.source==3">{{o.occurBalance}}</span>
+        <span ng-if="o.source!=3">0</span>
+      </h3>
+      <h3><label>总余额</label>
+        <span ng-if="o.source==3">{{o.postBalance+o.occurBalance}}</span>
+        <span ng-if="o.source!=3">{{o.postBalance}}</span>
+      </h3>
+    </div>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

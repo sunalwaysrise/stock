@@ -1,0 +1,15 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/info"></a>
+    <h2>用户名</h2>
+  </div>
+  <div class="pt45 infoUsername">
+    <p class="infoTip">一个好的名字是一个好的开始！</p>
+    <div class="l0">
+      <textinput dplaceholder="用户名" dclass="" model="v.tusername" clear="cleared()" ck=""></textinput>
+    </div>
+    <a class="btn2" ng-click="save()">完成</a>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

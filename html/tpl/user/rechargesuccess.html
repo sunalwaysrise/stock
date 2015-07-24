@@ -1,0 +1,11 @@
+<div class="header" >
+	<a class="menu_open" href="#/index"></a>
+	<h2>充值成功</h2>
+</div>
+<div class="sign">
+	<div class="line1 mt2">
+		<a class="btn0" href="#index">知道了</a>
+	</div>
+</div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

@@ -1,0 +1,20 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/home"></a>
+    <h2>余额</h2>
+  </div>
+  <div class="pt45 pb50 balance">
+  	<div>
+  		<h2>可用余额</h2>
+  		<h3>{{balance}}</h2>
+  		<a href="#/recharge">充值</a>
+  	</div>
+  	<div>
+  		<h2>冻结资金</h2>
+  		<h3>{{money}}</h3>
+  		<a href="#/withdraw">提现</a>
+  	</div>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

@@ -1,0 +1,26 @@
+<div class="header" >
+	<a ng-click="back()" class="menu_back"></a>
+	<h2>买入</h2>
+	<a ng-click="refresh()" class="menu_refresh"></a>
+</div>
+<div class="pt45">
+	<div class="search buy">
+		<div class="searchTop"><input placeholder="" ng-model="search" ng-change="get()"/></div>
+		<h2 ng-if="b">最新买入</h2>
+		<ul ng-if="b" class="buyList">
+			<li ng-repeat="i in list">
+				<p><b>{{i.stockName}}</b><span>{{i.businessDate|date :'m:s'}}</span></p>
+				<p><b>{{i.lastPrize}}</b><b>{{i.userName}}</b></p>
+				<p><b class="{{i.waveRatio | toUpDown}}">({{i.waveRatio|addPlus}})</b><b>{{i.businessPrice}}</b></p>
+				<p><a ng-href="#/stock/{{i.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/1/{{userFinanceId}}">买入</a></p>
+			</li>
+		</ul>
+		<ul ng-if="!b" class="searchList">
+			<li ng-repeat="i in list">
+				<a ng-href="#/stock/{{i.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/1/{{userFinanceId}}"><span>{{i.stockCode}}</span><span>{{i.stockName}}</span></a>
+			</li>
+		</ul>
+	</div>
+</div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html class="loading" lang="zh-cmn-Hans" ng-app="stock">
 <head>
-<title>新项目框架</title>
+<title>易操盘</title>
 <meta charset="UTF-8" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <meta name="author" content="author,email address" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="renderer" content="webkit" />
 <meta name="format-detection"content="telephone=no, email=no" />
 <meta name="msapplication-tap-highlight" content="no" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="stylesheet" href="http://res2.cp2y.com/h5/stock/res/css/base.css" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://res2.cp2y.com/h5/stock/images/logo_114.png" />
+<link rel="stylesheet" href="http://res2.cp2y.com/h5/stock/css/base.css?v=20150715" />
 </head>
-<body>
-<div id="M" class="view-animate-container"><div ng-view class="view-animate"></div></div>
-<div id="sort">
-  <a onclick="M.pop.pop();">+</a>
-</div>
+<body class="{{bodyBg}}">
+<div id="M"><div ng-view class="viewAnimate"></div></div>
 <div id="share">
 	<div class="share_msk"></div>
 	<div class="share">
@@ -28,15 +26,22 @@
 		<div class="cancel_share"><a onclick="M.pop.share();">取消分享</a></div>
 	</div>
 </div>
-<script src="http://res2.cp2y.com/h5/stock/res/js/jquery/jquery.min.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/stock.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/angular.min.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/angular-sanitize.min.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/angular-animate.min.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/angular-route.min.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/ng-infinite-scroll.min.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/directives.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/services.js"></script>
-<script src="http://res2.cp2y.com/h5/stock/res/js/angular/app.js"></script>
+<a onclick="M.pop.share()" id="shareBtn">分享</a>
+<script src="http://res2.cp2y.com/h5/stock/js/jquery/jquery.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/jquery/jquery.md5.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/stock.js?v=20150715"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/angular.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/angular-touch.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/angular-sanitize.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/angular-animate.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/angular-route.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/filters.js?v=20150715"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/directives.js?v=20150715"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/services.js?v=20150715"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/ng-infinite-scroll.min.js"></script>
+<script src="http://res2.cp2y.com/h5/stock/js/angular/app.js?v=20150715"></script>
+<script type="text/javascript">
+var __test=true;
+</script>
 </body>
 </html>

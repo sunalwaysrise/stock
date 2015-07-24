@@ -1,0 +1,10 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/home"></a>
+    <h2>红包</h2>
+  </div>
+  <div class="pt45 pb50 bonus">
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

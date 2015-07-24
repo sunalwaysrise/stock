@@ -1,21 +1,33 @@
 <div class="header" >
-	<a class="menu_open" href="#"></a>
+	<a class="menu_back" href="#/signIn"></a>
 	<h2>注册</h2>
-	<a class="search_open" href="#signIn"></a>
 </div>
-<div class="sign">
-	<div class="line1">
-		<input type="tel" placeholder="填写手机号码" class="input1 input0" ng-model="data.mobile">
+<div class="signUp">
+	<div class="sign mb10">
+		<div class="line1">
+			<mobileinput dplaceholder="请输入手机号码" dclass="input1 input0" model="data.mobile" clear="clearmobile()" ck="check()"></mobileinput>
+		</div>
 	</div>
-	<div class="line1">
-	  <input type="text" placeholder="验证码" class="input2 input0" ng-model="data.verifyCode">
-	  <a ng-click="getVri();" class="btn3" ng-show="!sending" >获取验证码</a>
-	  <a class="btn4" ng-show="sending">{{count}}秒后重新获取</a>
+	<div class="sign mb10">
+		<div class="line1">
+			<div class="line11">
+		  	<numberinput dplaceholder="请输入验证码" dlen="5" dclass="input2 input0" model="data.verifyCode" clear="clearverifycode()" ck="check()"></numberinput>
+			</div>
+		  <!-- <input type="tel" placeholder="请输入验证码" class="input2 input0" ng-model="data.verifyCode"> -->
+		  <a ng-click="getVri();" class="btn3" ng-show="!sending" >获取验证码</a>
+		  <a class="btn4" ng-show="sending">{{count}}秒后重新获取</a>
+		</div>
 	</div>
-	<div class="line1 mt2">
-	  <input type="password" placeholder="填写密码" class="input1 input0" ng-model="data.password">
+	<div class="sign mb10">
+		<div class="line1">
+		  <passwordinput dplaceholder="设置支付和登录密码" dclass="input1 input0" model="data.password" clear="clearpassword()" ck="check()"></passwordinput>
+		</div>
 	</div>
-	<div class="line1 mt2">
-		<a class="btn0" ng-click="signUp()">注册</a>
+	<div class="sign">
+		<div class="line2 mt20">
+			<a class="btn0 {{ck}}" ng-click="signUp()">注册</a>
+		</div>
 	</div>
 </div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

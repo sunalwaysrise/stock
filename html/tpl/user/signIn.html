@@ -1,16 +1,18 @@
 <div class="header" >
-	<a class="menu_open" href="#"></a>
+	<a class="menu_left" href="#/index">取消</a>
 	<h2>登录</h2>
-	<a class="search_open" href="#signUp"></a>
 </div>
 <div class="sign">
 	<div class="line1">
-		<input type="text" placeholder="用户名" class="input1 input0" ng-model="data.mobile">
+		<textinput dplaceholder="请输入账号" dclass="user input1 input0" model="data.userName" clear="clearusername()" ck="check()"></textinput>
 	</div>
-	<div class="line1 mt2">
-	  <input type="password" placeholder="密码" class="input1 input0" ng-model="data.password">
+	<div class="line1">
+	  <passwordinput dplaceholder="请输入密码" dclass="password input1 input0" model="data.password" clear="clearpassword()" ck="check()"></passwordinput>
 	</div>
-	<div class="line1 mt2">
-		<a class="btn0" ng-click="signIn()">登录</a>
+	<div class="line2 mt15">
+		<a class="btn0 {{ck}}" ng-click="signIn()">登录</a>
+		<p class="tip"><a href="#/signUp">注册账号</a><a href="#/password">忘记密码</a></p>
 	</div>
 </div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

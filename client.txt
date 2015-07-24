@@ -3,9 +3,9 @@ localhost  我会在调试的时候 给你们服务器的IP
 
 http://localhost:8080/finance-server
 
-客户端 请求文档
+HTML5 请求文档
 
-
+域名：www.new.com/server/
 (1) /register/sendMobile
 
 填写号码 获取验证码
@@ -43,7 +43,7 @@ requestType 请求类型
 version 版本号
 userName 用户名
 imei 唯一标示
-passWord 密码
+password 密码
 
 返回;  {"flag":1}  表示这一步操作成功
 
@@ -168,6 +168,12 @@ mobile 手机号码
 mobileBinded 是否绑定了手机号码 1 绑定了 0 没绑定
 bankAccount 银行卡号
 bindingBanked 是否绑定了银行卡 1 绑定了 0 没绑定
+
+
+
+支付接口
+域名 www.new.com/pay/
+step1  user/core/ufubao_h5
 
 
 

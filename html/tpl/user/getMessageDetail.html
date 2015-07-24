@@ -1,0 +1,34 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" ng-href="#/messageDetail/{{type}}/{{page}}"></a>
+    <h2 ng-if="type==1">正文</h2>
+    <h2 ng-if="type==2">当前成交</h2>
+    <h2 ng-if="type==3">风控提醒</h2>
+    <h2 ng-if="type==4">清算提醒</h2>
+  </div>
+  <div class="pt45 getMessageDetail">
+    <section ng-if="type==1" class="md1">
+      <h1>{{d.title}}</h1>
+      <h2>{{d.created | date:"yy-MM-dd HH:mm:ss"}}</h2>
+      <p>{{d.content}}</p>
+    </section>
+    <section ng-if="type==2" class="md2">
+      <div>
+        <p>{{d.stockName}}（{{d.stockCode}}）<i class="red" ng-if="d.entrustBs==1">买</i><i class="green" ng-if="d.entrustBs==2">卖</i></p>
+        <p>{{d.businessTime|date:'MM-dd hh:mm:ss'}}</p>
+      </div>
+      <div><p>成交数量:{{d.businessAmount}}</p><p>成交均价:{{d.businessPrice}}</p></div>
+      <div><p>成交金额:{{d.businessBalance}}</p><p>总金额:{{d.businessTotal}}</p></div>
+    </section>
+    <section ng-if="type==3" class="md4">
+      <p>{{d.content}}</p>
+      <h2>{{d.created | date:"yy-MM-dd HH:mm:ss"}}</h2>
+    </section>
+    <section ng-if="type==4" class="md4">
+      <p>{{d.content}}</p>
+      <h2>{{d.created | date:"yy-MM-dd HH:mm:ss"}}</h2>
+    </section>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

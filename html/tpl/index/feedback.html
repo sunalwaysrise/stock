@@ -1,0 +1,17 @@
+<div class="header" >
+  <a class="menu_back" href="#/more"></a>
+  <h2>意见反馈</h2>
+</div>
+<div class="feedback">
+	<div class="l0">
+		<textinput dplaceholder="请输入您的邮箱/QQ/手机号" dclass="" model="d.title" clear="clearTitle()" ck="check()"></textinput>
+	</div>
+	<section>
+		<textarea maxlength='300' placeholder="请输入您的反馈内容" ng-model="d.content" ng-change="check()"></textarea>
+	</section>
+	<p>{{size}}/300</p>
+	<article>
+		<p ng-show="!saveBtn">提交</p>
+		<p ng-click="save()" ng-show="saveBtn" class="on">提交</p>
+	</article>
+</div>

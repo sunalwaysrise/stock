@@ -1,0 +1,171 @@
+<div ng-if="show">
+<div class="header" >
+	<a class="menu_back" href="#/myFinances" ng-if="!addDepositBox"></a>
+	<a class="menu_back" ng-click="addDepositClose()" ng-if="addDepositBox"></a>
+	<h2 ng-if="!addDepositBox">{{orderdetail.name}}</h2>
+	<h2 ng-if="addDepositBox">补充保证金</h2>
+	<a class="menu_right menu_right2" ng-if="!addDepositBox" ng-click="detail()">订单详情</a>
+	<a class="menu_refresh" ng-if="addDepositBox" ng-click="refresh()"></a>
+</div>
+<div class="myFinancesContain pt45 pb60" ng-show="!addDepositBox">
+	<section class="orderdetail">
+		<div>
+			<p>总资金<br/><span>{{orderdetail.assetBalance}}</span></p>
+			<p>保证金<br/><span>{{orderdetail.deposit}}</span></p>
+		</div>
+		<div>
+			<p>可用资金<br/><span>{{orderdetail.enableBalance}}</span></p>
+			<p>截止日期<br/><span>{{orderdetail.endTime | date:'MM-dd'}}</span></p>
+		</div>
+		<section>股票市值<br/><span class="white">{{orderdetail.marketValue|number:2}}</span></section>
+		<section>总盈亏<br/><span class="{{orderdetail.incomeBalance|toUpDown}}">{{orderdetail.incomeBalance|addPlus}}</span></section>
+	</section>
+	<nav>
+		<a class="cur{{n0}}" ng-click="setNav(0)">持仓</a>
+		<a class="cur{{n3}}" ng-click="setNav(3)">撤单<i ng-if="myFinanceCancels">{{myFinanceCancels}}</i></a>
+		<a class="cur{{n1}}" ng-click="setNav(1)">委托</a>
+		<a class="cur{{n2}}" ng-click="setNav(2)">成交</a>
+	</nav>
+	<section>
+		<table class="getMyPositions" ng-show="n0">
+			<thead><tr><td>名称/盈亏</td><td>现价/成本</td><td>持仓/可用</td><td></td></tr></thead>
+			<tbody>
+				<tr ng-repeat="i in getMyPositions">
+					<td>{{i.stockName}}<br/><i class="{{i.incomeBalance|toUpDown}}">{{i.incomeBalance.toFixed(2)|addPlus}}</i></td>
+					<td><i class="{{i.stockQuote.wave|toUpDown}}">{{i.stockQuote.lastPrice}}</i><br/><i>{{i.costPrice}}</i></td>
+					<td>{{i.currentAmount}}<br/><i>{{i.enableAmount}}</i></td>
+					<td><a class="b4" ng-href="#/stock/{{i.stockQuote.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/2/{{userFinanceId}}">卖出</a></td>
+				</tr>
+				<tr ng-if="getMyPositions.length == 0">
+		      <td colspan="4">暂无持仓</td>
+		    </tr>
+			</tbody>
+		</table>
+
+		<table class="getMyFinanceCancels" ng-show="n3">
+			<thead><tr><td>名称/委托时间</td><td>当前价/委托价</td><td>委托量/成交量</td><td>状态</td></tr></thead>
+			<tbody>
+				<tr ng-repeat="i in getMyFinanceCancels" class="ha{{i.entrustStatus==6}}">
+					<td>
+						<code class="red" ng-if="i.entrustBs==1">买</code>
+						<code class="green" ng-if="i.entrustBs==2">卖</code>
+						{{i.stockName}}<br/><i>{{i.entrustTime|date:'MM-dd HH:mm:ss'}}</i></td>
+					<td><i class="{{i.stockQuote.wave|toUpDown}}">{{i.stockQuote.lastPrice}}</i><br/><i>{{i.entrustPrice}}</i></td>
+					<td>{{i.entrustAmount}}<br/><i>{{i.businessAmount}}</i></td>
+					<td>
+						<b ng-if="i.entrustStatus==0">未报</b>
+						<b ng-if="i.entrustStatus==1">待报</b>
+						<b ng-if="i.entrustStatus==2">已报</b>
+						<b ng-if="i.entrustStatus==3">已报待撤</b>
+						<b ng-if="i.entrustStatus==4">部成待撤</b>
+						<b ng-if="i.entrustStatus==5">部撤</b>
+						<b ng-if="i.entrustStatus==6">已撤</b>
+						<b ng-if="i.entrustStatus==7">部成</b>
+						<b ng-if="i.entrustStatus==8">已成</b>
+						<b ng-if="i.entrustStatus==9">废单</b>
+						<br/>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==0">撤单</a>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==1">撤单</a>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==2">撤单</a>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==3">撤单</a>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==4">撤单</a>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==5">撤单</a>
+						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==7">撤单</a>
+						<b ng-if="i.entrustStatus==6">已撤</b>
+						<b ng-if="i.entrustStatus==8">已成</b>
+						<b ng-if="i.entrustStatus==9">废单</b>
+					</td>
+				</tr>
+				<tr ng-if="getMyFinanceCancels.length == 0">
+		      <td colspan="4">暂无撤单</td>
+		    </tr>
+			</tbody>
+		</table>
+
+		<table class="getMyEntrusts" ng-show="n1">
+			<thead><tr><td>名称/委托时间</td><td>委托价/成交价</td><td>委托量/成交量</td><td>状态</td></tr></thead>
+			<tbody>
+				<tr ng-repeat="i in getMyEntrusts" class="ha{{i.entrustStatus==6}}">
+					<td>
+						<code class="red" ng-if="i.entrustBs==1">买</code>
+						<code class="green" ng-if="i.entrustBs==2">卖</code>
+						{{i.stockName}}<br/><i>{{i.entrustTime|date:'MM-dd HH:mm:ss'}}</i></td>
+					<td>
+						<i class="{{i.entrustPrice|toUpDown}}">{{i.entrustPrice}}</i><br/>
+						<i>{{i.businessPrice}}</i>
+					</td>
+					<td><i>{{i.entrustAmount}}</i><br/><i>{{i.businessAmount}}</i></td>
+					<td>
+						<b ng-if="i.entrustStatus==0">未报</b>
+						<b ng-if="i.entrustStatus==1">待报</b>
+						<b ng-if="i.entrustStatus==2">已报</b>
+						<b ng-if="i.entrustStatus==3">已报待撤</b>
+						<b ng-if="i.entrustStatus==4">部成待撤</b>
+						<b ng-if="i.entrustStatus==5">部撤</b>
+						<b ng-if="i.entrustStatus==6">已撤</b>
+						<b ng-if="i.entrustStatus==7">部成</b>
+						<b ng-if="i.entrustStatus==8">已成</b>
+						<b ng-if="i.entrustStatus==9">废单</b>
+					</td>
+				</tr>
+				<tr ng-if="getMyEntrusts.length == 0">
+		      <td colspan="4">暂无委托</td>
+		    </tr>
+			</tbody>
+		</table>
+
+		<table class="getMyEntrusts" ng-show="n2">
+			<thead><tr><td>名称/成交时间</td><td>成交价/成交量</td><td>成交额</td></tr></thead>
+			<tbody>
+				<tr ng-repeat="i in getMyFinanceBusiness" class="hafalse">
+					<td>
+						<code class="red" ng-if="i.entrustBs==1">买</code>
+						<code class="green" ng-if="i.entrustBs==2">卖</code>
+						{{i.stockName}}<br/><i>{{i.businessTime|date:'MM-dd HH:mm:ss'}}</i></td>
+					<td>
+						<i>{{i.businessPrice}}</i><br/>
+						<i>{{i.businessAmount}}</i>
+					</td>
+					<td>
+						{{i.businessBalance}}<br/>
+						<a class="b2" ng-click="myEntrustsDetail({{$index}})">详情</a>
+					</td>
+				</tr>
+				<tr ng-if="getMyFinanceBusiness.length == 0">
+		      <td colspan="3">暂无成交</td>
+		    </tr>
+			</tbody>
+		</table>
+
+
+	</section>
+	<article ng-if="orderdetail.status==(1||2)">
+		<a ng-click="addDepositOpen()">补充保证金</a>
+		<a ng-href="#/buy/{{userFinanceId}}">买入股票</a>
+	</article>
+	<article ng-if="orderdetail.status!=(1||2)" class="end">
+		<a>补充保证金</a>
+		<a>买入股票</a>
+	</article>
+</div>
+<div class="addDeposit" ng-show="addDepositBox">
+	<div>
+		<p><label>操盘资金：</label><span>{{orderdetail.balance+orderdetail.deposit}}元</span></p>
+		<p><label>总盈亏：</label><span class="{{orderdetail.incomeBalance|toUpDown}}">{{orderdetail.incomeBalance|addPlus}}元</span></p>
+	</div>
+	<div>
+		<p><label>预警线：</label><span>{{orderdetail.keepRiskRatio}}元</span></p>
+		<p><label>平仓线：</label><span>{{orderdetail.closeRiskRatio}}元</span></p>
+	</div>
+	<div>
+		<p><label>冻结保证金：</label><span>{{orderdetail.deposit}}元</span></p>
+		<p><label>保证金余额：</label><span>{{orderdetail.surplusDeposit}}元</span></p>
+	</div>
+	<section><div><label>补充保证金：</label><article><input ng-model="m.balance" type="tel"/></article></div></section>
+	<b ng-click="doAddDeposit()">支付</b>
+</div>
+</div>
+<loading ng-if='loading'></loading>
+<myfinances ng-if="openMyFinances"  ordernumber='{{dialog.orderNumber}}' created='{{dialog.created}}' name='{{dialog.name}}' endtime='{{dialog.endTime}}' balance='{{dialog.balance}}' deposit='{{dialog.deposit}}' adddeposit='{{dialog.adddeposit}}' assetbalance='{{dialog.assetbalance}}' keepriskratio='{{dialog.keepRiskRatio}}' closeriskratio='{{dialog.closeRiskRatio}}' suretext='{{dialog.suretext}}' sure='dialog.sure()' cancel='dialog.cancel()'></myfinances>
+<myentrusts ng-if="openMyEntrusts" stockname='{{dialog.stockName}}' stockcode='{{dialog.stockCode}}' bs='{{dialog.bs}}' bst='{{dialog.bst}}' businessprice='{{dialog.businessPrice}}' businesstime='{{dialog.businessTime}}' businessamount='{{dialog.businessAmount}}' businessbalance='{{dialog.businessBalance}}' transferfee='{{dialog.transferFee}}' businesstotal='{{dialog.businessTotal}}' commission='{{dialog.commission}}' tax='{{dialog.tax}}'  title='{{dialog.title}}' close='dialog.close()'></myentrusts>
+<mydialog ng-if='openDialog' title='{{dialog.title}}' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

@@ -1,0 +1,63 @@
+<div ng-if="show" id="historyDetail">
+  <div class="header" >
+    <a class="menu_back" ng-click="back()"></a>
+    <h2>方案详情</h2>
+  </div>
+  <div class="pt45 historyDetail">
+  	<h2>实盘编号：{{userFinance.orderNumber}}</h2>
+  	<ul>
+      <li><label>申请时间：</label>{{userFinance.created|date:'MM-dd H:mm:ss'}}</li>
+      <li><label>名称：</label>{{userFinance.name}}</li>
+      <li><label>截止时间：</label>{{userFinance.endTime|date:'yyyy.MM.dd H:mm:s'}}</li>
+      <li><label>申请资金：</label>{{userFinance.balance}}元</li>
+      <li><label>冻结保证金：</label>{{userFinance.deposit}}元</li>
+      <!-- <li><label>炒股资金：</label>{{userFinance.assetBalance}}元</li> -->
+      <li><label>补充保证金：</label>{{userFinance.addDeposit}}元</li>
+      <li><label>终止类型：</label><span ng-if="userFinance.type==1">到期终止</span>
+              <span ng-if="userFinance.type==2">手动终止</span>
+              <span ng-if="userFinance.type==3">平仓终止</span></li>
+  		<li><label>终止时间：</label>{{userFinance.endTime|date:'yyyy.MM.dd H:mm:s'}}</li>
+  	</ul>
+    <h2>结算明细</h2>
+    <ul>
+      <li><label>结算总资产：</label>{{closeLog.assetBalance}}元</li>
+      <li><label>解冻保证金：</label>{{closeLog.returnDeposit}}元</li>
+      <li><label>结算盈亏：</label>{{closeLog.totalProfit}}元</li>
+      <li><label>结算时间：</label>{{userFinance.modified|date:'yyyy.MM.dd H:mm:s'}}</li>
+    </ul>
+    <h2>股票明细</h2>
+    <dl>
+      <dd ng-repeat="i in list">
+        <p>{{i.stockName}}<br/>{{i.stockCode}}</p>
+        <b class="{{i.totalProfit|toUpDown}}">{{i.totalProfit}}</b>
+        <div>
+          <a ng-click="detail($index)">交易记录</a>
+          <a ng-if="i.exchangeType==1" ng-href="#/stock/SH{{i.stockCode}}/{{i.stockName}}/1">个股详情</a>
+          <a ng-if="i.exchangeType==2" ng-href="#/stock/SZ{{i.stockCode}}/{{i.stockName}}/1">个股详情</a>
+        </div>
+      </dd>
+    </dl>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>
+<div id="historyDetails">
+  <section class="historyDetails" ng-repeat="i in list">
+    <div class="header" >
+      <a class="menu_back" ng-click="s1()"></a>
+      <h2>方案详情</h2>
+    </div>
+    <ul class="pt45">
+      <li ng-repeat="x in i.businessVos">
+        <h3><p><label>{{x.stockName}}({{x.stockCode}})</label>
+          <i class="BS1" ng-if="x.entrustBs==1">买</i>
+          <i class="BS2" ng-if="x.entrustBs==2">卖</i>
+        </p><p>{{x.businessTime|date :'yyyy-MM-dd H:mm:ss'}}</p></h3>
+        <h3><p>成交数量:<label>{{x.businessAmount}}</label></p><p>印花税:<label>{{x.tax}}元</label></p></h3>
+        <h3><p>成交金额:<label>{{x.businessBalance}}元</label></p><p>过户费:<label>{{x.transferFee}}元</label></p></h3>
+        <h3><p>成交均价:<label>{{x.businessPrice}}元</label></p><p>总金额:<label>{{x.businessTotal}}元</label></p></h3>
+        <h3><p>佣金:<label>{{x.commission}}元</label></p><p></p></h3>
+      </li>
+    </ul>
+  </section>
+</div>

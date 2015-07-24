@@ -1,13 +1,77 @@
-<div class="header"><i class="menu_open"></i><h2>{{title}}</h2><i class="search_open"></i></div>
-<nav class="stockList"></nav>
-<div class="stockDraw">
-	<div id="stockDraw2"><canvas id="canvas2"></canvas></div>
+<div class="header" >
+	<a ng-click="back()" class="menu_open"></a>
+	<h2><b>{{title}}</b><span>{{subtitle}}</span></h2>
+	<!-- <a href="#search" class="search_open search_open2"></a> -->
+	<a ng-click="delFave()" class="save save0" ng-if="fave"></a>
+	<a ng-click="addFave()" class="save save1" ng-if="!fave"></a>
 </div>
-<nav class="mainNav">
-	<a href="#" class=""><span>首页</span></a>
-	<a href="#" class=""><span>交易</span></a>
-	<a href="#" class=""><span>自选</span></a>
-	<a href="#" class=""><span>我的</span></a>
-</nav>
+<div class="pt45">
+	<div id="stockTop">
+		<a>
+			<div id="lastPrize">{{stockTop.lastPrize}}<i></i></div>
+			<p id="lastWave"><span id="wave">{{stockTop.wave | addPlus}}</span><span id="waveRatio">{{stockTop.waveRatio | addPlus}}%</span></p>
+      <div id="lastMsg"></div>
+		</a>
+	</div>
+	<div id="stockDraw">
+    <div class="sD1" ng-class="showStock" ng-swipe-left="change(2)">
+        <div id="stockDraw1"><canvas id="canvas1"></canvas></div>
+        <div id="stockDraw3"><canvas id="canvas3"></canvas></div>
+        <div id="sD1"></div>
+    </div>
+    <div class="sD1" ng-class="showK" ng-swipe-right="change(1)">
+      <div id="stockDraw2"><canvas id="canvas2"></canvas></div>
+      <div id="stockDraw4"><canvas id="canvas4"></canvas></div>
+    </div>
+	</div>
+	<nav class="drawNav">
+    <a ng-class="showStock" ng-click="change(1)">分时</a>
+    <a ng-class="showK" ng-click="change(2)">K线</a>
+  </nav>
+	<div class="stock">
+    <div class="stockline1" ng-show="showMyFinance">
+      <div class="stockline11">
+        <!-- <a class="b0 b1" ng-click="inst1()"></a> -->
+        <ul id="myFinanceVos">
+          <li ng-repeat="i in myFinanceVos" ng-if="$scope.myFinanceIndex==$index" ng-click="inst_plus({{$index}})" >订单{{$index+1}}</li>
+          <li ng-repeat="i in myFinanceVos" ng-if="$scope.myFinanceIndex!=$index" ng-click="inst_plus({{$index}})" >订单{{$index+1}}</li>
+        </ul>
+        <!-- <a class="b0 b2" ng-click="plus1()"></a> -->
+      </div>
+      <p class="stockline04" ng-click="detail()"><b>详情</b></p>
+    </div>
+    <div class="stockline2" ng-if="hasLogin">该股可用金额:<span>{{d.n1}}元</span>截止日期：<b>{{d.endtime|date:"MM-dd HH:mm:ss"}}</b></div>
+    <div class="stockline2" ng-if="!isBuy">市值:<span>{{d.s1}}元</span>截止日期：<b>{{d.endtime|date:"MM-dd HH:mm:ss"}}</b></div>
+    <div class="stockline1">
+      <div class="stockline0" ng-show="wt">
+        <a class="b0 b3" ng-click="inst2()"></a>
+        <input type="tel" ng-model="numprice" id="lastPrice3" ng-blur="limit2()"/>
+        <a class="b0 b4" ng-click="plus2()"></a>
+      </div>
+      <div class="stockline0" ng-show="!wt"><span id="lastPrize2"></span></div>
+      <p class="stockline01">
+        <b ng-click="setSj()" class="{{!wt}}">市价</b>
+        <b ng-click="setWt()" class="{{wt}}">委托</b>
+      </p>
+    </div>
+    <div class="stockline2">委托：<strong>按照您设定的价格进行交易</strong></div>
+    <p class="stockline3" ng-show="isBuy">
+      <input type="tel" ng-model="d.buyNumber" ng-change="checkBuyNumber()"/>
+      <b>可买{{d.n3}}股</b>
+    </p>
+    <p class="stockline3" ng-show="!isBuy">
+      <input type="tel" ng-model="d.sellNumber" ng-change="checkSellNumber()"/>
+      <b>可卖{{d.n2}}股</b>
+    </p>
+    <p class="stockline4" ng-show="isBuy">占操盘总资金<span>{{d.n4}}%</span></p>
+    <p class="stockline4" ng-show="!isBuy">该股票占有仓位{{d.s2}}%</p>
+    <p class="stockline5">
+      <a class="buy" ng-show="isBuy" ng-click="buy()">买入</a>
+      <a class="sell" ng-show="!isBuy" ng-click="sell()">卖出</a>
+      <b class="b{{isBuy}}" ng-click="toggleBuy()"><span>买</span><span>/</span><span>卖</span></b>
+    </p>
+	</div>
+</div>
 <loading ng-if='loading'></loading>
 <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+<myfinances ng-if="openMyFinances"  ordernumber='{{dialog.orderNumber}}' created='{{dialog.created}}' name='{{dialog.name}}' endtime='{{dialog.endTime}}' balance='{{dialog.balance}}' deposit='{{dialog.deposit}}' adddeposit='{{dialog.adddeposit}}' assetbalance='{{dialog.assetbalance}}' keepriskratio='{{dialog.keepRiskRatio}}' closeriskratio='{{dialog.closeRiskRatio}}' sure='dialog.sure()' cancel='dialog.cancel()'></myfinances>

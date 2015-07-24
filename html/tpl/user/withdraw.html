@@ -1,0 +1,59 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/balance"></a>
+    <h2>提现</h2>
+  </div>
+  <div class="pt45 infoUsername widthdraw">
+    <p class="infoTip" ng-if="!bindingBanked">请输入银行卡信息</p>
+    <div class="l3"><label>开户行</label>
+      <div ng-if="!bindingBanked">
+        <span class="w1">
+          {{o.bank}}
+          <select ng-model="o.bank">
+            <option ng-repeat="i in banks" value="{{i}}">{{i}}</option>
+          </select>
+        </span>
+      </div>
+      <p ng-if="bindingBanked">{{o.bank}}</p>
+    </div>
+    <div class="l3"><label>卡号</label>
+      <div ng-if="!bindingBanked"><input type="tel" ng-model="o.bankAccount" /></div>
+      <p ng-if="bindingBanked">{{o.bankAccount}}</p>
+    </div>
+    <div class="l3" ng-if="!bindingBanked"><label>开户地</label>
+      <div>
+        <span class="w2">
+          {{o.province}}
+          <select ng-if="!bindingBanked" ng-model="o.province" ng-change="setCitys()">
+            <option ng-repeat="i in provinces" value="{{i}}">{{i}}</option>
+          </select>
+        </span>
+        <span class="w2">
+          {{o.city}}
+          <select ng-if="!bindingBanked" ng-model="o.city">
+            <option ng-repeat="i in citys" value="{{i}}">{{i}}</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <p class="infoTip" ng-if="!bindingIdentify">为保证您的资金安全，请认证</p>
+    <div class="l3"><label>持卡人</label>
+      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.name" /></div>
+      <p ng-if="bindingIdentify">{{o.name}}</p>
+    </div>
+    <div class="l3"><label>身份证</label>
+      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.identityNumber" /></div>
+      <p ng-if="bindingIdentify">{{o.identityNumber}}</p>
+    </div>
+
+    <p class="infoTip">可提现金额<span>{{withdraw}}</span></p>
+    <div class="l4"><label>申请提现金额</label><div><input type="tel" ng-model="o.m1"/></div><p>元</p></div>
+    <div class="l4"><label>实际到账金额</label><div>{{o.m1}}</div><p>元</p></div>
+    <div class="l5">
+      <a class="btn6" ng-if="!bindingBanked" ng-click="save()">确认</a>
+      <a class="btn6" ng-if="bindingBanked" ng-click="save2()">确认</a>
+    </div>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

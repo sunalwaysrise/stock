@@ -1,0 +1,12 @@
+<div class="header" >
+  <a class="menu_back" ng-click="back()"></a>
+  <h2 >正文</h2>
+</div>
+<div class="pt45 getMessageDetail">
+  <section class="md1">
+    <h1>{{d.title}}</h1>
+    <h2>{{d.create | date:"yy-MM-dd HH:mm:ss"}}</h2>
+    <article ng-bind-html="d.content"></article>
+  </section>
+</div>
+<loading ng-if='loading'></loading>

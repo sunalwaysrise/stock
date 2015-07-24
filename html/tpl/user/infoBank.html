@@ -1,0 +1,52 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/info"></a>
+    <h2 ng-if="!bindingBanked">绑定银行卡</h2>
+    <h2 ng-if="bindingBanked">银行卡信息</h2>
+  </div>
+  <div class="pt45 infoUsername">
+    <p class="infoTip" ng-if="!bindingBanked">请绑定持卡人本人的银行卡</p>
+    <div class="l3"><label>开户行</label>
+      <div ng-if="!bindingBanked">
+        <span class="w1">
+          {{o.bank}}
+          <select ng-model="o.bank">
+            <option ng-repeat="i in banks" value="{{i}}">{{i}}</option>
+          </select>
+        </span>
+      </div>
+      <p ng-if="bindingBanked">{{o.bank}}</p>
+    </div>
+    <div class="l3"><label>卡号</label>
+      <div ng-if="!bindingBanked"><input type="tel" ng-model="o.bankAccount" /></div>
+      <p ng-if="bindingBanked">{{o.bankAccount}}</p>
+    </div>
+    <div class="l3" ng-if="!bindingBanked"><label>开户地</label>
+      <div>
+        <span class="w2">
+          {{o.province}}
+          <select ng-if="!bindingBanked" ng-model="o.province" ng-change="setCitys()">
+            <option ng-repeat="i in provinces" value="{{i}}">{{i}}</option>
+          </select>
+        </span>
+        <span class="w2">
+          {{o.city}}
+          <select ng-if="!bindingBanked" ng-model="o.city">
+            <option ng-repeat="i in citys" value="{{i}}">{{i}}</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="l3"><label>持卡人</label>
+      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.name" /></div>
+      <p ng-if="bindingIdentify">{{o.name}}</p>
+    </div>
+    <div class="l3"><label>身份证</label>
+      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.identityNumber" /></div>
+      <p ng-if="bindingIdentify">{{o.identityNumber}}</p>
+    </div>
+    <a class="btn2" ng-if="!bindingBanked" ng-click="done()">完成</a>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

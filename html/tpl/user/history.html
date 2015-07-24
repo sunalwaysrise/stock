@@ -1,0 +1,53 @@
+<div ng-if="show">
+  <div class="header historyHeader" >
+    <a class="menu_back" href="#/home"></a>
+    <h2>历史订单</h2>
+    <span ng-click="toggleHisBtn()" class="{{hisBtn}}">{{hisB}}</span>
+    <p ng-show="hisBtn">
+      <b ng-click="setHis(3)">3个月</b>
+      <b ng-click="setHis(6)">6个月</b>
+      <b ng-click="setHis(12)">一年</b>
+    </p>
+  </div>
+  <div class="pt45 pb50 history">
+  	<h2 class="title">
+  		共完成实盘操作<span class="red">{{totalPen}}</span>笔<br/>累计结算盈亏
+  		<span class="red" ng-if="totalProfit>0">+{{totalProfit}}</span>
+  		<span class="green" ng-if="totalProfit<0">{{totalProfit}}</span>
+  		<span class="grey" ng-if="totalProfit==0">{{totalProfit}}</span>
+  		元
+  	</h2>
+  	<ul>
+  		<li ng-repeat="i in list">
+  			<a ng-href="#/historyDetail/{{i.id}}/{{page}}">
+  				<h2><b>{{i.name}}</b><span>{{i.balance|to10thousand}}</span></h2>
+  				<div>
+  					<p><b>收益盈亏</b>
+  						<span class="red" ng-if="i.totalProfit>0">+{{i.totalProfit}}</span>
+  						<span class="green" ng-if="i.totalProfit<0">{{i.totalProfit}}</span>
+  						<span class="grey" ng-if="i.totalProfit==0">{{i.totalProfit}}</span>
+  					</p>
+  					<p><b>终止类型</b>
+              <span ng-if="i.type==1">到期终止</span>
+              <span ng-if="i.type==2">手动终止</span>
+              <span ng-if="i.type==3">平仓终止</span>
+            </p>
+  					<p><b>终止时间</b><span>{{i.closeTime|date:'MM-dd HH:mm:ss'}}</span></p>
+  				</div>
+  			</a>
+  		</li>
+  	</ul>
+    <section class="pages">
+  		<a ng-click="prev()"></a>
+  		<p>
+  			第{{page+1}}页
+  			<select ng-model="page" ng-change="setPage()">
+  				<option ng-repeat="i in pages" value="{{i}}">第{{i}}页</option>
+  			</select>
+  		</p>
+  		<a ng-click="next()"></a>
+  	</section>
+  </div>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

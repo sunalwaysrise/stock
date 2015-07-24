@@ -1,0 +1,26 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/message"></a>
+    <h2 ng-if="type==1">系统消息</h2>
+    <h2 ng-if="type==2">交易提醒</h2>
+    <h2 ng-if="type==3">风控提醒</h2>
+    <h2 ng-if="type==4">清算提醒</h2>
+  </div>
+  <ul class="pt45 pb50 messageDetails1">
+    <li ng-repeat="i in list">
+      <a ng-href="#/getMessageDetail/{{type}}/{{i.id}}/{{page}}"><p>{{i.summary}}</p><div>{{i.time|date:'yyyy.MM.dd'}}</div></a>
+    </li>
+  </ul>
+  <section class="pages">
+    <a ng-click="prev()"></a>
+    <p>
+      第{{page+1}}页
+      <select ng-model="page" ng-change="setPage()">
+        <option ng-repeat="i in pages" value="{{i}}">第{{i}}页</option>
+      </select>
+    </p>
+    <a ng-click="next()"></a>
+  </section>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

@@ -1,0 +1,18 @@
+<div class="header" >
+	<a href="#/self" class="menu_back"></a>
+	<h2>{{title}}</h2>
+</div>
+<div class="pt45">
+	<div class="search">
+		<div class="searchTop"><input placeholder="" ng-model="search" ng-change="get()"/></div>
+		<ul class="searchList">
+			<li ng-repeat="i in list">
+				<i ng-if="i.has==0" class="k{{i.has}}" ng-click="add($index)"></i>
+				<i ng-if="i.has==1" class="k{{i.has}}" ng-click="remove($index)"></i>
+				<a ng-href="#/stock/{{i.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/1"><span>{{i.stockCode}}</span><span>{{i.stockName}}</span></a>
+			</li>
+		</ul>
+	</div>
+</div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

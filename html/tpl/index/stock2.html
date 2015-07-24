@@ -1,0 +1,37 @@
+<div class="header" >
+	<a href="#/self" class="menu_open"></a>
+	<h2>{{title}}</h2>
+</div>
+<div class="pt45 stock2">
+	<div id="stockTop">
+    <div>
+      <b>{{title}}</b>
+      <span>{{subtitle}}</span>
+    </div>
+		<div id="lastPrize">{{stockTop.lastPrize}}<i></i></div>
+    <div>
+  		<p>
+        <span id="wave">{{stockTop.wave | addPlus}}</span>
+        (<span id="waveRatio">{{stockTop.waveRatio | addPlus}}%</span>)
+      </p>
+      <p id="updateTime"></p>
+    </div>
+	</div>
+	<div id="stockDraw">
+    <div class="sD1" ng-class="showStock">
+        <div id="stockDraw1"><canvas id="canvas1"></canvas></div>
+        <div id="stockDraw3"><canvas id="canvas3"></canvas></div>
+    </div>
+    <div class="sD1" ng-class="showK">
+      <div id="stockDraw2"><canvas id="canvas2"></canvas></div>
+      <div id="stockDraw4"><canvas id="canvas4"></canvas></div>
+    </div>
+	</div>
+	<nav class="drawNav">
+    <a ng-class="showStock" ng-click="change(1)">分时</a>
+    <a ng-class="showK" ng-click="change(2)">K线</a>
+  </nav>
+  <ul id="stock2b"></ul>
+</div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

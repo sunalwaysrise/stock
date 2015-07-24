@@ -1,0 +1,36 @@
+<div ng-if="show">
+  <div class="homeBg">
+    <div class="header" >
+      <a class="menu_left" href="#/message">消息</a>
+      <h2></h2>
+      <a class="menu_right" href="#/more">更多</a>
+    </div>
+    <div class="pt45 home">
+      <div class="homeTop">
+        <div class="head"><a href="#/info"><img src="http://res2.cp2y.com/h5/stock/res/images/wdzh_touxiang01.png" /></a></div>
+        <span>{{username}}</span>
+        <a class="b" href="#/recharge">立即充值</a>
+      </div>
+    </div>
+  </div>
+  <div class="pb50 home">
+    <nav class="homenav">
+      <a href="#/balance"><span>余额</span><em>{{currentBalance}}</em></a>
+      <a><span>红包<i></i></span><em>{{currentBonus}}</em></a>
+    </nav>
+    <nav class="homenav"><a href="#/details"><span>资金明细<i></i></span><em></em></a></nav>
+    <nav class="homenav"><a href="#/history"><span>历史订单<i></i></span><em></em></a></nav>
+  </div>
+  <nav class="mainNav">
+    <a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+    <a href="#/index" class="index" ng-if="!navIndex">首页</a>
+    <a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+    <a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+    <a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+    <a href="#/self" class="fave" ng-if="!navFave">自选</a>
+    <a href="#/home" class="home cur" ng-if="navHome">我的</a>
+    <a href="#/home" class="home" ng-if="!navHome">我的</a>
+  </nav>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>
