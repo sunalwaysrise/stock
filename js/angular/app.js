@@ -1,8 +1,8 @@
 var indexAutoK;
 var t=angular.module('stock',['ngRoute','ngSanitize','ngTouch','infinite-scroll','services','directives','filters']);
 var stock={
-	tpl:{index:'/html/tpl/index/',user:'/html/tpl/user/'},
-	data:{stock:"/",user:"/",pay:"/pay/",base:"/"},
+  tpl:{index:'/html/tpl/index/',user:'/html/tpl/user/'},
+  data:{stock:"/",user:"/",pay:"/pay/",base:"/"},
   v:"20150529"
 },V={"version":"1.0","requestType":25};
 t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locationProvider){
@@ -22,6 +22,10 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'t1.html?v='+stock.v,controller: 't1'
   }).when('/t1/:t',{
     templateUrl: stock.tpl.index+'t1.html?v='+stock.v,controller: 't1'
+  }).when('/rula1',{
+    templateUrl: stock.tpl.index+'rula1.html?v='+stock.v,controller: 'rula1'
+  }).when('/rulad',{
+    templateUrl: stock.tpl.index+'rulad.html?v='+stock.v,controller: 'rulad'
   }).when('/stock',{
     templateUrl: stock.tpl.index+'stock.html?v='+stock.v,controller: 'stock'
   }).when('/stock/:t/:t2/:t3',{
@@ -606,13 +610,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   if(M.socket){M.socket.close();}
   $timeout.cancel($scope.auto);
   $scope.navIndex=true;
-	$scope.title='首页';
-	$scope.left=nav.left;
-	$scope.right=nav.right;
-	$scope.indexData={p:1};
+  $scope.title='首页';
+  $scope.left=nav.left;
+  $scope.right=nav.right;
+  $scope.indexData={p:1};
   $rootScope.bodyBg="white";
-	$scope.loading=true;
-	$scope.end=false;
+  $scope.loading=true;
+  $scope.end=false;
   $scope.banners=[];
   $scope.auto=null;
   $http.get(stock.data.base+"app_index",{params:V}).success(function(data){
@@ -1419,6 +1423,22 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     return (arr.indexOf(dd)==-1)?false:true;
   }
   function addZero(i){return (i<10)?"0"+i:i;}
+}]).controller('rula1', ['$scope','$rootScope', function($scope,$rootScope){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=true;
+  $scope.back=function(){
+    history.go(-1);
+  }
+}]).controller('rulad', ['$scope','$rootScope', function($scope,$rootScope){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=true;
+  $scope.back=function(){
+    history.go(-1);
+  }
 }]).controller('signIn',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $scope.data={userName:'',password:'',version:V.version,requestType:V.requestType};
@@ -2207,9 +2227,9 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
 }]).controller('bonus', ['$scope','$rootScope','$http',function($scope,$rootScope,$http){
   if(M.socket){M.socket.close();}
-  $rootScope.bodyBg='black';
+  $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
-  $scope.hide=true;
+  $scope.show=true;
 }]).controller('details', ['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';

@@ -764,4 +764,13 @@ div.feedback{padding-top:60px;}
 .investment dd{margin:0;padding:10px 10px 20px 10px;position:relative;border-top:1px #ccc solid;background:#fff;}
 .investment dd p{line-height:20px;}
 .investment dd time{position:absolute;right:10px;bottom:5px;color:#7a7a7a;font-size:12px;}
-
+.bonus{}
+.bonus .tip{padding:10px;line-height:20px;color:#7a7a7a;font-size:14px;background:#fff;border-bottom:1px #ccc solid;}
+.bonus h2{text-align:center;line-height:45px;font-size:18px;font-weight:bold;color:#7a7a7a;}
+.rula{padding-left:10px;padding-right:10px;padding-bottom:10px;font-size:12px;}
+.rula h2{font-size:14px;font-weight:bold;padding:10px 0;}
+.rula h3{padding:3px 0;}
+.rula h4{padding:3px 0;}
+.rula p{padding:3px 0;}
+.rula span{color:#4e00ff;}
+.rula section{color:red;}

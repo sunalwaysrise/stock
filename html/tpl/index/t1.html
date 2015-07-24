@@ -27,7 +27,7 @@
 				<li ng-repeat='i in bzjbl_list' ng-click="bzjblSet($index)">{{i |toPercentage }}</li>
 			</ul>
 		</div>
-		<div class="t_d_2"><div><span ng-click="jry_ins()">-</span><p><i>{{jyr}}</i>交易日</p><span ng-click="jry_plus()">+</span></div><b>10元/交易日</b></div>
+		<div class="t_d_2"><div><span ng-click="jry_ins()">-</span><p><i>{{jyr}}</i>交易日</p><span ng-click="jry_plus()">+</span></div><b>{{glfjyr}}元/交易日</b></div>
 	</div>
 	<div class="t11">
 		<p><span>买卖范围：</span><a>沪深A股</a></p>
@@ -45,7 +45,10 @@
 		<p>支付管理费：{{glf}}元</p>
 		<p>冻结保证金：{{fxbzj}}元</p>
 	</div>
-	<div class="t12"><i></i><span>我阅读并同意</span><a>《T+1实盘申请规则》</a></div>
+	<div class="t12"><i></i><span>我阅读并同意</span>
+		<a ng-if="!t_d" href="#/rula1">《T+1实盘申请规则》</a>
+		<a ng-if="t_d" href="#/rulad">《T+D实盘申请规则》</a>
+	</div>
 	<a class="sq" ng-click="apply()">立即申请</a>
 	<div class="t1lock" ng-if="t1time">
 		<div class="t1content">
@@ -58,16 +61,16 @@
 	<div class="t1lock" ng-if="t1yjx">
 		<div class="t1content">
 			<h2>什么是预警线？</h2>
-			<p>预警线=申请的实盘资金+（保证金*15%），当总操盘资金（实盘余额+股票市值）低于等于预警线以下时，只能平仓不能建仓。</p>
+			<p>预警线=申请的实盘资金+（保证金*50%），当总操盘资金（实盘余额+股票市值）低于等于预警线以下时，只能平仓不能建仓。</p>
 			<a ng-click="t1yjxT()">我知道了</a>
 		</div>
 	</div>
 	<div class="t1lock" ng-if="t1pcx">
 		<div class="t1content">
 			<h2>什么是预警线？</h2>
-			<p>预警线=申请的实盘资金+（保证金*15%），当总操盘资金（实盘余额+股票市值）低于等于预警线以下时，只能平仓不能建仓。</p>
+			<p>预警线=申请的实盘资金+（保证金*50%），当总操盘资金（实盘余额+股票市值）低于等于预警线以下时，只能平仓不能建仓。</p>
 			<h2>什么是平仓线？</h2>
-			<p>平仓线=申请的实盘资金+（保证金*12%），当总操盘资金（实盘余额+股票市值）低于等于平仓线以下时，系统将会自动止损平仓，对账户持有的相关股票按市价卖出，最终成交价以实际成交为准。</p>
+			<p>平仓线=申请的实盘资金+（保证金*35%），当总操盘资金（实盘余额+股票市值）低于等于平仓线以下时，系统将会自动止损平仓，对账户持有的相关股票按市价卖出，最终成交价以实际成交为准。</p>
 			<a ng-click="t1pcxT()">我知道了</a>
 		</div>
 	</div>

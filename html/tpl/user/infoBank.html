@@ -18,7 +18,7 @@
       <p ng-if="bindingBanked">{{o.bank}}</p>
     </div>
     <div class="l3"><label>卡号</label>
-      <div ng-if="!bindingBanked"><input type="tel" ng-model="o.bankAccount" /></div>
+      <div ng-if="!bindingBanked"><input type="tel" ng-model="o.bankAccount"  maxlength="20"/></div>
       <p ng-if="bindingBanked">{{o.bankAccount}}</p>
     </div>
     <div class="l3" ng-if="!bindingBanked"><label>开户地</label>
@@ -38,11 +38,11 @@
       </div>
     </div>
     <div class="l3"><label>持卡人</label>
-      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.name" /></div>
+      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.name" maxlength="20"/></div>
       <p ng-if="bindingIdentify">{{o.name}}</p>
     </div>
     <div class="l3"><label>身份证</label>
-      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.identityNumber" /></div>
+      <div ng-if="!bindingIdentify"><input type="text" ng-model="o.identityNumber" maxlength="30" /></div>
       <p ng-if="bindingIdentify">{{o.identityNumber}}</p>
     </div>
     <a class="btn2" ng-if="!bindingBanked" ng-click="done()">完成</a>
