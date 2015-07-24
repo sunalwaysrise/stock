@@ -96,6 +96,8 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'aboutus.html?v='+stock.v,controller:'aboutus'
   }).when('/feedback',{
     templateUrl: stock.tpl.index+'feedback.html?v='+stock.v,controller:'feedback'
+  }).when('/summary/:p1/:p2',{
+    templateUrl: stock.tpl.index+'summary.html?v='+stock.v,controller:'summary'
   }).otherwise({
     redirectTo: '/index'
   });
@@ -2459,4 +2461,46 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       }
     });
   }
+}]).controller('summary', ['$scope','$rootScope','$http','$routeParams', function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  if($routeParams.p1){
+    $scope.page=Number($routeParams.p1);
+  }else{
+    $scope.page=0;
+  }
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=false;
+  $scope.lock=false;
+  function getMessageList(){
+    if($scope.lock){return false;}
+    $scope.lock=true;
+    var p={version:V.version,requestType:V.requestType,firstRow:$scope.page*10};
+    $http.get(stock.data.stock+'getInitSummary',{params:p}).success(function(d){
+      $scope.lock=false;
+      $scope.show=true;
+      $scope.list=d.messageVos;
+      $scope.pageSize=d.pageSize;
+    });
+  }
+  getMessageList();
+  $scope.prev=function(){
+    if($scope.page==0){
+      $scope.page=0;
+    }else{
+      $scope.page--;
+      getMessageList();
+    }
+  }
+  $scope.next=function(){
+    if($scope.page==$scope.pageSize-1){
+      $scope.page=$scope.pageSize-1;
+    }else{
+      $scope.page++;
+      getMessageList();
+    }
+  }
 }]);
+
+
+
