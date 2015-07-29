@@ -3,19 +3,19 @@
 	<h2>投资参考</h2>
 </div>
 <dl class="investment pt45">
-	<dt>要闻</dt>
+	<dt>【要闻】</dt>
 	<dd ng-repeat="i in recommendStockSummaryVos">
 		<a ng-href="#/investmentDetail/{{i.id}}"><p>{{i.title}}</p><time>{{i.created|date:"mm:ss"}}</time></a>
 	</dd>
 </dl>
 <dl class="investment">
-	<dt>机会</dt>
+	<dt>【机会】</dt>
 	<dd ng-repeat="i in chanceStockSummaryVos">
 		<a ng-href="#/investmentDetail/{{i.id}}"><p>{{i.title}}</p><time>{{i.created|date:"mm:ss"}}</time></a>
 	</dd>
 </dl>
 <dl class="investment">
-	<dt>市场</dt>
+	<dt>【市场】</dt>
 	<dd ng-repeat="i in marketStockSummaryVos">
 		<a ng-href="#/investmentDetail/{{i.id}}"><p>{{i.title}}</p><time>{{i.created|date:"mm:ss"}}</time></a>
 	</dd>

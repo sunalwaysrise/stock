@@ -79,11 +79,13 @@ function ti(x){
 	function addZ(x){return (x<10)?"0"+x:x}
 	return addZ(t.getMinutes())+":"+addZ(t.getSeconds());
 }
-var id=getArgs('id');
+var id=getArgs('id'),t1=new Date().getTime();
 $.ajax({
 	url:"/getStockNewsContent",
 	data:{stockNewsId:id},
 	success:function(d){
+		var t2=new Date().getTime();
+		alert(t2-t1);
 		$("#loading").hide();
 		if(d.flag==1){
 			$("h1").html(d.newsContentVo.title);

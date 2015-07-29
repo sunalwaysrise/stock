@@ -8,7 +8,7 @@
   	<ul>
       <li><label>申请时间：</label>{{userFinance.created|date:'MM-dd H:mm:ss'}}</li>
       <li><label>名称：</label>{{userFinance.name}}</li>
-      <li><label>截止时间：</label>{{userFinance.endTime|date:'yyyy.MM.dd H:mm:s'}}</li>
+      <li><label>截止时间：</label>{{userFinance.endTime|date:'yyyy.MM.dd H:mm:ss'}}</li>
       <li><label>申请资金：</label>{{userFinance.balance}}元</li>
       <li><label>冻结保证金：</label>{{userFinance.deposit}}元</li>
       <!-- <li><label>炒股资金：</label>{{userFinance.assetBalance}}元</li> -->
@@ -16,14 +16,14 @@
       <li><label>终止类型：</label><span ng-if="userFinance.type==1">到期终止</span>
               <span ng-if="userFinance.type==2">手动终止</span>
               <span ng-if="userFinance.type==3">平仓终止</span></li>
-  		<li><label>终止时间：</label>{{userFinance.endTime|date:'yyyy.MM.dd H:mm:s'}}</li>
+  		<li><label>终止时间：</label>{{userFinance.closeTime|date:'yyyy.MM.dd H:mm:ss'}}</li>
   	</ul>
     <h2>结算明细</h2>
     <ul>
       <li><label>结算总资产：</label>{{closeLog.assetBalance}}元</li>
       <li><label>解冻保证金：</label>{{closeLog.returnDeposit}}元</li>
       <li><label>结算盈亏：</label>{{closeLog.totalProfit}}元</li>
-      <li><label>结算时间：</label>{{userFinance.modified|date:'yyyy.MM.dd H:mm:s'}}</li>
+      <li><label>结算时间：</label>{{userFinance.modified|date:'yyyy.MM.dd H:mm:ss'}}</li>
     </ul>
     <h2>股票明细</h2>
     <dl>

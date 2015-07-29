@@ -98,6 +98,18 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'feedback.html?v='+stock.v,controller:'feedback'
   }).when('/summary/:p1/:p2',{
     templateUrl: stock.tpl.index+'summary.html?v='+stock.v,controller:'summary'
+  }).when('/news',{
+    templateUrl: stock.tpl.index+'news.html?v='+stock.v,controller:'news'
+  }).when('/news/:p1/:p2',{
+    templateUrl: stock.tpl.index+'news.html?v='+stock.v,controller:'news'
+  }).when('/newsdetail/:p1/:p2/:p3',{
+    templateUrl: stock.tpl.index+'newsdetail.html?v='+stock.v,controller:'newsdetail'
+  }).when('/notice',{
+    templateUrl: stock.tpl.index+'notice.html?v='+stock.v,controller:'notice'
+  }).when('/notice/:p1',{
+    templateUrl: stock.tpl.index+'notice.html?v='+stock.v,controller:'notice'
+  }).when('/noticedetail/:p1/:p2',{
+    templateUrl: stock.tpl.index+'newsdetail.html?v='+stock.v,controller:'noticedetail'
   }).otherwise({
     redirectTo: '/index'
   });
@@ -628,8 +640,11 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     scroll.n=data.banners.length;
     $scope.userTotalProfit=data.userTotalProfit;
     //$scope.$apply();//解决双向数据绑定的坑//不是问题，使用jquery 的ajax 则需要这个
-    $('#banners p i').eq(0).addClass('cur');
     $scope.list=data.carProfitVos;
+    setTimeout(function(){
+      $('#banners p i').eq(0).addClass('cur');
+    },300);
+    window.indexAutoK=setInterval('scroll.right()',7000);
   }).error(function(){
     $("#banners").hide();
     $scope.loading=false;
@@ -641,7 +656,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   });
   $scope.stock2=function(i){
     var C=["SH000001","SZ399001","SZ399006"],D=$scope.selfNav[i];
-    location.hash="#/stock2/"+C[i]+"/"+D.stockName;
+    location.hash="#/stock2/"+C[i]+"/"+encodeURI(D.stockName);
   }
 }]).controller('investment', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   clearTimeout(window.indexAutoK);
@@ -1107,6 +1122,9 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
   clearTimeout(window.indexAutoK);
+  $scope.back=function(){
+    history.back();
+  }
   $scope.title='个股搜索';
   var data={version:V.version,requestType:V.requestType},zixungu=localStorage.getItem('zixungu');
   if(zixungu){
@@ -1480,7 +1498,11 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.loading=false;
       if(data.flag==1){
         alert('登录成功');
-        location.hash="#/index";
+        if(history.length>2){
+          history.back();
+        }else{
+          location.hash="#/index";  
+        }
       }else{
         alert(data.message);
       }
@@ -2500,7 +2522,179 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       getMessageList();
     }
   }
+}]).controller('news', ['$scope','$rootScope','$http','$routeParams','fave', function($scope,$rootScope,$http,$routeParams,fave){
+  if(M.socket){M.socket.close();}
+  if($routeParams.p1){
+    $scope.type=Number($routeParams.p1);
+  }else{
+    $scope.type=0;
+  }
+  if($routeParams.p2){
+    $scope.page=Number($routeParams.p2);
+  }else{
+    $scope.page=0;
+  }
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.lock=false;
+  $http.get(stock.data.stock+'getInitSummary',{params:V}).success(function(d){
+    if($scope.type==0){
+      $scope.type=d.channels[0].type;
+    }
+    $scope.nav=d.channels;
+    var i=0,len=d.channels.length,j;
+    for(i;i<len;i++){
+      if(d.channels[i].type==$scope.type){
+        j=i;
+        break;
+      }
+    }
+    setTimeout(function(){
+      $("#newsNav a").eq(j).addClass('on')
+    },100);
+    $scope.banners=d.news_banners;
+    if(d.news_banners.length>1){
+      window.indexAutoK=setInterval('scroll.right()',7000);
+    }
+    if($scope.type==1){
+      $scope.bannershow=true;
+    }else{
+      $scope.bannershow=false;
+    }
+    get();
+  });
+  //请求主要的数据
+  function get(){
+    var params={requestType: V.requestType,version: V.version,type:$scope.type,firstRow:$scope.page,fetchSize:10};
+    if($scope.type==6){
+      var stockCodes=[],iD=fave.get(),ij=0;
+      if( !iD || iD.length>0){
+        for(ij;ij<iD.length;ij++){
+          iE="";
+          if(iD[ij].exchangeType=="1"){
+            iE="SH"+iD[ij].stockCode;
+          }else{
+            iE="SZ"+iD[ij].stockCode;
+          }
+          stockCodes.push(iE);
+        }
+        params.stockCodes=stockCodes.join(',');
+      }
+    }
+    $http.get(stock.data.stock+'getNewsSummary',{params:params}).success(function(d){
+      $scope.list=d.stockSummaryVos;
+      $scope.pageSize=d.pageSize;
+      if(d.pageSize>1){
+        $scope.showpage=true;
+      }else{
+        $scope.showpage=false;
+      }
+    });
+  }
+  $scope.prev=function(){
+    if($scope.page==0){
+      $scope.page=0;
+    }else{
+      $scope.page--;
+      get();
+    }
+  }
+  $scope.next=function(){
+    if($scope.page==$scope.pageSize-1){
+      $scope.page=$scope.pageSize-1;
+    }else{
+      $scope.page++;
+      get();
+    }
+  }
+}]).controller('newsdetail', ['$scope','$rootScope','$http','$routeParams', function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  $scope.type=$routeParams.p2;
+  $scope.page=$routeParams.p3;
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.loading=true;
+  var params={requestType: V.requestType,version: V.version,stockNewsId:$routeParams.p1};
+  $http.get(stock.data.base+"getStockNewsContent",{params:params}).success(function(d){
+    $scope.d=d.newsContentVo;
+    $scope.loading=false;
+    if($scope.type==6){
+      $scope.showBtn=true;
+      $scope.source=encodeURI(d.newsContentVo.source);
+    }
+  });
+  $scope.back=function(){
+    location.hash="#/news/"+$scope.type+"/"+$scope.page;
+  }
+  switch($scope.type){
+    case "1":
+      $scope.title="要闻";
+      break;
+    case "4":
+      $scope.title="研究";
+      break;
+    case "5":
+      $scope.title="专题";
+      break;
+    case "6":
+      $scope.title="自选";
+      break;
+    default:
+      $scope.title="详情";
+      break;
+  }
+}]).controller('notice', ['$scope','$rootScope','$http','$routeParams', function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  if($routeParams.p1){
+    $scope.page=Number($routeParams.p1);
+  }else{
+    $scope.page=0;
+  }
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  get();
+  //请求主要的数据
+  function get(){
+    var params={requestType:V.requestType,version:V.version,firstRow:$scope.page,fetchSize:10};
+    $http.get(stock.data.stock+'getAppNotices',{params:params}).success(function(d){
+      $scope.list=d.stockSummaryVos;
+      $scope.pageSize=d.pageSize;
+      if(d.pageSize>1){
+        $scope.showpage=true;
+      }else{
+        $scope.showpage=false;
+      }
+    });
+  }
+  $scope.prev=function(){
+    if($scope.page==0){
+      $scope.page=0;
+    }else{
+      $scope.page--;
+      get();
+    }
+  }
+  $scope.next=function(){
+    if($scope.page==$scope.pageSize-1){
+      $scope.page=$scope.pageSize-1;
+    }else{
+      $scope.page++;
+      get();
+    }
+  }
+}]).controller('noticedetail', ['$scope','$rootScope','$http','$routeParams', function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  var page=$routeParams.p2;
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.loading=true;
+  var params={requestType: V.requestType,version: V.version,stockNewsId:$routeParams.p1};
+  $http.get(stock.data.base+"getStockNewsContent",{params:params}).success(function(d){
+    $scope.d=d.newsContentVo;
+    $scope.loading=false;
+  });
+  $scope.back=function(){
+    location.hash="#/notice/"+page;
+  }
+  $scope.title="公告";
 }]);
-
-
-

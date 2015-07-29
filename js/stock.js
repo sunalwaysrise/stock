@@ -727,7 +727,5 @@ var touch = {
       $("#banners p i").eq(scroll.i).addClass('cur');
       scroll.lock=false;
     });
-    clearTimeout(scroll.t);
-    scroll.t=setTimeout('scroll.right()',7000);
   }
 };

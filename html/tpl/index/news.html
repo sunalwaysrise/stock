@@ -1,0 +1,49 @@
+<div class="header" >
+	<a class="menu_open" href="#/index"></a>
+	<h2>资讯</h2>
+</div>
+<div class="news">
+	<nav class="newsNav" id="newsNav">
+		<a ng-href="#/news/{{i.type}}/0" ng-repeat="i in nav">{{i.name}}</a>
+	</nav>
+	<div id="banners" class="banners2" class="mt0" ng-show="bannershow">
+		<ul id="banner" class="banner2" ontouchstart="touch.touchStart(event)" ontouchmove="touch.touchMove(event);" ontouchend="touch.touchEnd();">
+			<li ng-repeat="i in banners">
+				<a ng-href="#/newsdetail/{{i.picDesc}}/1/0">
+					<img ng-src="{{i.picUrl}}" alt=""/>
+				</a>
+				<h2>{{i.picTitle}}</h2>
+			</li>
+		</ul>
+		<p><i ng-repeat="i in banners"></i></p>
+	</div>
+	<ul class="newsList">
+		<li ng-repeat="i in list">
+			<a ng-href="#/newsdetail/{{i.id}}/{{type}}/{{page}}">
+				<h2>{{i.title}}</h2>
+				<p>{{i.summary}}</p>
+				<time>{{i.created | date:'yyyy-MM-dd HH:mm:ss'}}</time>
+			</a>
+		</li>
+	</ul>
+	<section class="pages newsPages" ng-show="showpage">
+	  <a ng-click="prev()"></a>
+	  <p>
+	    第{{page+1}}页
+	    <select ng-model="page" ng-change="setPage()">
+	      <option ng-repeat="i in pages" value="{{i}}">第{{i}}页</option>
+	    </select>
+	  </p>
+	  <a ng-click="next()"></a>
+	</section>
+</div>
+<nav class="mainNav">
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+</nav>

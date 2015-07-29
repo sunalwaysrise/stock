@@ -3,8 +3,8 @@
 	<h2>{{title}}</h2>
 	<a href="#search" class="search_open"></a>
 </div>
-<div id="banners">
-	<ul id="banner" ontouchstart="touch.touchStart(event)" ontouchmove="touch.touchMove(event);" ontouchend="touch.touchEnd();">
+<div id="banners" class="banners1">
+	<ul id="banner" class="banner1" ontouchstart="touch.touchStart(event)" ontouchmove="touch.touchMove(event);" ontouchend="touch.touchEnd();">
 		<li ng-repeat="i in banners"><a ng-href="{{i.picLink}}"><img ng-src="{{i.picUrl}}" alt=""/></a></li>
 	</ul>
 	<p><i ng-repeat="i in banners"></i></p>
@@ -17,8 +17,8 @@
 	</div>
 </div>
 <div class="indexNav">
-	<div><b>资讯</b></div>
-	<div><b>公告</b></div>
+	<a ng-href="#/news"><div><b>资讯</b></div></a>
+	<a ng-href="#/notice"><div><b>公告</b></div></a>
 	<div><b>活动</b></div>
 </div>
 <dl class="indexList">

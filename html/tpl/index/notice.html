@@ -1,0 +1,35 @@
+<div class="header" >
+	<a class="menu_open" href="#/index"></a>
+	<h2>公告</h2>
+</div>
+<div class="news mt42">
+	<ul class="newsList">
+		<li ng-repeat="i in list">
+			<a ng-href="#/noticedetail/{{i.id}}/{{page}}">
+				<h2>{{i.title}}</h2>
+				<p>{{i.summary}}</p>
+				<time>{{i.created | date:'yyyy-MM-dd HH:mm:ss'}}</time>
+			</a>
+		</li>
+	</ul>
+	<section class="pages newsPages" ng-show="showpage">
+	  <a ng-click="prev()"></a>
+	  <p>
+	    第{{page+1}}页
+	    <select ng-model="page" ng-change="setPage()">
+	      <option ng-repeat="i in pages" value="{{i}}">第{{i}}页</option>
+	    </select>
+	  </p>
+	  <a ng-click="next()"></a>
+	</section>
+</div>
+<nav class="mainNav">
+	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
+	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
+	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
+	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
+	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+</nav>
