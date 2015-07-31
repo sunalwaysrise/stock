@@ -16,6 +16,20 @@ CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, t
   this.stroke();  
 };
 var M={
+  recharge:function(data){
+    $("#memberID").val(data.MemberID);
+    $("#terminalID").val(data.TerminalID);
+    $("#tradeDate").val(data.TradeDate);
+    $("#orderMoney").val(data.OrderMoney);
+    $("#transId").val(data.TransID);
+    $("#returnUrl").val(data.ReturnUrl);
+    $("#pageUrl").val(data.PageUrl);
+    $("#productName").val(data.productName);
+    $("#amount").val(data.amount);
+    $("#noticeType").val(data.NoticeType);
+    $("#key").val(data.key);
+    console.log(data);
+  },
   time:function(x){
     var c=function(i){return (i<10)?"0"+i:i;},D=new Date(x);
     return D.getFullYear()+"-"+c(D.getMonth()+1)+"-"+c(D.getDate())+" "+c(D.getHours())+":"+c(D.getMinutes())+":"+c(D.getSeconds());

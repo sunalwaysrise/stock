@@ -2,7 +2,7 @@ var indexAutoK;
 var t=angular.module('stock',['ngRoute','ngSanitize','ngTouch','infinite-scroll','services','directives','filters']);
 var stock={
   tpl:{index:'/html/tpl/index/',user:'/html/tpl/user/'},
-  data:{stock:"/",user:"/",pay:"/pay/",base:"/"},
+  data:{stock:"/",user:"/",pay:"http://pay.ycaopan.com/",base:"/"},
   v:"20150529"
 },V={"version":"1.0","requestType":25};
 t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locationProvider){
@@ -12,6 +12,10 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'investment.html?v='+stock.v,controller:'investment'
   }).when('/investmentDetail/:t',{
     templateUrl: stock.tpl.index+'investmentDetail.html?v='+stock.v,controller:'investmentDetail'
+  }).when('/guide',{
+    templateUrl: stock.tpl.index+'guide.html?v='+stock.v,controller:'guide'
+  }).when('/guideDetail/:t',{
+    templateUrl: stock.tpl.index+'guideDetail.html?v='+stock.v,controller:'guideDetail'
   }).when('/exchange',{
     templateUrl: stock.tpl.index+'exchange.html?v='+stock.v,controller:'exchange'
   }).when('/self',{
@@ -682,6 +686,24 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.back=function(){
     history.go(-1);
   }
+}]).controller('guide', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
+  clearTimeout(window.indexAutoK);
+  if(M.socket){M.socket.close();}
+  $timeout.cancel($scope.auto);
+  $rootScope.bodyBg="white";
+}]).controller('guideDetail', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
+  clearTimeout(window.indexAutoK);
+  if(M.socket){M.socket.close();}
+  $timeout.cancel($scope.auto);
+  var t=$routeParams.t;
+  $rootScope.bodyBg="white";
+  var params={requestType:V.requestType,version:V.version,stockNewsId:t};
+  $scope.back=function(){
+    history.go(-1);
+  }
+  // $http.get(stock.data.base+"getStockNewsContent",{params:params}).success(function(d){
+  //   $scope.d=d.newsContentVo;
+  // });
 }]).controller('exchange', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
@@ -1722,7 +1744,10 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     history.go(-1);
   }
   $scope.s1=function(){
-    $scope.es=false;
+    $("#es1").show();
+    $("#es1B").show();
+    $("#es2").hide();
+    $("#es2B").hide();
   }
   $scope.o2={
     clear:function(){
@@ -1741,33 +1766,12 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       alert('输入金额');
       return false;
     }
-    if($scope.lock){return false;}
-    $scope.loading=true;
-    $scope.lock=true;
-    var p={money:$scope.o.money,version:V.version,requestType:V.requestType};
-    $http.get(stock.data.pay+'user/core/ufubao_h5',{params:p}).success(function(data){
-      $scope.lock=false;
-      $scope.loading=false;
-      if(data.flag==1){
-        $scope.es=true;
-        $("#memberID").val(data.MemberID);
-        $("#terminalID").val(data.TerminalID);
-        $("#tradeDate").val(data.TradeDate);
-        $("#orderMoney").val(data.OrderMoney);
-        $("#transId").val(data.TransID);
-        $("#returnUrl").val(data.ReturnUrl);
-        $("#pageUrl").val(data.PageUrl);
-        $("#productName").val(data.productName);
-        $("#amount").val(data.amount);
-        $("#noticeType").val(data.NoticeType);
-        $("#key").val(data.key);
-      }else{
-        alert(data.message);
-      }
-    }).error(function(d){
-      $scope.lock=false;
-      $scope.loading=false;
-    });
+    var p="money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge';
+    $("#es1").hide();
+    $("#es1B").hide();
+    $("#es2").show();
+    $("#es2B").show();
+    $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
   }
   $scope.btnOk=function(){
     var memberId = $('#memberID').val(),
@@ -2222,7 +2226,6 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.o.city=$scope.citys[0];
     $scope.o.branche="选择开户支行";
   }
-
   $scope.clear1=function(){$scope.o.name='';}
   $scope.clear2=function(){$scope.o.identityNumber='';}
   $scope.clear3=function(){$scope.o.bankAccount='';}
@@ -2300,7 +2303,6 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       }
     });
   }
-
   $scope.resetBranch=function(){
     $scope.o.branche="选择开户支行";
   }
@@ -2337,7 +2339,6 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.o.branche=$scope.ChinaBranchs[i];
     $scope.back();
   }
-
 }]).controller('bonus', ['$scope','$rootScope','$http',function($scope,$rootScope,$http){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';

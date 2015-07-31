@@ -1,10 +1,10 @@
 <div ng-if="show">
 	<div class="header" >
-		<a ng-show="!es" class="menu_back" ng-click="back()"></a>
-		<a ng-show="es" class="menu_back" ng-click="s1()"></a>
+		<a id="es1B" class="menu_back" ng-click="back()"></a>
+		<a id="es2B" style="display:none" class="menu_back" ng-click="s1()"></a>
 		<h2>充值</h2>
 	</div>
-	<div class="pt45 rechargre" ng-show="!es">
+	<div class="pt45 rechargre" id="es1">
 		<p class="tip">您的账户余额为<span>{{balance}}元</span></p>
 		<div class="line1">
 			<p><a ng-click="set(100)" ng-if="o.money==100" class="on">100</a>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="line3"><a class="btn6" ng-click="recharge()">充值</a></div>
 	</div>
-	<div class="pt45 rechargre" ng-show="es">
+	<div class="pt45 rechargre" id="es2" style="display:none">
 		<form action="https://tgw.baofoo.com/paycerwap" method="post" id="form">
 			<!-- <input type="hidden" name="orderNo" id="orderNo" value="" /> -->
 			<input type="hidden" name="signature" id="signature" />
