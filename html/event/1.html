@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="http://res2.cp2y.com/h5/stock/css/event.css?v=20150715" />
 <style type="text/css">
 body{background:#fbd439;}
-header.header{background:#dd271d;}
+header.header{background:#dd271d;display:none;}
 .banner{width:100%;}
 .main{margin-top:4.7vw;position:relative;}
 .main a.a4{position:absolute;width:5.6vw;height:3.75vw;background:url(http://res2.cp2y.com/h5/stock/eventimages/1/4.png) 0 0 no-repeat;background-size:5.6vw auto;top:37.5vw;right:5.9vw;}
@@ -44,7 +44,7 @@ footer div b{width:63px;height:33px;float:right;background:url(http://res2.cp2y.
 </style>
 </head><body>
 <header class="header">
-	<a class="leftBtn"></a>
+	<a class="leftBtn" href="/html/index.html#/event"></a>
 	<h2>新手活动</h2>
 </header>
 <img src="http://res2.cp2y.com/h5/stock/eventimages/1/banner.png" alt="" class="banner" />
@@ -99,12 +99,15 @@ function getArgs(argName){
 	}
 };
 var e1,e2;
-if(getArgs('app')=="ios" ||getArgs('app')=="andriod"){
-	e1="app:signIn";
-	e2="app:info";
+if(getArgs('app')=="ios" ||getArgs('app')=="android"){
+	e1="href='app:signIn'";
+	e2="href='app:info'";
+	e3="href='app:recharge'";
 }else{
+	$('header').show();
 	e1="href='/html/index.html#/signIn'";
 	e2="href='/html/index.html#/info'";
+	e3="href='/html/index.html#/recharge'";
 }
 var E={
 	lock:false,
@@ -125,19 +128,25 @@ var E={
 				}else if(d.flag==0){
 					E.succes(d.message);
 				}else if(d.flag==-1){
-					"app://signIn"
 					E.error({
 						t:"未登录",
 						c:"请先登录",
 						f:e1
 					});
 				}else if(d.flag==-2){
-					"app://info"
 					E.error({
 						t:"未完善资料",
 						c:"请先完善资料",
 						f:e2
 					});
+				}else if(d.flag==2){
+					E.error({
+						t:d.message,
+						c:d.message,
+						f:e3
+					});
+				}else{
+					E.succes(d.message);
 				}
 			},
 			error:function(){E.lock=false;}

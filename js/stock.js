@@ -305,16 +305,16 @@ var M={
         return v;
       }
       var h=[];
-      h.push('<ul><li><span><i>卖5</i> '+this.quote.sellPrice5+'</span><b>'+to10thousand(this.quote.sellAmount5)+'</b></li>');
-      h.push('<li><span><i>卖4</i> '+this.quote.sellPrice4+'</span><b>'+to10thousand(this.quote.sellAmount4)+'</b></li>');
-      h.push('<li><span><i>卖3</i> '+this.quote.sellPrice3+'</span><b>'+to10thousand(this.quote.sellAmount3)+'</b></li>');
-      h.push('<li><span><i>卖2</i> '+this.quote.sellPrice2+'</span><b>'+to10thousand(this.quote.sellAmount2)+'</b></li>');
-      h.push('<li><span><i>卖1</i> '+this.quote.sellPrice1+'</span><b>'+to10thousand(this.quote.sellAmount1)+'</b></li>');
-      h.push('</ul><ul><li><span><i>买1</i> '+this.quote.buyPrice1+'</span><b>'+to10thousand(this.quote.buyAmount1)+'</b></li>');
-      h.push('<li><span><i>买2</i> '+this.quote.buyPrice2+'</span><b>'+to10thousand(this.quote.buyAmount2)+'</b></li>');
-      h.push('<li><span><i>买3</i> '+this.quote.buyPrice3+'</span><b>'+to10thousand(this.quote.buyAmount3)+'</b></li>');
-      h.push('<li><span><i>买4</i> '+this.quote.buyPrice4+'</span><b>'+to10thousand(this.quote.buyAmount4)+'</b></li>');
-      h.push('<li><span><i>买5</i> '+this.quote.buyPrice5+'</span><b>'+to10thousand(this.quote.buyAmount5)+'</b></li></ul>');
+      h.push('<ul><li><span><i>卖5</i> '+this.quote.sellPrice5+'</span><b>'+to10thousand(this.quote.sellAmount5/100)+'</b></li>');
+      h.push('<li><span><i>卖4</i> '+this.quote.sellPrice4+'</span><b>'+to10thousand(this.quote.sellAmount4/100)+'</b></li>');
+      h.push('<li><span><i>卖3</i> '+this.quote.sellPrice3+'</span><b>'+to10thousand(this.quote.sellAmount3/100)+'</b></li>');
+      h.push('<li><span><i>卖2</i> '+this.quote.sellPrice2+'</span><b>'+to10thousand(this.quote.sellAmount2/100)+'</b></li>');
+      h.push('<li><span><i>卖1</i> '+this.quote.sellPrice1+'</span><b>'+to10thousand(this.quote.sellAmount1/100)+'</b></li>');
+      h.push('</ul><ul><li><span><i>买1</i> '+this.quote.buyPrice1+'</span><b>'+to10thousand(this.quote.buyAmount1/100)+'</b></li>');
+      h.push('<li><span><i>买2</i> '+this.quote.buyPrice2+'</span><b>'+to10thousand(this.quote.buyAmount2/100)+'</b></li>');
+      h.push('<li><span><i>买3</i> '+this.quote.buyPrice3+'</span><b>'+to10thousand(this.quote.buyAmount3/100)+'</b></li>');
+      h.push('<li><span><i>买4</i> '+this.quote.buyPrice4+'</span><b>'+to10thousand(this.quote.buyAmount4/100)+'</b></li>');
+      h.push('<li><span><i>买5</i> '+this.quote.buyPrice5+'</span><b>'+to10thousand(this.quote.buyAmount5/100)+'</b></li></ul>');
       $("#sD1").html(h.join(''));
     },
     max:function(arr){
@@ -518,7 +518,7 @@ var M={
       var h=[],cl=this.closePrice>this.quote.openPrice?'green':'red';
       h.push('<li><p><label>昨收:</label><span>'+this.closePrice+'</span></p><p><label>今开:</label><span class="'+cl+'">'+this.quote.openPrice+'</span></p></li>');
       h.push('<li><p><label>最高:</label><span class="red">'+this.quote.highPrice+'</span></p><p><label>最低:</label><span class="green">'+this.quote.lowPrice+'</span></p></li>');
-      h.push('<li><p><label>成交量:</label><span>'+((this.quote.businessAmount/10000).toFixed(2))+'万手</span></p><p><label>成交额:</label><span>'+((this.quote.businessBalance/1000000000).toFixed(2))+'亿元</span></p></li>');
+      h.push('<li><p><label>成交量:</label><span>'+((this.quote.businessAmount/10000).toFixed(2))+'万手</span></p><p><label>成交额:</label><span>'+((this.quote.businessBalance/100000000).toFixed(2))+'亿元</span></p></li>');
       // h.push('<li><p><label>量比:</label><span></span></p><p><label>沪市平盘:</label><span></span></p></li>');
       // h.push('<li><p><label>沪市上涨:</label><span></span></p><p><label>沪市下跌:</label><span></span></p></li>');
       $('#updateTime').html(M.time(this.quote.updateTime));

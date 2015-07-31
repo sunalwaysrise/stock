@@ -77,7 +77,7 @@ function getArgs(argName){
 function ti(x){
 	var t=new Date(x);
 	function addZ(x){return (x<10)?"0"+x:x}
-	return addZ(t.getMinutes())+":"+addZ(t.getSeconds());
+	return addZ(t.getHours())+":"+addZ(t.getMinutes());
 }
 var id=getArgs('id'),t1=new Date().getTime();
 $.ajax({

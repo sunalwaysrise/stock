@@ -222,7 +222,7 @@ keyframes loading{0%{transform:rotate(0deg);}100%{transform:rotate(720deg);}}
 .viewAnimate.ng-leave{width:100vw;position:absolute;top:0;-webkit-animation:0.5s;-moz-animation:0.5s;-o-animation:0.5s;animation:0.5s;left:-100vw;}
 .banners1{width:100vw;height:36vw;overflow:hidden;position:relative;margin-top:42px;}
 .banners1 .banner1{width:300vw;height:36vw;position:absolute;}
-.banners1 .banner1 li{width:100vw;height:36vw;float:left;}
+.banners1 .banner1 li{width:100vw;height:36vw;float:left;background:url(../images/ycp.png) 50% center no-repeat;background-size:67px auto;}
 .banners1 .banner1 li img{width:100vw;height:36vw;}
 .banners1 p{width:100vw;height:10px;position:absolute;left:0;bottom:8px;text-align:center;}
 .banners1 p i{width:8px;height:8px;border-radius:3px;background:#948e89;display:inline-block;margin:0 5px;}
@@ -253,9 +253,9 @@ keyframes loading{0%{transform:rotate(0deg);}100%{transform:rotate(720deg);}}
 .indexTop div.down p i{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAeCAYAAAARgF8NAAABO0lEQVQoU2NkgALxExYfGBkY+UHc/wz/P760OCEAYjOOKhhO4SB+1MyJgYmJCRivG4DRzQ2N7q/AOA9g+PfvH6P4cYsTjIyM5rBoR6b///9/klHihHkjAwNTHTYFDP8YmhnFjppZMjEzH8Om4N+/P9aMDKsYmCVkLV4xMDIKoSj6///di8cnxMBJDuiOlUB3hKGZsvqFxfEwsAKgOxKB7piH4sB//5JfWp2cB1YgcsRQioWF4ymygj9/fki/sTn/DJGqj1tcAlqjCw6H//8vv7Q8oYeS7MVOmHcxMTCVQk3pAdoPZiNMAIYoIzPzXrAJ//64vLQ6DWbDFTBsU2EXFxR9AxJ8+f61CIPXnZ+oCsDetdwM1ML40uK4D8zBCBOAIkB3ZDH9Y2B8YXVyKnYFR42VQRKvrM/ehSkAAJ9vxuK2tV/PAAAAAElFTkSuQmCC) 0 0 no-repeat;background-size:contain;}
 .indexNav{height:60px;background:#fff;border-bottom:1px #ccc solid;margin-bottom:10px;box-shadow:0 1px 1px 1px #e6e6e6;}
 .indexNav div{float:left;padding-top:37px;width:33vw;background-repeat:no-repeat;background-position:50% 5px;background-size:35px 35px;text-align:center;font-size:13px;color:#2b2b2b;line-height:23px;line-height:23px;}
-.indexNav div:nth-child(1){background-image:url(../images/sy-zixun.png);}
-.indexNav div:nth-child(2){background-image:url(../images/sy-gonggao.png);width:34vw;}
-.indexNav div:nth-child(3){background-image:url(../images/sy-huodong.png);}
+.indexNav a:nth-child(1) div{background-image:url(../images/sy-zixun.png);}
+.indexNav a:nth-child(2) div{background-image:url(../images/sy-gonggao.png);width:34vw;}
+.indexNav a:nth-child(3) div{background-image:url(../images/sy-huodong.png);}
 dl.indexList{margin:0;padding-bottom:50px;}
 dl.indexList dt{height:26px;line-height:26px;border-top:1px #ccc solid;padding-left:35px;font-size:12px;color:#000;position:relative;background:#fff;border-bottom:1px #ccc solid;}
 dl.indexList dt:before{position:absolute;content:"参";width:15px;height:15px;color:#fff;background:#ff5e32;border-radius:2px;line-height:15px;text-align:center;top:5px;left:10px;}
@@ -419,7 +419,7 @@ dl.indexList dd a{color:#000;font-size:12px;padding-left:10px;}
 .t1 .t_d .t_d_2 b{height:30px;font-size:12px;color:#cdb091;line-height:30px;float:left;padding-left:20px;}
 .search{}
 .search .searchTop{height:25px;background:#26262a;padding:8px 13px;}
-.search .searchTop input{width:100%;height:25px;float:left;line-height:25px;margin:0;border:none;border-radius:2px;text-indent:24px;color:#000;background:#fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAACrUlEQVRIS62VXWiSURjHe1/NTLAJWzWoi7qqFrsqvBmE9AFbV9VF9EEQRBaUoPOLIgiiGH68aUjGWh+DxaBkFzEGq0ZYN4F0tatRpDAoBgUxeC+mpvY7Q6P01ak5OLzHZ8///3/O/5zzHGld7Z/s8/mOET7JGJAkqZfvSqlUWmBMy7I8HggEFjVwNSHp74jb7d6n1+vHiH0vFotP8vn8+2g0umS32zeazeY9/E+IXkDkYSqVup1MJn81EvlD7vV6j1LlKOMylc3UA1FAj06ni5FnTqfTJxKJRK5e7iq53+/fSzUzhUJhUFGUhSaWLFHMAwR0wWDw4lrk7yC+Gw6HXzZBvJqCVestFkuKqQ+BN1o4yePxHGaZ17DiULPElTyqH6R6QX5QkxxLnrJ5s6FQ6Hmr5GVLP+dyOVskEvlajZc4dp/w+wDkS+2Qg38E/hX4RA05lS9jSVc7xAID+U0+KtYoWuQ/IO/5D3I/vpfgCGrZsqiqal88HlfbEaDye+A+UvmEFvkUno3i2et2yLE1xYE4Df6Lli1nCA6xrHOtkkPcT2GTVN2veRRtNpvearXOo36KSzTfigCWTEM+RdXjmuTlszpEUoiNGWAFy80IcIGukO+g6j7yi3XJywLDCJwFcHyNliphhwtMiCGDuYHAnYbkZQHh/wgA0W4nuHXpCsjhcGwwGo1H6Od+Yj/pRWO0DXFCusgfQeB6zYZWB0RLpW+7iYvHQg9QXOtN4tFg/oFxH49nBQ7P9xMX827iCgJe5qUK5z+PRbUQ1W42mUy9VKlms9lvsVgsW50jTgwx0RW3IhBH4GpFoCF5MxtbXsEuvnOsYjsCjzOZzCUekUJHyIWA0+ncYTAY3iKwk5/PeKXOd4xcCLhcrm0IzDHdzZjsKLkQ4PHZwol6waW89Rv+n0DRRaUlMQAAAABJRU5ErkJggg==) 8px center no-repeat;background-size:12px;outline:none;}
+.search .searchTop input,.getChinaBranch .searchBar input{width:100%;height:25px;float:left;line-height:25px;margin:0;border:none;border-radius:2px;text-indent:24px;color:#000;background:#fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAACrUlEQVRIS62VXWiSURjHe1/NTLAJWzWoi7qqFrsqvBmE9AFbV9VF9EEQRBaUoPOLIgiiGH68aUjGWh+DxaBkFzEGq0ZYN4F0tatRpDAoBgUxeC+mpvY7Q6P01ak5OLzHZ8///3/O/5zzHGld7Z/s8/mOET7JGJAkqZfvSqlUWmBMy7I8HggEFjVwNSHp74jb7d6n1+vHiH0vFotP8vn8+2g0umS32zeazeY9/E+IXkDkYSqVup1MJn81EvlD7vV6j1LlKOMylc3UA1FAj06ni5FnTqfTJxKJRK5e7iq53+/fSzUzhUJhUFGUhSaWLFHMAwR0wWDw4lrk7yC+Gw6HXzZBvJqCVestFkuKqQ+BN1o4yePxHGaZ17DiULPElTyqH6R6QX5QkxxLnrJ5s6FQ6Hmr5GVLP+dyOVskEvlajZc4dp/w+wDkS+2Qg38E/hX4RA05lS9jSVc7xAID+U0+KtYoWuQ/IO/5D3I/vpfgCGrZsqiqal88HlfbEaDye+A+UvmEFvkUno3i2et2yLE1xYE4Df6Lli1nCA6xrHOtkkPcT2GTVN2veRRtNpvearXOo36KSzTfigCWTEM+RdXjmuTlszpEUoiNGWAFy80IcIGukO+g6j7yi3XJywLDCJwFcHyNliphhwtMiCGDuYHAnYbkZQHh/wgA0W4nuHXpCsjhcGwwGo1H6Od+Yj/pRWO0DXFCusgfQeB6zYZWB0RLpW+7iYvHQg9QXOtN4tFg/oFxH49nBQ7P9xMX827iCgJe5qUK5z+PRbUQ1W42mUy9VKlms9lvsVgsW50jTgwx0RW3IhBH4GpFoCF5MxtbXsEuvnOsYjsCjzOZzCUekUJHyIWA0+ncYTAY3iKwk5/PeKXOd4xcCLhcrm0IzDHdzZjsKLkQ4PHZwol6waW89Rv+n0DRRaUlMQAAAABJRU5ErkJggg==) 8px center no-repeat;background-size:12px;outline:none;}
 .search .searchList{}
 .search .searchList li{border-bottom:1px #656565 dashed;background:#000;padding:10px;height:22px;position:relative;}
 .search .searchList li i{width:20px;height:20px;border:1px #cdb091 solid;float:left;line-height:20px;text-align:center;border-radius:11px;position:relative;}
@@ -796,3 +796,14 @@ div.feedback{padding-top:60px;}
 .news .newsNav a{flex:1;-webkit-flex:1;height:30px;text-align:center;line-height:30px;color:#6a6a6a;}
 .news .newsNav a.on{color:#de2f30;font-size:18px;}
 .news .newsPages{position:relative;border-top:none;}
+.event{padding-top:42px;}
+.event a{width:100vw;height:65vw;float:left;background:url(../images/ycp.png) 50% center no-repeat;background-size:67px auto;}
+.event a img{width:100vw;height:65vw;}
+.getChinaBranch{padding-top:42px;}
+.getChinaBranch .searchBar{margin:7px 10px;height:25px;overflow:hidden;}
+.getChinaBranch .searchBar input{}
+.getChinaBranch .ChinaBranch{background:#fff;}
+.getChinaBranch .ChinaBranch li{border-bottom:1px #ccc dashed;padding:10px;font-size:12px;line-height:13px;color:#6a6a6a;}
+
+
+

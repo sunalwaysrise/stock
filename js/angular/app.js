@@ -110,6 +110,8 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'notice.html?v='+stock.v,controller:'notice'
   }).when('/noticedetail/:p1/:p2',{
     templateUrl: stock.tpl.index+'newsdetail.html?v='+stock.v,controller:'noticedetail'
+  }).when('/event',{
+    templateUrl: stock.tpl.index+'event.html?v='+stock.v,controller:'event'
   }).otherwise({
     redirectTo: '/index'
   });
@@ -1391,6 +1393,10 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
         if(confirm(d.message)){
           location.href="#/infoVerify";
         };
+      }else if(d.flag==2){
+        if(confirm(d.message+",去充值")){
+          location.href="#/recharge";
+        };
       }else{
         alert(d.message);
       }
@@ -1972,12 +1978,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.show=false;
   $scope.bindingBanked=true;
   $scope.bindingIdentify=true;
-  $scope.o={name:"",identityNumber:"",bankAccount:"",bank:"",province:"",city:""};
+  $scope.o={name:"",identityNumber:"",bankAccount:"",bank:"",province:"",city:"",branche:""};
   $scope.banks=banks;
   $scope.provinces=citys.provinces;
   $scope.setCitys=function(){
     $scope.citys=citys.city[$scope.o.province];
     $scope.o.city=$scope.citys[0];
+    $scope.o.branche="选择开户支行";
   }
   $scope.clear1=function(){$scope.o.name='';}
   $scope.clear2=function(){$scope.o.identityNumber='';}
@@ -2002,15 +2009,20 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
         $scope.o.bankAccount=d.bankAccount;
         $scope.o.bank=d.bankName;
         $scope.o.province=d.province;
+        $scope.o.branche=d.dept;
         $scope.o.city=d.city;
       }else{
         $scope.bindingBanked=false;
         $scope.o.bank='选择银行';
         $scope.o.province='选择省';
         $scope.o.city='选择市';
+        $scope.o.branche='选择开户支行';
       }
     }
   });
+  $scope.resetBranch=function(){
+    $scope.o.branche="选择开户支行";
+  }
   $scope.lock=false;
   $scope.done=function(){
     if($scope.lock){return false;}
@@ -2024,6 +2036,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     p.bank=$scope.o.bank;
     p.province=$scope.o.province;
     p.city=$scope.o.city;
+    p.dept=$scope.o.branche;
     $http.get(stock.data.stock+'user/core/bind_bank_card',{params:p}).success(function(d){
       alert(d.message);
       $scope.lock=false;
@@ -2031,6 +2044,39 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
         location.reload();
       }
     });
+  }
+  $scope.getChinaBranch=false;
+  $scope.openChinaBranch=function(){
+    var p={proName:$scope.o.province,cityName:$scope.o.city,bankName:$scope.o.bank,version:V.version,requestType:V.requestType};
+    if(p.proName=="选择省" || p.cityName=="选择市" || !p.bankName=="选择银行"){
+      return false;
+    }
+    $http.get(stock.data.stock+'getChinaBranches',{params:p}).success(function(d){
+      $scope.branches=d.branches;
+      $scope.ChinaBranchs=d.branches;
+    });
+    $scope.getChinaBranch=true;
+  }
+  $scope.s={keyword:''};
+  $scope.search=function(){
+    if(!$scope.s.keyword){
+      $scope.ChinaBranchs=$scope.branches;
+      return false;
+    }
+    var i=0,D=$scope.branches;
+    $scope.ChinaBranchs=[];
+    for(i;i<D.length;i++){
+      if(D[i].indexOf($scope.s.keyword)!=-1){
+        $scope.ChinaBranchs.push(D[i]);
+      }
+    }
+  }
+  $scope.back=function(){
+    $scope.getChinaBranch=false;
+  }
+  $scope.setChinaBranch=function(i){
+    $scope.o.branche=$scope.ChinaBranchs[i];
+    $scope.back();
   }
 }]).controller('infoPassword',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
@@ -2174,7 +2220,9 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.setCitys=function(){
     $scope.citys=citys.city[$scope.o.province];
     $scope.o.city=$scope.citys[0];
+    $scope.o.branche="选择开户支行";
   }
+
   $scope.clear1=function(){$scope.o.name='';}
   $scope.clear2=function(){$scope.o.identityNumber='';}
   $scope.clear3=function(){$scope.o.bankAccount='';}
@@ -2199,11 +2247,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
         $scope.o.bank=d.bankName;
         $scope.o.province=d.province;
         $scope.o.city=d.city;
+        $scope.o.branche=d.dept;
       }else{
         $scope.bindingBanked=false;
         $scope.o.bank='选择银行';
         $scope.o.province='选择省';
         $scope.o.city='选择市';
+        $scope.o.branche='选择开户支行';
       }
     }
   });
@@ -2228,6 +2278,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     p.bank=$scope.o.bank;
     p.province=$scope.o.province;
     p.city=$scope.o.city;
+    p.dept=$scope.o.branche;
     $http.get(stock.data.stock+'user/core/bind_bank_card',{params:p}).success(function(d){
       alert(d.message);
       $scope.lock=false;
@@ -2249,6 +2300,44 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       }
     });
   }
+
+  $scope.resetBranch=function(){
+    $scope.o.branche="选择开户支行";
+  }
+  $scope.getChinaBranch=false;
+  $scope.openChinaBranch=function(){
+    var p={proName:$scope.o.province,cityName:$scope.o.city,bankName:$scope.o.bank,version:V.version,requestType:V.requestType};
+    if(p.proName=="选择省" || p.cityName=="选择市" || !p.bankName=="选择银行"){
+      return false;
+    }
+    $http.get(stock.data.stock+'getChinaBranches',{params:p}).success(function(d){
+      $scope.branches=d.branches;
+      $scope.ChinaBranchs=d.branches;
+    });
+    $scope.getChinaBranch=true;
+  }
+  $scope.s={keyword:''};
+  $scope.search=function(){
+    if(!$scope.s.keyword){
+      $scope.ChinaBranchs=$scope.branches;
+      return false;
+    }
+    var i=0,D=$scope.branches;
+    $scope.ChinaBranchs=[];
+    for(i;i<D.length;i++){
+      if(D[i].indexOf($scope.s.keyword)!=-1){
+        $scope.ChinaBranchs.push(D[i]);
+      }
+    }
+  }
+  $scope.back=function(){
+    $scope.getChinaBranch=false;
+  }
+  $scope.setChinaBranch=function(i){
+    $scope.o.branche=$scope.ChinaBranchs[i];
+    $scope.back();
+  }
+
 }]).controller('bonus', ['$scope','$rootScope','$http',function($scope,$rootScope,$http){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
@@ -2697,4 +2786,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     location.hash="#/notice/"+page;
   }
   $scope.title="公告";
+}]).controller('event', ['$scope','$rootScope','$http', function($scope,$rootScope,$http){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.loading=true;
+  $http.get(stock.data.base+"queryActivity",{params:V}).success(function(d){
+    $scope.list=d.pictureManages;
+    $scope.loading=false;
+  });
 }]);

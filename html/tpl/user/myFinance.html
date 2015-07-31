@@ -34,7 +34,10 @@
 					<td>{{i.stockName}}<br/><i class="{{i.incomeBalance|toUpDown}}">{{i.incomeBalance.toFixed(2)|addPlus}}</i></td>
 					<td><i class="{{i.stockQuote.wave|toUpDown}}">{{i.stockQuote.lastPrice}}</i><br/><i>{{i.costPrice}}</i></td>
 					<td>{{i.currentAmount}}<br/><i>{{i.enableAmount}}</i></td>
-					<td><a class="b4" ng-href="#/stock/{{i.stockQuote.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/2/{{userFinanceId}}">卖出</a></td>
+					<td>
+						<a ng-if="i.enableAmount>0" class="b4" ng-href="#/stock/{{i.stockQuote.exchangeType|toMcode}}{{i.stockCode}}/{{i.stockName}}/2/{{userFinanceId}}">卖出</a>
+						<a class="b3" ng-if="i.enableAmount==0">卖出</a>
+					</td>
 				</tr>
 				<tr ng-if="getMyPositions.length == 0">
 		      <td colspan="4">暂无持仓</td>
