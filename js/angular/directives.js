@@ -47,13 +47,13 @@ directives.directive('mydialog',function(){
 			balance:"@",
 			deposit:"@",
 			adddeposit:"@",
-			assetbalance:"@",
+			tradersbalance:"@",
 			keepriskratio:"@",
 			closeriskratio:"@",
 			suretext:"@"
 		},
 		restrict:'E',
-		template:'<div class="myFinancesLock"><div class="myFinancesDialog"><h1>订单详情<i ng-click="cancel()">+</i></h1><div><span>实盘编号：</span>{{ordernumber}}<br/><span>申请时间：</span>{{created|date:"yyyy-MM-dd HH:mm:ss"}}<br/><span>订单类型：</span>{{name}}<br/><span>交易期限：</span>{{endtime|date:"yyyy-MM-dd HH:mm:ss"}}<br/><span>申请资金：</span>{{balance}}元<br/><span>冻结保证金：</span>{{deposit}}元<br/><span>补充保证金：</span>{{adddeposit}}元<br/><span>操盘资金：</span>{{assetbalance}}元<br/><span>警戒线：</span>{{keepriskratio}}元<br/><span>平仓线：</span>{{closeriskratio}}元</div><h3><a ng-click="sure()">{{suretext}}</a></h3><p>注：终止订单，管理费不予退还</p></div></div>',
+		template:'<div class="myFinancesLock"><div class="myFinancesDialog"><h1>订单详情<i ng-click="cancel()">+</i></h1><div><span>实盘编号：</span>{{ordernumber}}<br/><span>订单类型：</span>{{name}}<br/><span>交易期限：</span>{{created|date:"yyyy.MM.dd"}}-{{endtime|date:"MM.dd HH:mm"}}<br/><span>申请资金：</span>{{balance}}元<br/><span>冻结保证金：</span>{{deposit}}元<br/><span>补充保证金：</span>{{adddeposit}}元<br/><span>操盘资金：</span>{{tradersbalance}}元<br/><span>警戒线：</span>{{keepriskratio}}元<br/><span>平仓线：</span>{{closeriskratio}}元</div><h3><a ng-click="sure()">{{suretext}}</a></h3><p>注：终止订单，管理费不予退还</p></div></div>',
 		replace:true
 	}
 }).directive('loading',function(){

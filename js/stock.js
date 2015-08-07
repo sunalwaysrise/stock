@@ -17,18 +17,17 @@ CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, t
 };
 var M={
   recharge:function(data){
-    $("#memberID").val(data.MemberID);
-    $("#terminalID").val(data.TerminalID);
-    $("#tradeDate").val(data.TradeDate);
-    $("#orderMoney").val(data.OrderMoney);
-    $("#transId").val(data.TransID);
-    $("#returnUrl").val(data.ReturnUrl);
-    $("#pageUrl").val(data.PageUrl);
-    $("#productName").val(data.productName);
-    $("#amount").val(data.amount);
-    $("#noticeType").val(data.NoticeType);
-    $("#key").val(data.key);
     console.log(data);
+    $("#version").val(data.version);
+    $("#language").val(data.language);
+    $("#input_charset").val(data.input_charset);
+    $("#txn_type").val(data.txn_type);
+    $("#member_id").val(data.member_id);
+    $("#terminal_id").val(data.terminal_id);
+    $("#back_url").val(data.back_url);
+    $("#txn_sub_type").val(data.txn_sub_type);
+    $("#data_content").val(data.data_content);
+    $("#form").attr({"action":data.url});
   },
   time:function(x){
     var c=function(i){return (i<10)?"0"+i:i;},D=new Date(x);
@@ -319,16 +318,16 @@ var M={
         return v;
       }
       var h=[];
-      h.push('<ul><li><span><i>卖5</i> '+this.quote.sellPrice5+'</span><b>'+to10thousand(this.quote.sellAmount5/100)+'</b></li>');
-      h.push('<li><span><i>卖4</i> '+this.quote.sellPrice4+'</span><b>'+to10thousand(this.quote.sellAmount4/100)+'</b></li>');
-      h.push('<li><span><i>卖3</i> '+this.quote.sellPrice3+'</span><b>'+to10thousand(this.quote.sellAmount3/100)+'</b></li>');
-      h.push('<li><span><i>卖2</i> '+this.quote.sellPrice2+'</span><b>'+to10thousand(this.quote.sellAmount2/100)+'</b></li>');
-      h.push('<li><span><i>卖1</i> '+this.quote.sellPrice1+'</span><b>'+to10thousand(this.quote.sellAmount1/100)+'</b></li>');
-      h.push('</ul><ul><li><span><i>买1</i> '+this.quote.buyPrice1+'</span><b>'+to10thousand(this.quote.buyAmount1/100)+'</b></li>');
-      h.push('<li><span><i>买2</i> '+this.quote.buyPrice2+'</span><b>'+to10thousand(this.quote.buyAmount2/100)+'</b></li>');
-      h.push('<li><span><i>买3</i> '+this.quote.buyPrice3+'</span><b>'+to10thousand(this.quote.buyAmount3/100)+'</b></li>');
-      h.push('<li><span><i>买4</i> '+this.quote.buyPrice4+'</span><b>'+to10thousand(this.quote.buyAmount4/100)+'</b></li>');
-      h.push('<li><span><i>买5</i> '+this.quote.buyPrice5+'</span><b>'+to10thousand(this.quote.buyAmount5/100)+'</b></li></ul>');
+      h.push('<ul><li><span><i>卖5</i> '+this.quote.sellPrice5+'</span><b>'+to10thousand(this.quote.sellAmount5)+'</b></li>');
+      h.push('<li><span><i>卖4</i> '+this.quote.sellPrice4+'</span><b>'+to10thousand(this.quote.sellAmount4)+'</b></li>');
+      h.push('<li><span><i>卖3</i> '+this.quote.sellPrice3+'</span><b>'+to10thousand(this.quote.sellAmount3)+'</b></li>');
+      h.push('<li><span><i>卖2</i> '+this.quote.sellPrice2+'</span><b>'+to10thousand(this.quote.sellAmount2)+'</b></li>');
+      h.push('<li><span><i>卖1</i> '+this.quote.sellPrice1+'</span><b>'+to10thousand(this.quote.sellAmount1)+'</b></li>');
+      h.push('</ul><ul><li><span><i>买1</i> '+this.quote.buyPrice1+'</span><b>'+to10thousand(this.quote.buyAmount1)+'</b></li>');
+      h.push('<li><span><i>买2</i> '+this.quote.buyPrice2+'</span><b>'+to10thousand(this.quote.buyAmount2)+'</b></li>');
+      h.push('<li><span><i>买3</i> '+this.quote.buyPrice3+'</span><b>'+to10thousand(this.quote.buyAmount3)+'</b></li>');
+      h.push('<li><span><i>买4</i> '+this.quote.buyPrice4+'</span><b>'+to10thousand(this.quote.buyAmount4)+'</b></li>');
+      h.push('<li><span><i>买5</i> '+this.quote.buyPrice5+'</span><b>'+to10thousand(this.quote.buyAmount5)+'</b></li></ul>');
       $("#sD1").html(h.join(''));
     },
     max:function(arr){

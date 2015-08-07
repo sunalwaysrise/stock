@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="loading" lang="zh-cmn-Hans" ng-app="stock">
 <head>
-<title>新手活动</title>
+<title>老用户活动</title>
 <meta charset="UTF-8" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
@@ -16,63 +16,56 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="stylesheet" href="http://res2.cp2y.com/h5/stock/css/event.css?v=20150715" />
 <style type="text/css">
-body{background:#fbd439;}
-header.header{background:#dd271d;display:none;}
+body{}
+header.header{display:none;}
 .banner{width:100%;}
-.main{margin-top:4.7vw;position:relative;}
-.main a.a4{position:absolute;width:5.6vw;height:3.75vw;background:url(http://res2.cp2y.com/h5/stock/eventimages/1/4.png) 0 0 no-repeat;background-size:5.6vw auto;top:37.5vw;right:5.9vw;}
-.main a.a5{position:absolute;width:9.4vw;height:13.75vw;background:url(http://res2.cp2y.com/h5/stock/eventimages/1/5.png) 0 0 no-repeat;background-size:9.4vw auto;top:13.4vw;left:3.1vw;}
-.main dl{width:66vw;margin:0 auto;}
-.main dl dt{height:12.5vw;width:66vw;background:#ff5742;position:relative;color:#fff;text-align:center;box-shadow:0 1px 1px 1px #f7a900;}
-.main dl dt:before,.main dl dt:after{height:0;width:0;position:absolute;content:"";top:0;}
-.main dl dt.t1:before{left:-5vw;border-right:5vw #ff5742 solid;border-bottom:12.5vw transparent solid;}
-.main dl dt.t1:after{right:-5vw;border-left:5vw #ff5742 solid;border-bottom:12.5vw transparent solid;}
-.main dl dt.t1 p{font-size:4.3vw;line-height:7vw;}
-.main dl dt.t1 b{font-size:3.1vw;line-height:3.2vw;}
-.main dl dd{height:12.5vw;width:66vw;background:#fff;margin:4.5vw 0 0 0;text-align:center;line-height:12.5vw;font-size:3.75vw;box-shadow:0 1px 1px 1px #f7a900;}
-.main dl dd b{font-size:4.68vw;color:#d02218;}
-.main dl dt.t2{line-height:12.5vw;font-size:4.4vw;margin-top:4.5vw;}
-.main dl dt.t2:before{left:-5vw;border-right:5vw #ff5742 solid;border-top:12.5vw transparent solid;}
-.main dl dt.t2:after{right:-5vw;border-left:5vw #ff5742 solid;border-top:12.5vw transparent solid;}
-.btn{width:75vw;height:14vw;text-align:center;line-height:14vw;border-bottom:1px #be140e solid;background:#d02218;display:block;margin:0 auto;margin-top:4.5vw;border-radius:3px;color:#fff;font-size:5vw;}
-footer{background:#ff5742 url(http://res2.cp2y.com/h5/stock/eventimages/1/t.png) 0 0 repeat-x;background-size:13px auto;margin-top:4.3vw;padding:5.6vw;}
-footer ul{list-style-type:decimal;padding:12px 20px 10px 30px;border:1px #fbd439 solid;}
-footer ul li{list-style-type:decimal;color:#fff;line-height:20px;font-size:13px;padding-bottom:3px;}
-footer div{height:44px;padding-top:16px;}
-footer div a{width:110px;height:44px;float:left;background:url(http://res2.cp2y.com/h5/stock/eventimages/1/2.png) 0 1px no-repeat;background-size:110px auto;}
-footer div b{width:63px;height:33px;float:right;background:url(http://res2.cp2y.com/h5/stock/eventimages/1/3.png) 0 0 no-repeat;background-size:63px auto;padding-right:20px;}
+.main{margin:6vw auto 0;position:relative;width:94vw}
+.main div{width:100%;height:16vw;border-radius:3px;background:#eaeaea;margin-bottom:10px;}
+.main div i{width:23vw;height:16vw;float:left;background-repeat:no-repeat;background-position:0 0;background-size:auto 16vw;position:relative;}
+.main div i:after{width:0px;height:0px;border-top:4px #ff3333 solid;border-left:4px transparent solid;border-right:4px transparent solid;position:absolute;left:30%;bottom:-4px;content:"";}
+.main div.li1 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l1.png);}
+.main div.li2 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l2.png);}
+.main div.li3 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l3.png);}
+.main div table{width:71vw;height:16vw;float:left;}
+.main div table tr td{text-align:center;font-size:3vw;}
+.main div table tr td:nth-child(1){width:11vw;font-size:3.75vw;}
+.main div table tr td:nth-child(2){width:18vw;}
+.main div table tr td:nth-child(3){font-size:3vw;width:42vw;text-align:left;}
+.main div table tr td b{color:#d02218;}
+.main p{font-size:3.75vw;text-align:center;padding:2vw 0;}
+.main a{}
+.btn{width:75vw;height:12vw;text-align:center;line-height:12vw;background:#ff3333;display:block;margin:0 auto;margin-top:4.5vw;border-radius:3px;color:#fff;font-size:5vw;}
+footer{background:#f2f2f2;margin-top:4.3vw;}
+footer ul{list-style-type:decimal;padding:0 20px 10px 30px;}
+footer ul li{list-style-type:decimal;color:#000;line-height:20px;font-size:13px;padding-bottom:3px;}
+footer div{height:40px;line-height:40px;text-indent:10px;color:#000;}
 </style>
 </head><body>
 <header class="header">
 	<a class="leftBtn" href="/html/index.html#/event"></a>
-	<h2>新手活动</h2>
+	<h2>老用户活动</h2>
 </header>
-<img src="http://res2.cp2y.com/h5/stock/eventimages/1/banner.png" alt="" class="banner" />
+<img src="http://res2.cp2y.com/h5/stock/eventimages/2/banner.jpg" alt="" class="banner" />
 <div class="banner"></div>
 <div class="main">
-	<dl>
-		<dt class="t1">
-			<p>新用户都有一次免费体验的机会</p>
-			<b>（免费享受股票收益）</b>
-		</dt>
-		<dd>送您 <b>2000</b> 元</dd>
-		<dd>您存 <b>1</b> 元</dd>
-		<dd>总共 <b>2001</b> 元</dd>
-		<dd>交易 <b>2</b> 天</dd>
-		<dt class="t2">盈利全归您，亏损算我们</dt>
-	</dl>
+	<div class="li1"><i></i><table><tr><td>赠送</td><td><b>10000元</b><br/>实盘操作金</td><td>完全免费</td></tr></table></div>
+	<div class="li2"><i></i><table><tr><td>您交</td><td><b>2500元</b><br/>风险保证金</td><td>结束时如无亏损全额返还<br/>如亏损扣除亏损剩余返还<br/>6元账户人工服务费用不退换</td></tr></table></div>
+	<div class="li3"><i></i><table><tr><td>总共</td><td><b>12500元</b><br/>实盘操作金</td><td>由您操盘2日，盈利全归您</td></tr></table></div>
+	<p>如果疑问请联系客服；400-888-0872</p>
+	<p>免息体验“股票交易账号”会在24小时内开出</p>
 	<a class="btn" id="join">我要参与</a>
-	<a class="a4"></a>
-	<a class="a5"></a>
 </div>
 <footer>
-	<div><a></a><b></b></div>
+	<div>活动规则:</div>
 	<ul>
-		<li>您只需要支付1元体验费便可获得2000元操盘资金的2天免费使用权；</li>
-		<li>用户完善姓名，身份信息，每个新用户只有一次体验机会；</li>
-		<li>操盘结束后，体验费全额退还给您；</li>
-		<li>交易时间2天（第2个交易日14:30前必须卖出股票）；</li>
-		<li>新手特权账户不设置警戒线与平仓线。</li>
+		<li>活动时间：2015年7月30日-2015年8月30日</li>
+		<li>易操盘免息赠送10000实盘操作资金</li>
+		<li>用户交2500元保证金（结束时如无亏损全额返还，如亏损扣除亏损剩余返还）</li>
+		<li>配资比例为1:4，本金共计12500元（由您操盘，盈利归您，亏损在您的保证金中扣除）</li>
+		<li>免息实盘操作时间共计2个工作日</li>
+		<li>交易账户总资产不得低于10700元，低于时系统将自动平仓</li>
+		<li>免息活动不能延期</li>
+		<li>盈利全归您，（提现免费）亏损自负</li>
 	</ul>
 </footer>
 <div id="dialog">
@@ -118,7 +111,7 @@ var E={
 		}
 		this.lock=true;
 		$.ajax({
-			url:"/user/core/joinNewUserActivity",
+			url:"/user/core/joinOldUserActivity",
 			data:{requestType:25,version:"1.0",_:new Date().getTime()},
 			success:function(d){
 				E.lock=false;

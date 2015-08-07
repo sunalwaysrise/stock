@@ -13,8 +13,9 @@
   			<a ng-href="#/detail/{{i.id}}/{{yep}}">
   				<h2>{{i.info}}</h2>
   				<p>{{i.created | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-  				<em ng-if="i.type==1" class="red">+{{i.occurBalance}}</em>
-  				<em ng-if="i.type==0" class="green">-{{i.occurBalance}}</em>
+  				<em ng-if="i.source==5" class="{{i.occurBalance|toUpDown}}">{{i.occurBalance|toUpDown}}</em>
+          <em ng-if="i.source!=5 && i.type==1" class="red">+{{i.occurBalance}}</em>
+          <em ng-if="i.source!=5 && i.type==0" class="green">-{{i.occurBalance}}</em>
   				<span ng-if="i.status==1">处理成功</span>
   				<span ng-if="i.status==0">处理失败</span>
   				<span ng-if="i.status==-1">申请处理</span>

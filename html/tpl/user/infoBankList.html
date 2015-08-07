@@ -1,0 +1,18 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/info"></a>
+    <h2>我的银行卡</h2>
+    <a href="#/infoBankAdd" class="menu_right menu_add"></a>
+  </div>
+  <ul class="pt45 infoBankList">
+    <li ng-repeat="i in list" ng-click="detail({{$index}})">
+      <img ng-src="{{res}}/{{i.bankIntroduce}}.png" />
+      <div>
+        <h2>{{i.bankName}}</h2>
+        <h3>尾号{{i.cardNo|last4}}储蓄卡</h3>
+      </div>
+    </li>
+  </ul>
+  <loading ng-if='loading'></loading>
+  <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
+</div>

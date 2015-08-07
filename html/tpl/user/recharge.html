@@ -23,30 +23,31 @@
 			</div>
 			<p>元</p>
 		</div>
+		<div class="line2">
+			<b>付款方式</b>
+			<div ng-if="z.hasBank" class="selectBank" ng-click="toggleBankList()">{{z.initBank}}</div>
+			<div ng-if="!z.hasBank" class="addBank">添加银行卡</div>
+			<ul ng-show="z.showBankList" id="showBankList">
+				<li ng-repeat="i in z.banks" ng-click="setBankCard({{$index}})">{{i.bankName}}({{i.cardNo|last4}})</li>
+				<li ng-click="addBankCard()">添加银行卡</li>
+			</ul>
+		</div>
 		<div class="line3"><a class="btn6" ng-click="recharge()">充值</a></div>
 	</div>
 	<div class="pt45 rechargre" id="es2" style="display:none">
-		<form action="https://tgw.baofoo.com/paycerwap" method="post" id="form">
-			<!-- <input type="hidden" name="orderNo" id="orderNo" value="" /> -->
-			<input type="hidden" name="signature" id="signature" />
-			<input type="hidden" name="interfaceVersion" value="4.0" />
-			<input type="hidden" name="requestType" value="1" />
-			<input type="hidden" name="keyType" value="1" />
-			
-			<input type="hidden" name="PayID" id="payId" value=""/>
-			<input type="hidden" name="MemberID" id="memberID" ng-model="d.MemberID" />
-			<input type="hidden" name="TerminalID" id="terminalID" ng-model="d.TerminalID" />
-			<input type="hidden" name="TradeDate" id="tradeDate" ng-model="d.tradeDate" />
-			<input type="hidden" name="OrderMoney" id="orderMoney" ng-model="d.OrderMoney" />
-			<input type="hidden" name="TransID" id="transId" ng-model="d.TransID" />
-			<input type="hidden" name="ReturnUrl" id="returnUrl" ng-model="d.ReturnUrl" />
-			<input type="hidden" name="PageUrl" id="pageUrl" ng-model="d.PageUrl" />
-			<input type="hidden" name="productName" id="productName" ng-model="d.productName" />
-			<input type="hidden" name="amount" id="amount" ng-model="d.amount" />
-			<input type="hidden" name="NoticeType" id="noticeType" ng-model="d.NoticeType" />
-			<input type="hidden" name="key" id="key" ng-model="d.key" />
-			<div class="line3"><a class="btn6" ng-click="btnOk()">确定充值</a></div>
-		</form>
+	<form method="get" id="form" >
+		<input type="hidden" id="version" name="version" value=""/>
+		<input type="hidden" id="language" name="language" value=""/>
+		<input type="hidden" id="input_charset" name="input_charset" value=""/>
+		<input type="hidden" id="txn_type" name="txn_type" value=""/>
+		<input type="hidden" id="data_type" name="data_type" value="json" />
+		<input type="hidden" id="member_id" name="member_id" value=""/>
+		<input type="hidden" id="terminal_id" name="terminal_id" value=""/>
+		<input type="hidden" id="back_url" name="back_url" value="" />
+		<input type="hidden" id="txn_sub_type" name="txn_sub_type" value=""/>
+		<textarea name="data_content" id="data_content" class="dataMi" ></textarea>
+		<div class="line3"><a class="btn6" ng-click="btnOk()">确定充值</a></div>
+	</form>
 	</div>
 </div>
 <loading ng-if='loading'></loading>

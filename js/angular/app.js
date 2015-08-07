@@ -1,8 +1,9 @@
 var indexAutoK;
 var t=angular.module('stock',['ngRoute','ngSanitize','ngTouch','infinite-scroll','services','directives','filters']);
 var stock={
-  tpl:{index:'/html/tpl/index/',user:'/html/tpl/user/'},
+  tpl:{index:'/html/tpl/index/',user:'/html/tpl/user/',guide:'/html/tpl/guide/'},
   data:{stock:"/",user:"/",pay:"http://pay.ycaopan.com/",base:"/"},
+  res:'http://res2.cp2y.com/h5/stock/images',
   v:"20150529"
 },V={"version":"1.0","requestType":25};
 t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locationProvider){
@@ -14,8 +15,8 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'investmentDetail.html?v='+stock.v,controller:'investmentDetail'
   }).when('/guide',{
     templateUrl: stock.tpl.index+'guide.html?v='+stock.v,controller:'guide'
-  }).when('/guideDetail/:t',{
-    templateUrl: stock.tpl.index+'guideDetail.html?v='+stock.v,controller:'guideDetail'
+  }).when('/guidetail/:p1',{
+    templateUrl: stock.tpl.index+'guidetail.html?v='+stock.v,controller:'guidetail'
   }).when('/exchange',{
     templateUrl: stock.tpl.index+'exchange.html?v='+stock.v,controller:'exchange'
   }).when('/self',{
@@ -26,10 +27,12 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'t1.html?v='+stock.v,controller: 't1'
   }).when('/t1/:t',{
     templateUrl: stock.tpl.index+'t1.html?v='+stock.v,controller: 't1'
+  }).when('/rula',{
+    templateUrl: stock.tpl.index+'rula.html?v='+stock.v,controller: 'rula'
   }).when('/rula1',{
-    templateUrl: stock.tpl.index+'rula1.html?v='+stock.v,controller: 'rula1'
+    templateUrl: stock.tpl.index+'rula1.html?v='+stock.v,controller: 'rula'
   }).when('/rulad',{
-    templateUrl: stock.tpl.index+'rulad.html?v='+stock.v,controller: 'rulad'
+    templateUrl: stock.tpl.index+'rulad.html?v='+stock.v,controller: 'rula'
   }).when('/stock',{
     templateUrl: stock.tpl.index+'stock.html?v='+stock.v,controller: 'stock'
   }).when('/stock/:t/:t2/:t3',{
@@ -59,7 +62,15 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
   }).when('/infoVerify',{
     templateUrl: stock.tpl.user+'infoVerify.html?v='+stock.v,controller:'infoVerify'
   }).when('/infoBank',{
-    templateUrl: stock.tpl.user+'infoBank.html?v='+stock.v,controller:'infoBank'
+    template:"<loading ng-if='loading'></loading>",controller:'infoBank'
+  }).when('/infoBankBind',{
+    templateUrl: stock.tpl.user+'infoBankBind.html?v='+stock.v,controller:'infoBankBind'
+  }).when('/infoBankAdd',{
+    templateUrl: stock.tpl.user+'infoBankAdd.html?v='+stock.v,controller:'infoBankAdd'
+  }).when('/infoBankList',{
+    templateUrl: stock.tpl.user+'infoBankList.html?v='+stock.v,controller:'infoBankList'
+  }).when('/infoBankDetail/:p1/:p2/:p3/:p4',{
+    templateUrl: stock.tpl.user+'infoBankDetail.html?v='+stock.v,controller:'infoBankDetail'
   }).when('/infoPassword',{
     templateUrl: stock.tpl.user+'infoPassword.html?v='+stock.v,controller:'infoPassword'
   }).when('/message',{
@@ -498,8 +509,17 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.detail=function(){
     $scope.openMyFinances=true;
     var D=$scope.myFinanceVos[$scope.myFinanceIndex],
-    orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,addDeposit=D.addDeposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,assetBalance=D.assetBalance;
+    orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,addDeposit=D.addDeposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,tradersBalance=D.tradersBalance;
     $scope.userFinanceId=D.id;
+    if(D.status==(1||2)){
+      suretext='终止订单';
+    }else if(D.status==3){
+      suretext='订单终止清算中';
+    }else if(D.status==4){
+      suretext='到期终止清算中';
+    }else if(D.status==5){
+      suretext='手动结束清算中';
+    }
     $scope.dialog={
       orderNumber:orderNumber,
       created:created,
@@ -508,29 +528,35 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       balance:balance,
       deposit:deposit,
       adddeposit:addDeposit,
-      assetbalance:assetBalance,
+      tradersbalance:tradersBalance,
       keepRiskRatio:keepRiskRatio,
       closeRiskRatio:closeRiskRatio,
-      suretext:'订单终止',
+      suretext:suretext,
       cancel:function(){
         $scope.openMyFinances=false;
       },
       sure:function(){
-        $scope.openMyFinances=false;
-        $scope.openDialog=true;
-        $scope.dialog={
-          title:"订单终止",
-          txt:'确认终止订单'+($scope.myFinanceIndex+1)+'么',
-          suretxt:'确认',
-          cancaltxt:'取消',
-          cancel:function(){
-            $scope.openDialog=false;
-          },
-          sure:function(){
-            $scope.shutDown();
-            $scope.openDialog=false;
+
+        if( D.status==(1||2) ){
+          $scope.openMyFinances=false;
+          $scope.openDialog=true;
+          $scope.dialog={
+            title:"订单终止",
+            txt:'确认终止订单'+($scope.myFinanceIndex+1)+'么',
+            suretxt:'确认',
+            cancaltxt:'取消',
+            cancel:function(){
+              $scope.openDialog=false;
+            },
+            sure:function(){
+              $scope.shutDown();
+              $scope.openDialog=false;
+            }
           }
-        };
+        }
+
+
+        
       }
     }
   }
@@ -686,24 +712,20 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.back=function(){
     history.go(-1);
   }
-}]).controller('guide', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
+}]).controller('guide', ['$scope','$rootScope','$timeout',function($scope,$rootScope,$timeout){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
   $timeout.cancel($scope.auto);
   $rootScope.bodyBg="white";
-}]).controller('guideDetail', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
+}]).controller('guidetail', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
   $timeout.cancel($scope.auto);
-  var t=$routeParams.t;
   $rootScope.bodyBg="white";
-  var params={requestType:V.requestType,version:V.version,stockNewsId:t};
-  $scope.back=function(){
-    history.go(-1);
-  }
-  // $http.get(stock.data.base+"getStockNewsContent",{params:params}).success(function(d){
-  //   $scope.d=d.newsContentVo;
-  // });
+  var p1=$routeParams.p1+".html";
+  $http.get(stock.tpl.guide+p1).success(function(d){
+    $scope.content=d;
+  });
 }]).controller('exchange', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
@@ -760,7 +782,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.detail=function(i){
     $scope.openMyFinances=true;
     var D=$scope.lists[i],suretext,
-    orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,assetBalance=D.assetBalance;
+    orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,tradersBalance=D.tradersBalance;
     if(D.status==(1||2)){
       suretext='终止订单';
     }else if(D.status==3){
@@ -778,7 +800,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       endTime:endTime,
       balance:balance,
       deposit:deposit,
-      assetbalance:assetBalance,
+      tradersbalance:tradersBalance,
       keepRiskRatio:keepRiskRatio,
       closeRiskRatio:closeRiskRatio,
       suretext:suretext,
@@ -881,7 +903,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
   $scope.detail=function(){
     $scope.openMyFinances=true;
-    var D=$scope.orderdetail,suretext,orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,addDeposit=D.addDeposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,assetBalance=D.assetBalance;
+    var D=$scope.orderdetail,suretext,orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,addDeposit=D.addDeposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,tradersBalance=D.tradersBalance;
     if(D.status==(1||2)){
       suretext='终止订单';
     }else if(D.status==3){
@@ -900,7 +922,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       balance:balance,
       deposit:deposit,
       adddeposit:addDeposit,
-      assetbalance:assetBalance,
+      tradersbalance:tradersBalance,
       keepRiskRatio:keepRiskRatio,
       closeRiskRatio:closeRiskRatio,
       suretext:suretext,
@@ -1265,8 +1287,10 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.customList=[];
   function calc(){
     $scope.total_money=$scope.money*(1+$scope.leverage_ratio);
-    $scope.yjx=Number($scope.money)+Number($scope.money*$scope.leverage_ratio*$scope.keep_risk_ratio);
-    $scope.pcx=Number($scope.money)+Number($scope.money*$scope.leverage_ratio*$scope.close_risk_ratio);
+    // $scope.yjx=Number($scope.money)+Number($scope.money*$scope.leverage_ratio*$scope.keep_risk_ratio);
+    $scope.yjx=Number($scope.money)*1.10;
+    // $scope.pcx=Number($scope.money)+Number($scope.money*$scope.leverage_ratio*$scope.close_risk_ratio);
+    $scope.pcx=Number($scope.money)*1.07;
     $scope.glf=$scope.money*$scope.management_fee*(Number($scope.jyr)+1);
     $scope.fxbzj=$scope.money*$scope.leverage_ratio;
     calcDay();
@@ -1471,15 +1495,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     return (arr.indexOf(dd)==-1)?false:true;
   }
   function addZero(i){return (i<10)?"0"+i:i;}
-}]).controller('rula1', ['$scope','$rootScope', function($scope,$rootScope){
-  if(M.socket){M.socket.close();}
-  $rootScope.bodyBg='white';
-  clearTimeout(window.indexAutoK);
-  $scope.show=true;
-  $scope.back=function(){
-    history.go(-1);
-  }
-}]).controller('rulad', ['$scope','$rootScope', function($scope,$rootScope){
+}]).controller('rula', ['$scope','$rootScope', function($scope,$rootScope){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
@@ -1525,7 +1541,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.lock=false;
       $scope.loading=false;
       if(data.flag==1){
-        alert('登录成功');
+        // alert('登录成功');
         if(history.length>2){
           history.back();
         }else{
@@ -1761,32 +1777,50 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.set=function(x){
     $scope.o.money=x;
   }
+  $scope.z={};
+  $http.get(stock.data.stock+'user/core/getMyBanksInfo',{params:V}).success(function(d){
+    if(d.userBanks.length==0){
+      $scope.z.hasBank=false;
+      $scope.z.banks=[];
+    }else{
+      $scope.z.banks=d.userBanks;
+      $scope.z.hasBank=true;
+      $scope.z.initBank=d.userBanks[0].bankName+"("+d.userBanks[0].cardNo.substr(-4,4)+")";
+      $scope.b=d.userBanks[0];
+      setTimeout(function(){
+        $("#showBankList li").eq(0).addClass('on');
+      },300);
+    }
+  });
+  $scope.toggleBankList=function(){
+    $scope.z.showBankList=!$scope.z.showBankList;
+  }
   $scope.recharge=function(){
     if(!$scope.o.money){
       alert('输入金额');
       return false;
     }
-    var p="money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge';
+    var p="pay_code="+$scope.b.bankIntroduce+"&acc_no="+$scope.b.cardNo+"&id_card="+$scope.b.idCode+"&id_holder="+$scope.b.trueName+"&money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge';
     $("#es1").hide();
     $("#es1B").hide();
     $("#es2").show();
     $("#es2B").show();
-    $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
+    $http.jsonp('http://www.new.com/pay/user/core/ufubao_h5?'+p);
+    // $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
   }
   $scope.btnOk=function(){
-    var memberId = $('#memberID').val(),
-    terminalID = $('#terminalID').val(),
-    payId =$('#payId').val(),
-    tradeDate = $('#tradeDate').val(),
-    orderMoney = $('#orderMoney').val(),
-    transId = $('#transId').val(),
-    returnUrl = $('#returnUrl').val(),
-    pageUrl = $('#pageUrl').val(),
-    noticeType = $('#noticeType').val(),
-    key = $('#key').val();
-    var temp = memberId + '|' + payId + '|' + tradeDate + '|' + transId + '|' + orderMoney + '|' + pageUrl + '|' + returnUrl + '|' + noticeType + '|' +key;
-    $('#signature').val($.md5(temp));
     $('#form').submit();
+  }
+  $scope.setBankCard=function(x){
+    var y=$scope.z.banks[x];
+    $scope.b=y;
+    $scope.z.initBank=y.bankName+"("+y.cardNo.substr(-4,4)+")";
+    $("#showBankList li").removeClass('on');
+    $("#showBankList li").eq(x).addClass('on');
+    $scope.toggleBankList();
+  }
+  $scope.addBankCard=function(){
+    location.href="#/infoBankAdd";
   }
 }]).controller('rechargeSuccess',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
@@ -1828,7 +1862,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.mobile=d.mobile;
       var name='未认证',bankName='未绑定';
       if(d.bindingIdentify==1){name=d.name;}
-      if(d.bindingBanked==1){bankName=d.bankName;}
+      if(d.bindingBanked==1){bankName=d.bankName+'('+d.bankAccount.substr(-4,4)+')';}
       $scope.name=name;
       $scope.bankName=bankName;
     }
@@ -1979,6 +2013,68 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
+  $scope.loading=true;
+  $http.get(stock.data.stock+'user/core/my_info',{params:V}).success(function(d){
+    if(d.flag==-1){
+      location.hash="#/signIn";
+    }else{
+      if(d.bindingBanked=="1"){
+        location.hash="#/infoBankList";
+      }else{
+        location.hash="#/infoBankBind";
+      }
+    }
+  });
+}]).controller('infoBankList',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=false;
+  $http.get(stock.data.stock+'user/core/getMyBanksInfo',{params:V}).success(function(d){
+    if(d.flag==-1){
+      location.hash="#/signIn";
+    }else{
+      $scope.show=true;
+      $scope.res=stock.res;
+      $scope.list=d.userBanks;
+    }
+  });
+  $scope.detail=function(x){
+    var D=$scope.list[x];
+    if(x>0){
+      location.hash="#/infoBankDetail/"+D.id+"/"+D.bankName+"/"+D.cardNo+"/"+D.bankIntroduce;
+    }
+  }
+}]).controller('infoBankDetail',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  $scope.userBankId=$routeParams.p1;
+  $scope.bankName=$routeParams.p2;
+  $scope.cardNo=$routeParams.p3;
+  $scope.bankIntroduce=$routeParams.p4;
+  clearTimeout(window.indexAutoK);
+  $scope.show=true;
+  $scope.res=stock.res;
+  $scope.toggle=function(){
+    $scope.lock=!$scope.lock; 
+  }
+  $scope.del=function(x){
+    if(confirm('确认删除么?')){
+      $scope.loading=true;
+      var p={version:V.version,requestType:V.requestType,userBankId:$scope.userBankId};
+      $http.get(stock.data.stock+'user/core/deleteMyUserBanksInfo',{params:p}).success(function(d){
+        $scope.loading=false;
+        alert(d.message);
+        if(d.flag==1){
+          location.hash="#/infoBankList";
+        }
+      });
+    }
+  }
+}]).controller('infoBankBind', ['$scope','$rootScope','$http','$routeParams','banks','citys',function($scope,$rootScope,$http,$routeParams,banks,citys){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
   $scope.show=false;
   $scope.bindingBanked=true;
   $scope.bindingIdentify=true;
@@ -2045,7 +2141,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       alert(d.message);
       $scope.lock=false;
       if(d.flag==1){
-        location.reload();
+        location.hash="#/infoBankList";
       }
     });
   }
@@ -2081,6 +2177,106 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.setChinaBranch=function(i){
     $scope.o.branche=$scope.ChinaBranchs[i];
     $scope.back();
+  }
+}]).controller('infoBankAdd', ['$scope','$rootScope','$http','$routeParams','banks','citys',function($scope,$rootScope,$http,$routeParams,banks,citys){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=false;
+  $scope.bindingBanked=true;
+  $scope.bindingIdentify=true;
+  $scope.o={name:"",identityNumber:"",bankAccount:"",bank:"",province:"",city:"",branche:""};
+  $scope.banks=banks;
+  $scope.provinces=citys.provinces;
+  $scope.setCitys=function(){
+    $scope.citys=citys.city[$scope.o.province];
+    $scope.o.city=$scope.citys[0];
+    $scope.o.branche="选择开户支行";
+  }
+  $scope.clear1=function(){$scope.o.name='';}
+  $scope.clear2=function(){$scope.o.identityNumber='';}
+  $scope.clear3=function(){$scope.o.bankAccount='';}
+  $scope.clear4=function(){$scope.o.bank='';}
+  $scope.clear5=function(){$scope.o.province='';}
+  $scope.clear6=function(){$scope.o.city='';}
+  $http.get(stock.data.stock+'user/core/my_info',{params:V}).success(function(d){
+    if(d.flag==-1){
+      location.hash="#/signIn";
+    }else{
+      $scope.show=true;
+      if(d.bindingIdentify=="1"){
+        $scope.bindingIdentify=true;
+        $scope.o.name=d.name;
+        $scope.o.identityNumber=d.identify;
+      }
+      $scope.o.bank='选择银行';
+      $scope.o.province='选择省';
+      $scope.o.city='选择市';
+      $scope.o.branche='选择开户支行';
+    }
+  });
+  $scope.resetBranch=function(){
+    $scope.o.branche="选择开户支行";
+  }
+  $scope.lock=false;
+  $scope.done=function(){
+    if($scope.lock){return false;}
+    $scope.lock=true;
+    var p={version:V.version,requestType:V.requestType};
+    if(!$scope.bindingIdentify){
+      p.name=$scope.o.name;
+      p.identityNumber=$scope.o.identityNumber;
+    }
+    p.bankAccount=$scope.o.bankAccount;
+    p.bank=$scope.o.bank;
+    p.province=$scope.o.province;
+    p.city=$scope.o.city;
+    p.dept=$scope.o.branche;
+    $http.get(stock.data.stock+'user/core/addMyBankInfo',{params:p}).success(function(d){
+      alert(d.message);
+      $scope.lock=false;
+      if(d.flag==1){
+        // location.hash="#/infoBankList";
+        $scope.lastStep();
+      }
+    });
+
+  }
+  $scope.getChinaBranch=false;
+  $scope.openChinaBranch=function(){
+    var p={proName:$scope.o.province,cityName:$scope.o.city,bankName:$scope.o.bank,version:V.version,requestType:V.requestType};
+    if(p.proName=="选择省" || p.cityName=="选择市" || !p.bankName=="选择银行"){
+      return false;
+    }
+    $http.get(stock.data.stock+'getChinaBranches',{params:p}).success(function(d){
+      $scope.branches=d.branches;
+      $scope.ChinaBranchs=d.branches;
+    });
+    $scope.getChinaBranch=true;
+  }
+  $scope.s={keyword:''};
+  $scope.search=function(){
+    if(!$scope.s.keyword){
+      $scope.ChinaBranchs=$scope.branches;
+      return false;
+    }
+    var i=0,D=$scope.branches;
+    $scope.ChinaBranchs=[];
+    for(i;i<D.length;i++){
+      if(D[i].indexOf($scope.s.keyword)!=-1){
+        $scope.ChinaBranchs.push(D[i]);
+      }
+    }
+  }
+  $scope.back=function(){
+    $scope.getChinaBranch=false;
+  }
+  $scope.setChinaBranch=function(i){
+    $scope.o.branche=$scope.ChinaBranchs[i];
+    $scope.back();
+  }
+  $scope.lastStep=function(){
+    history.go(-1);
   }
 }]).controller('infoPassword',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}

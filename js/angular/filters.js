@@ -17,6 +17,10 @@ angular.module('filters', []).filter('indexIntroduces',function(){
   return function(x){
     return x*100+"%";
   };
+}).filter('last4',function(){
+  return function(x){
+    return x.substr(-4,4);
+  };
 }).filter('toMcode',function(){
   return function(x){
     return x==1?"SH":"SZ";

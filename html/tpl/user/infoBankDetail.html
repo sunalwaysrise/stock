@@ -1,0 +1,23 @@
+<div ng-if="show">
+  <div class="header" >
+    <a class="menu_back" href="#/infoBankList"></a>
+    <h2>我的银行卡</h2>
+    <a ng-click="toggle()" class="menu_right menu_del"><em></em><em></em><em></em></a>
+  </div>
+  <ul class="pt45 infoBankList infoBankList2">
+    <li>
+      <img ng-src="{{res}}/{{bankIntroduce}}.png" />
+      <div>
+        <h2>{{bankName}}</h2>
+        <h3>尾号{{cardNo|last4}}储蓄卡</h3>
+      </div>
+    </li>
+  </ul>
+  <loading ng-if='loading'></loading>
+  <div class="delBankLock" ng-show="lock">
+    <div>
+      <a ng-click="del()">删除</a>
+      <a ng-click="toggle()">取消</a>
+    </div>
+  </div>
+</div>
