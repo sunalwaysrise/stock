@@ -18,7 +18,8 @@
           <em ng-if="i.source!=5 && i.type==0" class="green">-{{i.occurBalance}}</em>
   				<span ng-if="i.status==1">处理成功</span>
   				<span ng-if="i.status==0">处理失败</span>
-  				<span ng-if="i.status==-1">申请处理</span>
+          <span ng-if="i.status==-1">申请处理</span>
+  				<span ng-if="i.status==-2">取消提现</span>
   			</a>
   		</li>
   	</ul>

@@ -1,5 +1,6 @@
 <div class="header" >
-  <a class="menu_back" href="#/index"></a>
+  <a class="menu_back" ng-if="!android" href="app:index"></a>
+  <a class="menu_back" ng-if="android" href="#/index"></a>
   <h2>新手指引</h2>
 </div>
 <div class="guide pt45">

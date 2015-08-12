@@ -21,6 +21,12 @@ angular.module('filters', []).filter('indexIntroduces',function(){
   return function(x){
     return x.substr(-4,4);
   };
+}).filter('hidelast',function(){
+  return function(x,z){
+    var i=0;z=z||1,c="";
+    for(i;i<z;i++){c+="*";}
+    return x.substr(0,x.length-z)+c;
+  };
 }).filter('toMcode',function(){
   return function(x){
     return x==1?"SH":"SZ";

@@ -27,6 +27,10 @@
 		<a ng-href="#/investmentDetail/{{i.id}}">{{i.title}}</a>
 	</dd>
 </dl>
+<div class="appdown" ng-show="appDownBtn">
+	<a href="#">下载客户端</a>
+	<i ng-click="closeAppDown()"></i>
+</div>
 <nav class="mainNav">
 	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
 	<a href="#/index" class="index" ng-if="!navIndex">首页</a>

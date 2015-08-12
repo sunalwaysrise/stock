@@ -15,6 +15,8 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'investmentDetail.html?v='+stock.v,controller:'investmentDetail'
   }).when('/guide',{
     templateUrl: stock.tpl.index+'guide.html?v='+stock.v,controller:'guide'
+  }).when('/guide/:p1',{
+    templateUrl: stock.tpl.index+'guide.html?v='+stock.v,controller:'guide'
   }).when('/guidetail/:p1',{
     templateUrl: stock.tpl.index+'guidetail.html?v='+stock.v,controller:'guidetail'
   }).when('/exchange',{
@@ -665,6 +667,10 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.end=false;
   $scope.banners=[];
   $scope.auto=null;
+  $scope.appDownBtn=true;
+  $scope.closeAppDown=function(){
+    $scope.appDownBtn=false;
+  }
   $http.get(stock.data.base+"app_index",{params:V}).success(function(data){
     if(typeof data =="string"){data=eval("("+data+")");}
     $scope.banners=data.banners;
@@ -712,11 +718,16 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.back=function(){
     history.go(-1);
   }
-}]).controller('guide', ['$scope','$rootScope','$timeout',function($scope,$rootScope,$timeout){
+}]).controller('guide', ['$scope','$rootScope','$timeout','$routeParams',function($scope,$rootScope,$timeout,$routeParams){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
   $timeout.cancel($scope.auto);
   $rootScope.bodyBg="white";
+  var p1=$routeParams.p1;
+  $scope.android=true;
+  if(p1==1){
+    $scope.android=false;
+  }
 }]).controller('guidetail', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
@@ -1227,25 +1238,28 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
         tf=true;
       }
       if(tf){
-        var i=0,j=0,len=$scope.lists.length,v;
+        var i=0,j=0,len=$scope.lists.length,v,lll=[];
         $scope.myStock=fave.get();
         for(i;i<len;i++){
           if(hasIn($scope.lists[i])){
             v=$scope.lists[i];
-            j++
+            j++;
             v.has=hasClass(v);
-            $scope.list.push(v);
-            if(j>20){
+            lll.push(v);
+            // alert(lll);
+            if(j==3){
               break;
             }
           }
         }
+        // alert(lll.length);
+        $scope.list=lll;
       }
     }
   }
   function hasIn(i){
     var r=false;
-    if( (i.stockCode.indexOf(String($scope.search))!=-1) ||(i.stockName.indexOf($scope.search)!=-1)||(i.stockPinyin.indexOf($scope.search)!=-1) ){
+    if( (i.stockCode.indexOf(String($scope.search))!=-1) || (i.stockName.indexOf($scope.search)!=-1)||(i.stockPinyin.indexOf($scope.search)!=-1) ){
       r=true;
     }
     return r;
@@ -1288,11 +1302,16 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   function calc(){
     $scope.total_money=$scope.money*(1+$scope.leverage_ratio);
     // $scope.yjx=Number($scope.money)+Number($scope.money*$scope.leverage_ratio*$scope.keep_risk_ratio);
-    $scope.yjx=Number($scope.money)*1.10;
+    $scope.yjx=(Number($scope.money)*1.10).toFixed(2);
     // $scope.pcx=Number($scope.money)+Number($scope.money*$scope.leverage_ratio*$scope.close_risk_ratio);
-    $scope.pcx=Number($scope.money)*1.07;
-    $scope.glf=$scope.money*$scope.management_fee*(Number($scope.jyr)+1);
+    $scope.pcx=(Number($scope.money)*1.07).toFixed(2);
+    if(t==1){
+      $scope.glf=$scope.money*$scope.management_fee*(Number($scope.jyr)+1);
+    }else{
+      $scope.glf=$scope.money*$scope.management_fee*(Number($scope.jyr));
+    }
     $scope.fxbzj=$scope.money*$scope.leverage_ratio;
+    $scope.glfjyr=$scope.money*$scope.management_fee;
     calcDay();
   }
   $scope.clearMoney=function(){$scope.money='';}

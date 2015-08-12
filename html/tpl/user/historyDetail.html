@@ -6,24 +6,26 @@
   <div class="pt45 historyDetail">
   	<h2>实盘编号：{{userFinance.orderNumber}}</h2>
   	<ul>
-      <li><label>申请时间：</label>{{userFinance.created|date:'MM-dd H:mm:ss'}}</li>
-      <li><label>名称：</label>{{userFinance.name}}</li>
-      <li><label>截止时间：</label>{{userFinance.endTime|date:'yyyy.MM.dd H:mm:ss'}}</li>
+      <li><label>申请时间：</label>{{userFinance.createTime|date:'yyyy-MM-dd H:mm:ss'}}</li>
+      <li><label>实盘类型：</label>{{userFinance.name}}</li>
+      <li><label>截止时间：</label>{{userFinance.endTime|date:'yyyy-MM-dd H:mm:ss'}}</li>
+      <li><label>终止类型：</label><span ng-if="userFinance.closeType==1">到期终止</span>
+              <span ng-if="userFinance.closeType==2">手动终止</span>
+              <span ng-if="userFinance.closeType==3">平仓终止</span></li>
+      <li><label>终止时间：</label>{{userFinance.closeTime|date:'yyyy-MM-dd H:mm:ss'}}</li>
       <li><label>申请资金：</label>{{userFinance.balance}}元</li>
-      <li><label>冻结保证金：</label>{{userFinance.deposit}}元</li>
+      <li><label>冻结保证金：</label>{{userFinance.deposit-userFinance.addDeposit}}元</li>
       <!-- <li><label>炒股资金：</label>{{userFinance.assetBalance}}元</li> -->
       <li><label>补充保证金：</label>{{userFinance.addDeposit}}元</li>
-      <li><label>终止类型：</label><span ng-if="userFinance.type==1">到期终止</span>
-              <span ng-if="userFinance.type==2">手动终止</span>
-              <span ng-if="userFinance.type==3">平仓终止</span></li>
-  		<li><label>终止时间：</label>{{userFinance.closeTime|date:'yyyy.MM.dd H:mm:ss'}}</li>
   	</ul>
-    <h2>结算明细</h2>
+    <h2>清算明细</h2>
     <ul>
-      <li><label>结算总资产：</label>{{closeLog.assetBalance}}元</li>
-      <li><label>解冻保证金：</label>{{closeLog.returnDeposit}}元</li>
-      <li><label>结算盈亏：</label>{{closeLog.totalProfit}}元</li>
-      <li><label>结算时间：</label>{{userFinance.modified|date:'yyyy.MM.dd H:mm:ss'}}</li>
+      <li><label>清算总资产：</label>{{closeLog.assetBalance}}元</li>
+      <li><label>清算时间：</label>{{closeLog.created|date:'yyyy-MM-dd H:mm:ss'}}</li>
+      <li><label>退还保证金：</label>{{closeLog.returnDeposit}}元</li>
+      <li><label>清算盈亏：</label>
+        <span class="{{closeLog.totalProfit|toUpDown}}">{{closeLog.totalProfit}}元</span>
+      </li>
     </ul>
     <h2>股票明细</h2>
     <dl>
@@ -53,9 +55,9 @@
           <i class="BS1" ng-if="x.entrustBs==1">买</i>
           <i class="BS2" ng-if="x.entrustBs==2">卖</i>
         </p><p>{{x.businessTime|date :'yyyy-MM-dd H:mm:ss'}}</p></h3>
-        <h3><p>成交数量:<label>{{x.businessAmount}}</label></p><p>印花税:<label>{{x.tax}}元</label></p></h3>
-        <h3><p>成交金额:<label>{{x.businessBalance}}元</label></p><p>过户费:<label>{{x.transferFee}}元</label></p></h3>
-        <h3><p>成交均价:<label>{{x.businessPrice}}元</label></p><p>总金额:<label>{{x.businessTotal}}元</label></p></h3>
+        <h3><p>成交均价:<label>{{x.businessPrice}}元</label></p><p>印花税:<label>{{x.tax}}元</label></p></h3>
+        <h3><p>成交数额:<label>{{x.businessAmount}}</label></p><p>过户费:<label>{{x.transferFee}}元</label></p></h3>
+        <h3><p>成交金额:<label>{{x.businessBalance}}元</label></p><p>总金额:<label>{{x.businessTotal}}元</label></p></h3>
         <h3><p>佣金:<label>{{x.commission}}元</label></p><p></p></h3>
       </li>
     </ul>

@@ -268,6 +268,11 @@ dl.indexList dt:before{position:absolute;content:"参";width:4.68vw;height:4.68v
 dl.indexList dt a{float:right;padding-right:10px;color:#000;}
 dl.indexList dd{margin:0;background:#fff;border-bottom:1px #ccc solid;position:relative;height:32px;line-height:32px;height:10vw;line-height:10vw;overflow:hidden;}
 dl.indexList dd a{color:#000;font-size:12px;font-size:3.75vw;padding-left:10px;}
+.appdown{width:100%;height:50px;position:fixed;left:0;bottom:50px;background:rgba(50,52,54,.95);border-bottom:1px #6a6a6a solid;}
+.appdown a{height:50px;margin:0 20px;display:block;line-height:50px;text-align:center;color:#fda701;}
+.appdown i{width:15px;height:15px;position:absolute;right:10px;top:10px;background:rgb(128,128,128);border-radius:7px;transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
+.appdown i:after{width:11px;height:1px;background:#000;left:2px;top:7px;content:"";position:absolute;}
+.appdown i:before{height:11px;width:1px;background:#000;left:7px;top:2px;content:"";position:absolute;}
 .signUp{padding-top:50px;}
 .signUp .sign{margin-top:0;}
 .signUp .input0{text-indent:10px;}
@@ -441,7 +446,7 @@ dl.indexList dd a{color:#000;font-size:12px;font-size:3.75vw;padding-left:10px;}
 .search .searchList li i:before{width:11px;height:1px;left:5px;top:10px;}
 .search .searchList li i.k0:after{width:1px;height:11px;left:10px;top:5px;}
 .search .searchList li span{color:#cdb091;float:left;height:22px;line-height:22px;margin:0 5px;}
-.search .searchList li a{padding-left:10px;float:left;}
+.search .searchList li a{padding-left:10px;float:left;width:88%;}
 .search .searchList li:before,.search .searchList li:after{position:absolute;width:12px;height:2px;background:#cdb091;content:"";}
 .search .searchList li:before{right:10px;top:16px;transform:rotate(55deg);-ms-transform:rotate(55deg);-moz-transform:rotate(55deg);-webkit-transform:rotate(55deg);-o-transform:rotate(55deg);}
 .search .searchList li:after{right:10px;bottom:15px;transform:rotate(305deg);-ms-transform:rotate(305deg);-moz-transform:rotate(305deg);-webkit-transform:rotate(305deg);-o-transform:rotate(305deg);}
@@ -644,6 +649,8 @@ div.aboutus{padding:50px 10px;}
 .historyDetail h2{height:33px;line-height:33px;text-indent:10px;color:#000;}
 .historyDetail ul{padding:5px 10px;background:#fff;border-bottom:1px #ccc solid;border-top:1px #ccc solid;}
 .historyDetail ul li{height:20px;line-height:20px;font-size:12px;color:#000;}
+.historyDetail ul li span.down{color:#00aa20;}
+.historyDetail ul li span.up{color:#ff3b2f;}
 .historyDetail ul li label{height:20px;line-height:20px;color:#6a6a6a;}
 .historyDetail dl{margin:0;border-top:1px #ccc solid;}
 .historyDetail dd{margin:0;height:55px;background:#fff;margin-bottom:15px;position:relative;font-size:12px;border-bottom:1px #ccc solid;}
@@ -865,3 +872,13 @@ div.feedback{padding-top:60px;}
 
 
 
+/*适配*/
+.guide dl dt{height:14vw;line-height:14vw;font-size:4.68vw;}
+.guide dl dd{height:13.5vw;line-height:13.5vw;}
+
+.guide dl dd:before{top:5.5vw;}
+.guide dl dd:after{bottom:5.5vw;}
+.guide dl dd a{font-size:4.375vw;}
+.infoUsername .l0{height:12.5vw;line-height:12.5vw;font-size:3.75vw;}
+.infoVerifyTip2 .l0 label{height:12.5vw;line-height:12.5vw;}
+.infoVerifyTip2 .l0 a:nth-child(3){top:50%;margin-top:-15px;font-size:12px;}

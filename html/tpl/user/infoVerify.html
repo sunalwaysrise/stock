@@ -5,8 +5,8 @@
   </div>
   <div class="pt45 infoUsername" ng-if="bind">
     <p class="infoTip">你已绑定身份证信息</p>
-    <div class="infoTip">{{o.name}}</div>
-    <div class="infoTip">{{o.identify}}</div>
+    <div class="infoTip">{{o.name|hidelast:1}}</div>
+    <div class="infoTip">{{o.identify|hidelast:4}}</div>
   </div>
   <div class="pt45 infoUsername" ng-if="!bind">
     <p class="infoTip">请输入你的身份证信息</p>

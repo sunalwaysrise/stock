@@ -28,9 +28,9 @@
   						<span class="grey" ng-if="i.totalProfit==0">{{i.totalProfit}}</span>
   					</p>
   					<p><b>终止类型</b>
-              <span ng-if="i.type==1">到期终止</span>
-              <span ng-if="i.type==2">手动终止</span>
-              <span ng-if="i.type==3">平仓终止</span>
+              <span ng-if="i.closeType==1">到期终止</span>
+              <span ng-if="i.closeType==2">手动终止</span>
+              <span ng-if="i.closeType==3">平仓终止</span>
             </p>
   					<p><b>终止时间</b><span>{{i.closeTime|date:'HH:mm:ss'}}</span></p>
   				</div>
