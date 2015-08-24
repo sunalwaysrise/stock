@@ -268,8 +268,8 @@ dl.indexList dt:before{position:absolute;content:"参";width:4.68vw;height:4.68v
 dl.indexList dt a{float:right;padding-right:10px;color:#000;}
 dl.indexList dd{margin:0;background:#fff;border-bottom:1px #ccc solid;position:relative;height:32px;line-height:32px;height:10vw;line-height:10vw;overflow:hidden;}
 dl.indexList dd a{color:#000;font-size:12px;font-size:3.75vw;padding-left:10px;}
-.appdown{width:100%;height:50px;position:fixed;left:0;bottom:50px;background:rgba(50,52,54,.95);border-bottom:1px #6a6a6a solid;}
-.appdown a{height:50px;margin:0 20px;display:block;line-height:50px;text-align:center;color:#fda701;}
+.appdown{width:100%;height:40px;position:fixed;left:0;bottom:50px;background:rgba(50,52,54,.95);border-bottom:1px #6a6a6a solid;}
+.appdown a{height:40px;margin:0 30px;display:block;line-height:40px;text-align:center;color:#fda701;}
 .appdown i{width:15px;height:15px;position:absolute;right:10px;top:10px;background:rgb(128,128,128);border-radius:7px;transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
 .appdown i:after{width:11px;height:1px;background:#000;left:2px;top:7px;content:"";position:absolute;}
 .appdown i:before{height:11px;width:1px;background:#000;left:7px;top:2px;content:"";position:absolute;}
@@ -370,7 +370,7 @@ dl.indexList dd a{color:#000;font-size:12px;font-size:3.75vw;padding-left:10px;}
 .exchangeTop{height:40px;overflow:hidden;position:fixed;left:0;right:0;bottom:55px;}
 .exchangeContain{padding-bottom:85px;}
 .exchangeTop li{background:rgb(41,42,46);height:40px;}
-.exchangeTop li i{width:30px;height:30px;float:left;margin:5px 5px 0 7px;background:url(../images/iconhead.png) 50% center no-repeat;background-size:30px;}
+.exchangeTop li i{width:30px;height:30px;float:left;margin:5px 5px 0 7px;background:url(../images/wdzh_touxiang01.png) 50% center no-repeat;background-size:30px;}
 .exchangeTop li h2{height:40px;line-height:40px;float:left;font-size:14px;color:#fff;}
 .exchangeTop li p{height:40px;line-height:40px;float:left;font-size:12px;color:#fff;}
 .exchangeTop li p b{font-weight:normal;color:#e90013;}
@@ -496,7 +496,7 @@ dl.indexList dd a{color:#000;font-size:12px;font-size:3.75vw;padding-left:10px;}
 .homenav a.noIcon:before,.homenav a.noIcon:after{display:none;}
 .info{}
 .info .infoTop{height:60px;padding:10px;}
-.info .infoTop img{width:60px;height:60px;float:left;border-radius:30px;}
+.info .infoTop img{width:56px;height:56px;float:left;border-radius:30px;border:1px rgb(176,176,176) solid;padding:1px;}
 .info .infoTop span{height:60px;float:left;color:#000;font-size:18px;line-height:60px;padding-left:20px;}
 .infoUsername{}
 .infoVerifyTip{padding:45px 10px 0;}
@@ -618,7 +618,13 @@ a.btn5{margin:40px 10px 0 10px;display:block;line-height:38px;height:38px;text-a
 .more a:after{bottom:22px;transform:rotate(135deg);-webkit-transform:rotate(135deg);}
 .more a.aboutus{background-image:url(../images/aboutus.png);background-position:10px 10px;background-repeat:no-repeat;background-size:36px;}
 .more a.feedback{background-image:url(../images/feedback.png);background-position:10px 10px;background-repeat:no-repeat;background-size:36px;}
-div.aboutus{padding:50px 10px;}
+div.aboutus{padding:50px 10px;font-size:4.375vw;}
+div.aboutus h2{line-height:30px;}
+div.aboutus p{text-indent:2em;line-height:18px;line-height:5.625vw;}
+div.aboutus dl{padding:10px 0;margin:0;}
+div.aboutus dt{line-height:20px;line-height:6.25vw;}
+div.aboutus dd{margin:0;line-height:18px;line-height:5.625vw;}
+div.aboutus a{color:#535353}
 .historyHeader{overflow:initial;}
 .historyHeader span{position:absolute;width:80px;right:0;color:#fff;top:5px;font-style:normal;line-height:32px;font-size:15px;text-align:center;}
 .historyHeader span:before{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:12px solid #fff;content:"";position:absolute;right:3px;top:9px;}
@@ -779,6 +785,8 @@ div.aboutus{padding:50px 10px;}
 .buy .buyList li p:nth-child(4) a{height:24px;width:70%;display:block;margin:0 auto;line-height:24px;text-align:center;border:1px #ff3b2f solid;border-radius:3px;color:#ff3b2f;margin-top:4px;}
 .getMessageDetail{padding:42px 0 0;}
 .getMessageDetail .md1{color:#7a7a7a;font-size:12px;padding:10px;}
+.getMessageDetail .md1>*{max-width:100%!important;padding:0!important;margin:0!important;}
+.getMessageDetail .md1 article>*{font-size:14px!important;font-size:4.375vw!important;line-height:4.5vw!important;}
 .getMessageDetail .md1 h1{line-height:5vw;color:#000;text-align:center;font-size:5vw;padding:5px 0;}
 .getMessageDetail .md1 h2{text-align:right;font-size:3.75vw;}
 .getMessageDetail .md1 article{padding:10px 0;}
@@ -843,7 +851,7 @@ div.feedback{padding-top:60px;}
 .guide dl{margin:0;}
 .guide dl dt{height:45px;line-height:45px;padding-left:10px;font-size:15px;color:#000;}
 .guide dl dd{margin:0;height:43px;line-height:43px;background:#fff;border-bottom:1px #ccc solid;padding-left:10px;position:relative;}
-.guide dl dd a{color:#535353;}
+.guide dl dd a{color:#535353;display:block;}
 .guide dl dd:after,.guide dl dd:before{content:"";width:12px;height:1px;position:absolute;right:10px;background:#ccc;}
 .guide dl dd:before{top:17px;transform:rotate(45deg);-webkit-transform:rotate(45deg);}
 .guide dl dd:after{bottom:17px;transform:rotate(135deg);-webkit-transform:rotate(135deg);}
@@ -851,7 +859,7 @@ div.feedback{padding-top:60px;}
 .guide .infoUsername .l0{border-top:none;}
 .guidetail{padding-left:10px;padding-right:10px;padding-top:55px;}
 .guidetail h1{line-height:13px;padding:5px 0;color:#000;}
-.guidetail p{line-height:12px;font-size:12px;margin-bottom:5px;}
+.guidetail p{line-height:12px;font-size:12px;line-height:4vw;font-size:3.75vw;margin-bottom:5px;}
 .guidetail table{width:100%;margin:10px 0;}
 .guidetail table tr td{font-size:12px;border:1px #ccc solid;padding:8px 5px;}
 .guidetail table.table2{background:rgb(244,255,239);}
@@ -869,16 +877,44 @@ div.feedback{padding-top:60px;}
 .infoBankList li:nth-child(1):before{display:none;}
 .infoBankList li:nth-child(1):after{transform:rotate(0deg);-webkit-transform:rotate(0deg);background:none;height:60px;line-height:60px;text-align:center;right:10px;top:0;content:"已绑定";width:60px;text-align:right;color:#ff0000;}
 .infoBankList2 li:nth-child(1):after{display:none;}
-
+.webArticle{max-width:100%}
+.webArticle>*{max-width:100%}
 
 
 /*适配*/
+.header{height:13.125vw;}
+.header h2{height:13.125vw;line-height:13.125vw;font-size:6.25vw;}
+.header i, .header a{width:10.3125vw;}
+.header .search_open{background-size:8.125vw auto;}
+.header .menu_left, .header .menu_right{top:1.56vw;height:10vw;line-height:10vw;}
+.header .menu_open, .header .menu_back{background-size:6.25vw auto;top:1.5625vw;height:10vw;}
+.pt45{padding-top:13.125vw;}
+.rula{font-size:3.75vw;}
+.rula p{padding:1.2vw 0;}
+.t1{padding-top:13.125vw;}
+.exchangeNav{padding-top:16.25vw;}
+.homeBg{background-size:100vw auto;}
+.header .menu_left, .header .menu_right{font-size:4.6875vw;}
+.sign{margin-top:16.25vw;}
+.signUp{padding-top:15.625vw;}
+/*.input0{height:13.4375vw;border-bottom:1px #ccc solid;}*/
+
+.exchangeNav{height:9.375vw;line-height:9.375vw;}
+.exchangeNav a{height:9.375vw;background-size:7.8125vw auto;font-size:4.375vw;}
+.header h2 b{height:6.25vw;line-height:6.25vw;font-size:6.25vw;}
+.header h2 span{height:4.375vw;line-height:4.375vw;font-size:3.125vw;}
+.header .save{right:1.5625vw;width:6.25vw;height:6.25vw;line-height:6.25vw;border-radius:3.5vw;}
+.header .save0:after,.header .save1:after{width:3.4375vw;height:1px;left:1.5625vw;top:3.125vw;}
+
+.header .search_open{top:1.56vw;height:10vw;}
+.banners1{margin-top:13.125vw;}
+
 .guide dl dt{height:14vw;line-height:14vw;font-size:4.68vw;}
 .guide dl dd{height:13.5vw;line-height:13.5vw;}
 
 .guide dl dd:before{top:5.5vw;}
 .guide dl dd:after{bottom:5.5vw;}
 .guide dl dd a{font-size:4.375vw;}
-.infoUsername .l0{height:12.5vw;line-height:12.5vw;font-size:3.75vw;}
-.infoVerifyTip2 .l0 label{height:12.5vw;line-height:12.5vw;}
-.infoVerifyTip2 .l0 a:nth-child(3){top:50%;margin-top:-15px;font-size:12px;}
+.guide .infoUsername .l0{height:12.5vw;line-height:12.5vw;font-size:3.75vw;}
+.guide .infoVerifyTip2 .l0 label{height:12.5vw;line-height:12.5vw;}
+.guide .infoVerifyTip2 .l0 a:nth-child(3){top:50%;margin-top:-15px;font-size:12px;}

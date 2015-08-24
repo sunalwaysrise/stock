@@ -19,23 +19,34 @@
 body{}
 header.header{display:none;}
 .banner{width:100%;}
-.main{margin:6vw auto 0;position:relative;width:94vw}
-.main div{width:100%;height:16vw;border-radius:3px;background:#eaeaea;margin-bottom:10px;}
-.main div i{width:23vw;height:16vw;float:left;background-repeat:no-repeat;background-position:0 0;background-size:auto 16vw;position:relative;}
+.main{margin:19px auto 0;position:relative;width:300px;}
+.main{margin:6vw auto 0;width:94vw}
+.main div{width:100%;height:52px;border-radius:3px;background:#eaeaea;margin-bottom:10px;}
+.main div{height:16vw;}
+.main div i{width:73px;height:52px;float:left;background-repeat:no-repeat;background-position:0 0;background-size:auto 52px;position:relative;}
+.main div i{width:23vw;height:16vw;background-size:auto 16vw;}
 .main div i:after{width:0px;height:0px;border-top:4px #ff3333 solid;border-left:4px transparent solid;border-right:4px transparent solid;position:absolute;left:30%;bottom:-4px;content:"";}
 .main div.li1 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l1.png);}
 .main div.li2 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l2.png);}
 .main div.li3 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l3.png);}
-.main div table{width:71vw;height:16vw;float:left;}
-.main div table tr td{text-align:center;font-size:3vw;}
+.main div table{width:227px;height:51px;float:left;}
+.main div table{width:71vw;height:16vw;}
+.main div table tr td{text-align:center;font-size:12px;}
+.main div table tr td{font-size:3vw;}
+.main div table tr td:nth-child(1){width:36px;font-size:12px;}
 .main div table tr td:nth-child(1){width:11vw;font-size:3.75vw;}
+.main div table tr td:nth-child(2){width:58px;}
 .main div table tr td:nth-child(2){width:18vw;}
-.main div table tr td:nth-child(3){font-size:3vw;width:42vw;text-align:left;}
+.main div table tr td:nth-child(3){font-size:9px;text-align:left;}
+.main div table tr td:nth-child(3){font-size:3vw;width:42vw;}
 .main div table tr td b{color:#d02218;}
-.main p{font-size:3.75vw;text-align:center;padding:2vw 0;}
+.main p{font-size:12px;text-align:center;padding:6.4px 0;}
+.main p{font-size:3.75vw;padding:2vw 0;}
 .main a{}
-.btn{width:75vw;height:12vw;text-align:center;line-height:12vw;background:#ff3333;display:block;margin:0 auto;margin-top:4.5vw;border-radius:3px;color:#fff;font-size:5vw;}
-footer{background:#f2f2f2;margin-top:4.3vw;}
+.btn{width:240px;height:39px;text-align:center;line-height:39px;background:#ff3333;display:block;margin:0 auto;margin-top:14.5px;border-radius:3px;color:#fff;font-size:16px;}
+.btn{width:75vw;height:12vw;line-height:12vw;margin-top:4.5vw;font-size:5vw;}
+footer{background:#f2f2f2;margin-top:14px;}
+footer{margin-top:4.3vw;}
 footer ul{list-style-type:decimal;padding:0 20px 10px 30px;}
 footer ul li{list-style-type:decimal;color:#000;line-height:20px;font-size:13px;padding-bottom:3px;}
 footer div{height:40px;line-height:40px;text-indent:10px;color:#000;}
@@ -49,10 +60,9 @@ footer div{height:40px;line-height:40px;text-indent:10px;color:#000;}
 <div class="banner"></div>
 <div class="main">
 	<div class="li1"><i></i><table><tr><td>赠送</td><td><b>10000元</b><br/>实盘操作金</td><td>完全免费</td></tr></table></div>
-	<div class="li2"><i></i><table><tr><td>您交</td><td><b>2500元</b><br/>风险保证金</td><td>结束时如无亏损全额返还<br/>如亏损扣除亏损剩余返还<br/>6元账户人工服务费用不退换</td></tr></table></div>
+	<div class="li2"><i></i><table><tr><td>您交</td><td><b>2500元</b><br/>风险保证金</td><td>结束时如无亏损全额返还<br/>如亏损扣除亏损剩余返还</td></tr></table></div>
 	<div class="li3"><i></i><table><tr><td>总共</td><td><b>12500元</b><br/>实盘操作金</td><td>由您操盘2日，盈利全归您</td></tr></table></div>
 	<p>如果疑问请联系客服；400-888-0872</p>
-	<p>免息体验“股票交易账号”会在24小时内开出</p>
 	<a class="btn" id="join">我要参与</a>
 </div>
 <footer>
@@ -122,13 +132,13 @@ var E={
 					E.succes(d.message);
 				}else if(d.flag==-1){
 					E.error({
-						t:"未登录",
+						t:"提示消息",
 						c:"请先登录",
 						f:e1
 					});
 				}else if(d.flag==-2){
 					E.error({
-						t:"未完善资料",
+						t:"提示消息",
 						c:"请先完善资料",
 						f:e2
 					});
@@ -146,13 +156,13 @@ var E={
 		});
 	},
 	ready:function(){
-		$("#dialogH1").html("确认参与");
+		$("#dialogH1").html("提示消息");
 		$("#dialogH2").html("确认参与");
 		$("#dialogContent").html('<a onclick="E.close()">取消</a><a onclick="E.join()">确定</a>').attr({'class':'b2'});
 		this.open();
 	},
 	succes:function(x){
-		$("#dialogH1").html(x);
+		$("#dialogH1").html("提示消息");
 		$("#dialogH2").html(x);
 		$("#dialogContent").html('<a onclick="E.close();" >确定</a>').attr({'class':'b1'});
 		this.open();

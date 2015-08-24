@@ -49,6 +49,7 @@ h1{line-height:16px;color:#000;text-align:center;font-size:16px;padding:5px 0;fo
 h2{text-align:right;font-weight:400;}
 article{padding:10px 0;}
 article img{max-width:100%;}
+article>*{max-width:100%!important;padding:0!important;margin:0!important;font-size:14px!important;}
 </style>
 </head>
 <body>
@@ -85,7 +86,7 @@ $.ajax({
 	data:{stockNewsId:id},
 	success:function(d){
 		var t2=new Date().getTime();
-		alert(t2-t1);
+		// alert(t2-t1);
 		$("#loading").hide();
 		if(d.flag==1){
 			$("h1").html(d.newsContentVo.title);

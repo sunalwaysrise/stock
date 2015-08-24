@@ -65,5 +65,4 @@
 	<a href="#/home" class="home" ng-if="!navHome">我的</a>
 </nav>
 <loading ng-if='loading'></loading>
-<myfinances ng-if="openMyFinances"  ordernumber='{{dialog.orderNumber}}' created='{{dialog.created}}' name='{{dialog.name}}' endtime='{{dialog.endTime}}' balance='{{dialog.balance}}' deposit='{{dialog.deposit}}' tradersbalance='{{dialog.tradersbalance}}' keepriskratio='{{dialog.keepRiskRatio}}' closeriskratio='{{dialog.closeRiskRatio}}' suretext='{{dialog.suretext}}' sure='dialog.sure()' cancel='dialog.cancel()'></myfinances>
 <mydialog ng-if='openDialog' title='{{dialog.title}}' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

@@ -36,7 +36,7 @@
 				<div><p>参与人数：{{d.tAndDPeople}}人</p><p>共计盈利：<span>{{d.tAndDTotalProfit|number:2}}</span>元</p></div></a>
 			</li>
 
-			<li><a ng-href="#/t1/5">
+			<!-- <li><a ng-href="#/t1/5">
 				<i>NEW</i>
 				<section>
 					<p>
@@ -50,12 +50,12 @@
 					</p>
 				</section>
 				<div><p>参与人数：{{d.newUserProple}}人</p><p>共计盈利：<span>{{d.newUserTotalProfit|number:2}}</span>元</p></div></a>
-			</li>
+			</li> -->
 
 		</ul>
 	</div>
 	<ul class="exchangeTop" id="exchangeTop">
-		<li ng-repeat="i in list"><i></i><h2>{{i.username}}</h2><p>申购{{i.balance}} 今日盈利<b>{{i.totalProfit}}</b>元</p></li>
+		<li ng-repeat="i in list"><i></i><h2>{{i.username}}</h2><p>申购{{i.balance}} 盈利<b>{{i.totalProfit}}</b>元</p></li>
 	</ul>
 </div>
 <nav class="mainNav">

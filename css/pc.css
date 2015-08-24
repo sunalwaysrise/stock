@@ -1,0 +1,80 @@
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,figure,textarea,input,button,select{margin:0;}
+html{-webkit-font-smoothing:antialiased;font-family:"microsoft yahei";}
+body{-webkit-tap-highlight-color:rgba(255,255,255,0);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-webkit-touch-callout:none;cursor:default;-ms-content-zooming:none;-webkit-text-size-adjust:100%;font-family:"microsoft yahei";}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400;}
+address,caption,cite,code,dfn,em,th,del,ins,mark,sup,sub,var{font-style:normal;font-weight:400;text-decoration:none;background:0;font-size:100%;vertical-align:middle;}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}
+ul,ol{padding-left:0;list-style-type:none;}
+input,select{vertical-align:middle;user-select:auto;}
+input{word-break:normal;/*-webkit-appearance:none;*/-webkit-border-radius:0;padding:0em;}
+a{outline:0;text-decoration:none;color:#888;}
+strong{font-weight:700;}
+em{font-style:italic;}
+small{font-size:80%;}
+fieldset,img{border:0;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th,td{font-weight:400;vertical-align:middle;}
+q,blockquote{quotes:none;}
+a:link{}
+a:hover{}
+a:active{}
+a:visited{color:#767676;}
+q:before,q:after,blockquote:before,blockquote:after{content:"";content:none;}
+.top{height:50px;background:#333;width:100%;min-width:1000px;}
+.center{width:1000px;margin:0 auto;}
+.top .nav{float:right;}
+.top .nav a{padding:0 20px;float:left;height:50px;line-height:50px;color:#fff;margin-right:10px;}
+.top .nav a.cur,.top .nav a:hover{background:#dd1414;background-image:-webkit-linear-gradient(#de1414,#bf0f0f);background-image:-o-linear-gradient(#de1414,#bf0f0f);background-image:-ms-linear-gradient(#de1414,#bf0f0f);background-image:-moz-linear-gradient(#de1414,#bf0f0f);}
+.banner{width:100%;min-width:1000px;height:660px;background:#dc4251;background-image:-webkit-linear-gradient(#d83f50,#d73e51);background-image:-o-linear-gradient(#d83f50,#d73e51);background-image:-ms-linear-gradient(#d83f50,#d73e51);background-image:-moz-linear-gradient(#d83f50,#d73e51);overflow:hidden;}
+#banner{height:660px;width:1000px;margin:0 auto;position:relative;}
+#banner h1{position:absolute;width:300px;height:180px;background:url(http://res2.cp2y.com/h5/stock/pcimage/logo.png) 0 0 no-repeat;top:150px;left:-15px;}
+#banner a{position:absolute;width:210px;height:50px;left:-15px;}
+#banner .ios1{background:url(http://res2.cp2y.com/h5/stock/pcimage/ios1.png) 0 0 no-repeat;top:424px;}
+#banner .android1{background:url(http://res2.cp2y.com/h5/stock/pcimage/android1.png) 0 0 no-repeat;bottom:115px;}
+#banner .qr{position:absolute;width:166px;height:166px;background:url(http://res2.cp2y.com/h5/stock/pcimage/qr.png) 0 0 no-repeat;left:228px;bottom:110px;}
+#banner .banner0{position:absolute;width:670px;height:730px;background:url(http://res2.cp2y.com/h5/stock/pcimage/banner.png) 0 0 no-repeat;right:-165px;bottom:-158px;}
+.list{padding-top:105px;}
+.list li{height:520px;width:100%;min-width:1000px;}
+.list li.l0{}
+.list li.l1{background:#f0ece6;}
+.list li .center{height:520px;}
+.list li .center div{width:50%;height:520px;float:left;}
+.list li .center .b1{background:url(http://res2.cp2y.com/h5/stock/pcimage/banner1.png) 50% bottom no-repeat;}
+.list li .center .b2{background:url(http://res2.cp2y.com/h5/stock/pcimage/banner2.png) 50% bottom no-repeat;}
+.list li .center .b3{background:url(http://res2.cp2y.com/h5/stock/pcimage/banner3.png) 50% bottom no-repeat;}
+.list li .center .b4{background:url(http://res2.cp2y.com/h5/stock/pcimage/banner4.png) 50% 71px no-repeat;}
+.list li .center div h2{height:80px;color:#f3554e;font-size:60px;padding-top:195px;line-height:80px;overflow:hidden;}
+.list li .center div h2 b{font-size:80px;top:12px;position:relative;}
+.list li .center div p{color:#7a7a7a;font-size:30px;line-height:40px;padding:15px 0;}
+.guide{padding-top:20px;overflow:hidden;}
+.guide .aside{width:200px;float:left;border:1px #ccc solid;border-radius:5px;padding:15px 0 10px 0;}
+.guide .aside h2{height:35px;line-height:35px;padding-left:28px;color:#666;background:url(http://res2.cp2y.com/h5/stock/pcimage/guide.jpg) 12px center no-repeat;}
+.guide .aside a{height:40px;line-height:40px;padding-left:28px;display:block;color:#000;font-size:16px;cursor:pointer;}
+.guide .aside .on,.guide .aside a:hover{background:#ff5050!important;color:#fff!important;}
+.guide .section{width:740px;float:right;border:1px #ccc solid;border-radius:5px;padding:20px;overflow:hidden;}
+.guide .section .article{display:none;}
+.guide .section .article h1{height:35px;font-size:22px;line-height:35px;padding-bottom:10px;font-weight:800;}
+.guide .section .article h2{height:40px;font-size:14px;line-height:40px;font-weight:800;}
+.guide .section .article p{line-height:24px;padding-bottom:8px;font-size:14px;}
+.guide .section .article img{width:100%;}
+.guide .section table{width:100%;}
+.guide .section table tr td{border:1px #ccc solid;padding:8px 5px;line-height:24px;font-size:14px;}
+.contact{margin:20px auto;border:1px #ccc solid;border-radius:5px;overflow:hidden;padding-bottom:40px;}
+.contact .b{height:300px;color:#fff;border-radius:4px;background:url(http://res2.cp2y.com/h5/stock/pcimage/contact.jpg) 50% top no-repeat;}
+.contact .b h1{height:60px;text-align:center;line-height:60px;padding-top:95px;font-size:22px;}
+.contact .b p{padding:45px 20px 20px 20px;line-height:25px;font-size:14px;text-align:left;height:auto;}
+.contact h2{height:110px;background:url(http://res2.cp2y.com/h5/stock/pcimage/contact1.png) 50% bottom no-repeat;text-align:center;font-size:22px;line-height:100px;}
+.contact ul{width:300px;margin:20px auto 0 auto;padding-top:20px;}
+.contact ul li{height:30px;line-height:30px;margin-bottom:25px;background:#e54646;text-align:center;color:#fff;border-radius:8px;}
+.contact p{text-align:center;height:20px;line-height:20px;padding-top:20px;font-size:14px;}
+.footer{width:100%;min-width:1000px;padding-top:30px;background:#333;overflow:hidden;height:280px;}
+.footer .nav{height:60px;text-align:center;padding-bottom:65px;}
+.footer .nav a{width:100px;height:60px;display:inline-block;margin:0 10px;border-radius:5px;color:#fff;padding-left:70px;line-height:60px;text-align:left;font-size:16px;}
+.footer p b{font-weight:normal;font-size:14px;height:60px;line-height:60px;display:inline-block;}
+.footer .nav .wechart{background:#46a60e url(http://res2.cp2y.com/h5/stock/pcimage/wechart.png) 20px 18px no-repeat;}
+.footer .nav .ios2{background:#b0b0b0 url(http://res2.cp2y.com/h5/stock/pcimage/ios2.png) 20px 18px no-repeat;}
+.footer .nav .android2{background:#95bd23 url(http://res2.cp2y.com/h5/stock/pcimage/android2.png) 20px 18px no-repeat;}
+.footer p{text-align:center;color:#fff;height:40px;font-size:20px;}
+.footer p a{color:#fff;font-size:40px;}
+#lock{position:absolute;z-index:999;top:0;left:0;right:0;bottom:0;background:#000;opacity:0.8;filter: Alpha(opacity=80);_background:none;height:3158px;display:none;}
+#tip{width:755px;height:551px;position:absolute;z-index:1000;background:url(http://res2.cp2y.com/h5/stock/pcimage/tip.png);left:0;top:0;display:none;}

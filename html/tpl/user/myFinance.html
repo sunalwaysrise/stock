@@ -11,7 +11,8 @@
 	<section class="orderdetail">
 		<div>
 			<p>总资金<br/><span>{{orderdetail.assetBalance}}</span></p>
-			<p>保证金<br/><span>{{orderdetail.deposit}}</span></p>
+			<!-- <p>保证金<br/><span>{{orderdetail.deposit}}</span></p> -->
+			<p>平仓线<br/><span>{{orderdetail.closeRiskRatio}}</span></p>
 		</div>
 		<div>
 			<p>可用资金<br/><span>{{orderdetail.enableBalance}}</span></p>
@@ -94,7 +95,7 @@
 						<code class="green" ng-if="i.entrustBs==2">卖</code>
 						{{i.stockName}}<br/><i>{{i.entrustTime|date:'MM-dd HH:mm:ss'}}</i></td>
 					<td>
-						<i class="{{i.entrustPrice|toUpDown}}">{{i.entrustPrice}}</i><br/>
+						<i>{{i.entrustPrice}}</i><br/>
 						<i>{{i.businessPrice}}</i>
 					</td>
 					<td><i>{{i.entrustAmount}}</i><br/><i>{{i.businessAmount}}</i></td>
@@ -153,7 +154,7 @@
 </div>
 <div class="addDeposit" ng-show="addDepositBox">
 	<div>
-		<p><label>操盘资金：</label><span>{{orderdetail.balance+orderdetail.deposit}}元</span></p>
+		<p><label>操盘资金：</label><span>{{orderdetail.balance+orderdetail.deposit-orderdetail.addDeposit}}元</span></p>
 		<p><label>总盈亏：</label><span class="{{orderdetail.incomeBalance|toUpDown}}">{{orderdetail.incomeBalance|addPlus}}元</span></p>
 	</div>
 	<div>

@@ -528,7 +528,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       name:name,
       endTime:endTime,
       balance:balance,
-      deposit:deposit,
+      deposit:deposit-addDeposit,
       adddeposit:addDeposit,
       tradersbalance:tradersBalance,
       keepRiskRatio:keepRiskRatio,
@@ -790,55 +790,6 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     });
   }
   get(1);
-  $scope.detail=function(i){
-    $scope.openMyFinances=true;
-    var D=$scope.lists[i],suretext,
-    orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,tradersBalance=D.tradersBalance;
-    if(D.status==(1||2)){
-      suretext='终止订单';
-    }else if(D.status==3){
-      suretext='订单终止清算中';
-    }else if(D.status==4){
-      suretext='到期终止清算中';
-    }else if(D.status==5){
-      suretext='手动结束清算中';
-    }
-    $scope.userFinanceId=D.id;
-    $scope.dialog={
-      orderNumber:orderNumber,
-      created:created,
-      name:name,
-      endTime:endTime,
-      balance:balance,
-      deposit:deposit,
-      tradersbalance:tradersBalance,
-      keepRiskRatio:keepRiskRatio,
-      closeRiskRatio:closeRiskRatio,
-      suretext:suretext,
-      cancel:function(){
-        $scope.openMyFinances=false;
-      },
-      sure:function(){
-        if( D.status==(1||2) ){
-          $scope.openMyFinances=false;
-          $scope.openDialog=true;
-          $scope.dialog={
-            title:"订单终止",
-            txt:'确认终止订单么',
-            suretxt:'确认',
-            cancaltxt:'取消',
-            cancel:function(){
-              $scope.openDialog=false;
-            },
-            sure:function(){
-              $scope.shutDown();
-              $scope.openDialog=false;
-            }
-          }
-        }
-      }
-    };
-  }
   $scope.shutDown=function(){
     var p={userFinanceId:$scope.userFinanceId,requestType:V.requestType,version:V.version};
     $http.get(stock.data.base+'user/core/shutDownMyFinance',{params:p}).success(function(d){
@@ -931,7 +882,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       name:name,
       endTime:endTime,
       balance:balance,
-      deposit:deposit,
+      deposit:deposit-addDeposit,
       adddeposit:addDeposit,
       tradersbalance:tradersBalance,
       keepRiskRatio:keepRiskRatio,
@@ -1824,8 +1775,8 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $("#es1B").hide();
     $("#es2").show();
     $("#es2B").show();
-    $http.jsonp('http://www.new.com/pay/user/core/ufubao_h5?'+p);
-    // $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
+    // $http.jsonp('http://www.new.com/pay/user/core/ufubao_h5?'+p);
+    $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
   }
   $scope.btnOk=function(){
     $('#form').submit();
