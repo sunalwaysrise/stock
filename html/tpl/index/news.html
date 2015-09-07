@@ -9,7 +9,7 @@
 	<div id="banners" class="banners2" class="mt0" ng-show="bannershow">
 		<ul id="banner" class="banner2" ontouchstart="touch.touchStart(event)" ontouchmove="touch.touchMove(event);" ontouchend="touch.touchEnd();">
 			<li ng-repeat="i in banners">
-				<a ng-href="#/newsdetail/{{i.picDesc}}/1/0">
+				<a ng-href="#/newsdetail/{{i.h5NewsId}}/1/0">
 					<img ng-src="{{i.picUrl}}" alt=""/>
 				</a>
 				<h2>{{i.picTitle}}</h2>
@@ -40,8 +40,8 @@
 <nav class="mainNav">
 	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
 	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
-	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
-	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/myFinances" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/myFinances" class="exchange" ng-if="!navExchange">交易</a>
 	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
 	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
 	<a href="#/home" class="home cur" ng-if="navHome">我的</a>

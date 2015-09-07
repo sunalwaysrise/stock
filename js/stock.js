@@ -15,6 +15,17 @@ CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, t
   } 
   this.stroke();  
 };
+Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
+  places = !isNaN(places = Math.abs(places)) ? places : 2;
+  symbol = symbol !== undefined ? symbol : "$";
+  thousand = thousand || ",";
+  decimal = decimal || "";
+  var number = this,
+  negative = number < 0 ? "-" : "",
+  i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+  j = (j = i.length) > 3 ? j % 3 : 0;
+  return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(0).slice(2) : "");
+  };
 var M={
   recharge:function(data){
     console.log(data);
@@ -254,7 +265,7 @@ var M={
         }
         $('#wave').html(wave);
         $('#waveRatio').html(waveRatio);
-        var zgClass=this.zg>this.lastPrice?"red":"green",zdClass=this.zd>this.lastPrice?"red":"green",jkClass=this.jk>this.zs?"red":"green";
+        var zgClass=Number(this.zg)>=Number(this.lastPrice)?"red":"green",zdClass=Number(this.zd)>Number(this.lastPrice)?"red":"green",jkClass=Number(this.jk)>Number(this.zs)?"red":"green";
         $('#lastMsg').html('<p><label>今开:</label><span class="'+jkClass+'">'+this.jk+'</span></p><p><label>最高:</label><span class="'+zgClass+'">'+this.zg+'</span></p><p><label>昨收:</label><span>'+this.zs+'</span></p><p><label>最低:</label><span class="'+zdClass+'">'+this.zd+'</span></p>');
       }
       /*3开始绘制交易量*/
@@ -588,7 +599,7 @@ var M={
         A=D[i].split(',');
         ctx.lineWidth=1;
         ctx.beginPath();
-        if(A[0]>A[1]){
+        if(Number(A[0])>Number(A[1])){
           ctx.strokeStyle="green";
         }else if(A[0]==A[1]){
           ctx.strokeStyle="#fff";
@@ -662,9 +673,9 @@ var M={
       for(i;i<w12.length;i++){
         ctx.beginPath();
         A=D[i].split(',');
-        if(A[0]>A[1]){
+        if(Number(A[0])>Number(A[1])){
           ctx.strokeStyle="green";
-        }else if(A[0]==A[1]){
+        }else if(Number(A[0])==Number(A[1])){
           ctx.strokeStyle="#fff";
         }else{
           ctx.strokeStyle="#f00";

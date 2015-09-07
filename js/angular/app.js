@@ -13,22 +13,34 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.index+'investment.html?v='+stock.v,controller:'investment'
   }).when('/investmentDetail/:t',{
     templateUrl: stock.tpl.index+'investmentDetail.html?v='+stock.v,controller:'investmentDetail'
+  }).when('/newmember',{
+    templateUrl: stock.tpl.index+'newmember.html?v='+stock.v,controller:'newmember'
+  }).when('/newmember/:p1',{
+    templateUrl: stock.tpl.index+'newmember.html?v='+stock.v,controller:'newmember'
   }).when('/guide',{
     templateUrl: stock.tpl.index+'guide.html?v='+stock.v,controller:'guide'
   }).when('/guide/:p1',{
     templateUrl: stock.tpl.index+'guide.html?v='+stock.v,controller:'guide'
   }).when('/guidetail/:p1',{
     templateUrl: stock.tpl.index+'guidetail.html?v='+stock.v,controller:'guidetail'
-  }).when('/exchange',{
-    templateUrl: stock.tpl.index+'exchange.html?v='+stock.v,controller:'exchange'
+  }).when('/guidetail/:p1/:p2',{
+    templateUrl: stock.tpl.index+'guidetail.html?v='+stock.v,controller:'guidetail'
   }).when('/self',{
     templateUrl: stock.tpl.index+'self.html?v='+stock.v,controller:'self'
   }).when('/search',{
     templateUrl: stock.tpl.index+'search.html?v='+stock.v,controller: 'search'
+  }).when('/exchange',{
+    templateUrl: stock.tpl.index+'exchange.html?v='+stock.v,controller:'exchange'
+  }).when('/buystock',{
+    templateUrl: stock.tpl.index+'buystock.html?v='+stock.v,controller:'buystock'
   }).when('/t1',{
     templateUrl: stock.tpl.index+'t1.html?v='+stock.v,controller: 't1'
   }).when('/t1/:t',{
     templateUrl: stock.tpl.index+'t1.html?v='+stock.v,controller: 't1'
+  }).when('/agreement',{
+    templateUrl: stock.tpl.index+'agreement.html?v='+stock.v,controller: 'agreement'
+  }).when('/agreement/:t',{
+    templateUrl: stock.tpl.index+'agreement.html?v='+stock.v,controller: 'agreement'
   }).when('/rula',{
     templateUrl: stock.tpl.index+'rula.html?v='+stock.v,controller: 'rula'
   }).when('/rula1',{
@@ -51,7 +63,11 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.user+'password.html?v='+stock.v,controller: 'password'
   }).when('/recharge',{
     templateUrl: stock.tpl.user+'recharge.html?v='+stock.v,controller: 'recharge'
+  }).when('/recharge/:t/:t2/:t3/:t4',{
+    templateUrl: stock.tpl.user+'recharge.html?v='+stock.v,controller: 'recharge'
   }).when('/rechargesuccess',{
+    templateUrl: stock.tpl.user+'rechargesuccess.html?v='+stock.v,controller: 'rechargeSuccess'
+  }).when('/rechargesuccess/:t/:t1/:t2',{
     templateUrl: stock.tpl.user+'rechargesuccess.html?v='+stock.v,controller: 'rechargeSuccess'
   }).when('/home',{
     templateUrl: stock.tpl.user+'home.html?v='+stock.v,controller:'home'
@@ -102,6 +118,8 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
   }).when('/myFinances',{
     templateUrl: stock.tpl.user+'myFinances.html?v='+stock.v,controller:'myFinances'
   }).when('/myFinance/:p1',{
+    templateUrl: stock.tpl.user+'myFinance.html?v='+stock.v,controller:'myFinance'
+  }).when('/myFinance/:p1/:p2',{
     templateUrl: stock.tpl.user+'myFinance.html?v='+stock.v,controller:'myFinance'
   }).when('/buy/:p1',{
     templateUrl: stock.tpl.user+'buy.html?v='+stock.v,controller:'buy'
@@ -155,13 +173,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   };
   $scope.myFinanceIndex=0;
   $scope.myFinanceVosLen=0;
-  $scope.wt=false;
+  // $scope.wt=true;
   $scope.inst_plus=function(i){//切换配资方案
     $scope.myFinanceIndex=i;
     setMyFinance();
   }
-  $scope.setWt=function(){$scope.wt=true;}
-  $scope.setSj=function(){$scope.wt=false;}
+  // $scope.setWt=function(){$scope.wt=true;}
+  // $scope.setSj=function(){$scope.wt=false;}
   function load(){
     if(ttt==1){//买入
       if(tuserFinanceId){//来自订单
@@ -303,55 +321,85 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.isBuy=false;
   }
   $scope.toggleBuy=function(){
-    $scope.isBuy=!$scope.isBuy;
-    calc();
+    if($scope.isBuy){
+      //判断有无可卖
+      if($scope.d.n2>0){
+        $scope.isBuy=!$scope.isBuy;
+        calc();
+      }else{
+        alert('没有可卖股数');
+      }
+    }else{
+      //判断有无可买
+      if($scope.d.n3>0){
+        $scope.isBuy=!$scope.isBuy;
+        calc();
+      }else{
+        alert('暂无可买股数，申请实盘后方可买入股票');
+      }
+    }
+    // $scope.isBuy=!$scope.isBuy;
+    // calc();
+  }
+  $scope.setLastPrice=function(){
+    $scope.numprice=M.draw.lastPrice;
   }
   $scope.bb={};
   $scope.buy=function(){
-    if($scope.d.n3==0){
-      return alert('可买股数为0');
-    }
-    if($scope.bb.lock){return false;}
-    if($scope.d.buyNumber<100){
-      return alert('必须是100的倍数');
-    }
-    $scope.bb.lock=true;
-    var t3;
-    if($scope.wt){
-      t3=$scope.numprice;
-    }else{
-      t3=M.draw.lastPrice;
-    }
-    if(confirm('确认买入'+$scope.title+$scope.d.buyNumber+'股?')){
-      //判断来源
-      var userFinanceId;
-      if(tuserFinanceId){
-        userFinanceId=tuserFinanceId;
-      }else if($scope.myFinanceVos){
-        userFinanceId=$scope.myFinanceVos[$scope.myFinanceIndex].id
-      }else{
-        location.hash="#/signIn";
-      }
-      var params={requestType:V.requestType,version:V.version,
-        userFinanceId: userFinanceId,
-        exchangeType:t1,
-        stockCode:t2,
-        entrustAmount:$scope.d.buyNumber
-      };
-      if($scope.wt){
-        params.entrustPrice=t3;
-      }
-      $http.get(stock.data.user+'user/core/doUserEntrustBuy',{params:params}).success(function(d){
-        $scope.bb.lock=false;
-        alert(d.message);
-        if(d.flag==-1){
-          location.hash="#/signIn";
-        }else if(d.flag==1){
-          location.hash="#/myFinance/"+params.userFinanceId;
+    //用户是否有配资
+    if( $scope.myFinanceVos && $scope.myFinanceVos.length==0 ){
+      $scope.openDialog=true;
+      $scope.dialog={
+        title:"提示",
+        txt:'暂无可用实盘，申请实盘后方可买入股票',
+        suretxt:'我要炒股',
+        cancaltxt:'取消',
+        cancel:function(){
+          $scope.openDialog=false;
+        },
+        sure:function(){
+          location.href="#/buystock";
+          $scope.openDialog=false;
         }
-      });
+      }
     }else{
-      $scope.bb.lock=false;
+      if($scope.d.n3==0){
+        return alert('可买股数为0');
+      }
+      if($scope.bb.lock){return false;}
+      if($scope.d.buyNumber<100){
+        return alert('必须是100的倍数');
+      }
+      $scope.bb.lock=true;
+      if(confirm('确认买入'+$scope.title+$scope.d.buyNumber+'股?')){
+        //判断来源
+        var userFinanceId;
+        if(tuserFinanceId){
+          userFinanceId=tuserFinanceId;
+        }else if($scope.myFinanceVos){
+          userFinanceId=$scope.myFinanceVos[$scope.myFinanceIndex].id
+        }else{
+          location.hash="#/signIn";
+        }
+        var params={requestType:V.requestType,version:V.version,
+          userFinanceId: userFinanceId,
+          exchangeType:t1,
+          stockCode:t2,
+          entrustAmount:$scope.d.buyNumber,
+          entrustPrice:$scope.numprice
+        };
+        $http.get(stock.data.user+'user/core/doUserEntrustBuy',{params:params}).success(function(d){
+          $scope.bb.lock=false;
+          alert(d.message);
+          if(d.flag==-1){
+            location.hash="#/signIn";
+          }else if(d.flag==1){
+            location.hash="#/myFinance/"+params.userFinanceId;
+          }
+        });
+      }else{
+        $scope.bb.lock=false;
+      }
     }
   }
   $scope.sell=function(){
@@ -363,16 +411,10 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       return alert('必须是100的倍数');
     }
     $scope.bb.lock=true;
-    var t3;
-    if($scope.wt){
-      t3=$scope.numprice;
-    }else{
-      t3=M.draw.lastPrice;
-    }
     var params={requestType:V.requestType,version:V.version,
       exchangeType:t1,
       stockCode:t2,
-      entrustPrice:t3,
+      entrustPrice:$scope.numprice,
       entrustAmount:$scope.d.sellNumber
     };
     if(tuserFinanceId){
@@ -406,6 +448,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.showK='show';
     }
   }
+
   $scope.loading=true;
   $scope.loaded=false;
   var wsAdd;
@@ -510,55 +553,29 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
   $scope.detail=function(){
     $scope.openMyFinances=true;
-    var D=$scope.myFinanceVos[$scope.myFinanceIndex],
-    orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,addDeposit=D.addDeposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,tradersBalance=D.tradersBalance;
+    var D=$scope.myFinanceVos[$scope.myFinanceIndex];
     $scope.userFinanceId=D.id;
-    if(D.status==(1||2)){
-      suretext='终止订单';
-    }else if(D.status==3){
-      suretext='订单终止清算中';
-    }else if(D.status==4){
-      suretext='到期终止清算中';
-    }else if(D.status==5){
-      suretext='手动结束清算中';
-    }
     $scope.dialog={
-      orderNumber:orderNumber,
-      created:created,
-      name:name,
-      endTime:endTime,
-      balance:balance,
-      deposit:deposit-addDeposit,
-      adddeposit:addDeposit,
-      tradersbalance:tradersBalance,
-      keepRiskRatio:keepRiskRatio,
-      closeRiskRatio:closeRiskRatio,
-      suretext:suretext,
-      cancel:function(){
-        $scope.openMyFinances=false;
-      },
+      id:D.id,
+      orderNumber:D.orderNumber,
+      created:D.createTime,
+      name:D.name,
+      endTime:D.endTime,
+      balance:D.balance,
+      diligence:D.diligence,
+      investors:D.investors,
+      deposit:D.deposit-D.addDeposit,
+      adddeposit:D.addDeposit,
+      tradersbalance:D.tradersBalance,
+      keepRiskRatio:D.keepRiskRatio,
+      closeRiskRatio:D.closeRiskRatio,
+      suretext:'补充保证金',
+      cancel:function(){$scope.openMyFinances=false;},
       sure:function(){
-
-        if( D.status==(1||2) ){
-          $scope.openMyFinances=false;
-          $scope.openDialog=true;
-          $scope.dialog={
-            title:"订单终止",
-            txt:'确认终止订单'+($scope.myFinanceIndex+1)+'么',
-            suretxt:'确认',
-            cancaltxt:'取消',
-            cancel:function(){
-              $scope.openDialog=false;
-            },
-            sure:function(){
-              $scope.shutDown();
-              $scope.openDialog=false;
-            }
-          }
-        }
-
-
-        
+        $scope.openMyFinances=false;
+        $scope.addDepositBox=true;
+        $scope.addDepositBox=true;
+        loadOrderDetail();
       }
     }
   }
@@ -571,6 +588,43 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       }
     });
   }
+  $scope.addDepositClose=function(){
+    $scope.addDepositBox=false;
+  }
+  $scope.m={balance:''};
+  function loadOrderDetail(){
+    var p={userFinanceId:$scope.userFinanceId,requestType:V.requestType,version:V.version};
+    $http.get(stock.data.base+'user/core/getMyFinanceOrderDetail',{params:p}).success(function(d){
+      if(d.flag==1){
+        $scope.orderdetail=d.financeVo;
+      }
+    });
+  }
+  $scope.doAddDeposit=function(){
+    if(confirm('确认补充保证金')){
+      var p={userFinanceId:$scope.userFinanceId,balance:$scope.m.balance,requestType:V.requestType,version:V.version};
+      $http.get(stock.data.base+'user/core/doAddDeposit',{params:p}).success(function(d){
+        if(d.flag==2){
+          if(confirm(d.message+"，去充值？")){
+            localStorage.setItem('doAddDeposit',JSON.stringify(p));
+            location.href="#/recharge/"+d.chargeFee+'/'+d.chargeFee+'/'+d.chargeFee+'/'+d.chargeFee;
+          }
+        }else if(d.flag==1){
+          alert(d.message);
+          $scope.m.balance='';
+          $scope.addDepositClose();
+          loadOrderDetail();
+        }else{
+          alert(d.message);
+          $scope.addDepositClose();
+        }
+      });
+    }
+  }
+  $scope.refresh=function(){
+    loadOrderDetail();
+  }
+  //补充保证金结束
 }]).controller('stock2',['$scope','$rootScope','$http','$routeParams','$timeout','nav','fave',function($scope,$rootScope,$http,$routeParams,$timeout,nav,fave){
   var t=$routeParams.t,tt=$routeParams.t2;
   $rootScope.bodyBg="black";
@@ -668,34 +722,75 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.banners=[];
   $scope.auto=null;
   $scope.appDownBtn=true;
-  $scope.closeAppDown=function(){
-    $scope.appDownBtn=false;
+  $scope.closeAppDown=function(){$scope.appDownBtn=false;}
+  //从缓存中取得首页数据
+  var index=localStorage.getItem('index');
+  if(index){
+    index=eval("("+index+")");
+    $scope.banners=index.banners;
+    $scope.carProfitVos=index.carProfitVos;
+    $scope.introduces=index.contentVos;
+    scroll.n=index.banners.length;
+    var f=Number(index.totalProfitReturn).formatMoney('','','',''),i=0,h=[];
+    f=f.split('');
+    for(i;i<f.length;i++){
+      if(f[i]==','){
+        h.push('<span>,</span>');
+      }else{
+        h.push('<b>'+f[i]+'</b>');
+      }
+    }
+    $scope.totalProfitReturn=h.join('');
+    $scope.alreadyBalanceReturn=index.alreadyBalanceReturn;
+    $scope.alreadyServiceReturn=index.alreadyServiceReturn;
   }
   $http.get(stock.data.base+"app_index",{params:V}).success(function(data){
+    $scope.loading=false;
     if(typeof data =="string"){data=eval("("+data+")");}
+    localStorage.setItem('index',JSON.stringify(data));
     $scope.banners=data.banners;
+    $scope.carProfitVos=data.carProfitVos;
     $scope.introduces=data.contentVos;
     scroll.n=data.banners.length;
-    $scope.userTotalProfit=data.userTotalProfit;
-    //$scope.$apply();//解决双向数据绑定的坑//不是问题，使用jquery 的ajax 则需要这个
-    $scope.list=data.carProfitVos;
+    var f=Number(data.totalProfitReturn).formatMoney('','','',''),i=0,h=[];
+    f=f.split('');
+    for(i;i<f.length;i++){
+      if(f[i]==','){
+        h.push('<span>,</span>');
+      }else{
+        h.push('<b>'+f[i]+'</b>');
+      }
+    }
+    $scope.totalProfitReturn=h.join('');
+    $scope.alreadyBalanceReturn=data.alreadyBalanceReturn;
+    $scope.alreadyServiceReturn=data.alreadyServiceReturn;
     setTimeout(function(){
       $('#banners p i').eq(0).addClass('cur');
     },300);
-    window.indexAutoK=setInterval('scroll.right()',7000);
-  }).error(function(){
-    $("#banners").hide();
-    $scope.loading=false;
+    //$scope.$apply();//解决双向数据绑定的坑//不是问题，使用jquery 的ajax 则需要这个
+    window.indexAutoK=setInterval(function(){
+      scroll.right();
+      var d=$('#carProfitVos span').eq(0).clone();
+      $('#carProfitVos span').eq(0).animate({"margin-top":"-34px;"},600,function(){
+        $('#carProfitVos span').eq(0).remove();
+        $('#carProfitVos').append(d);
+      });
+      $http.get(stock.data.base+"refreshHomeData",{params:V}).success(function(d2){
+        var f=Number(d2.totalProfitReturn).formatMoney('','','',''),i=0,h=[];
+        f=f.split('');
+        for(i;i<f.length;i++){
+          if(f[i]==','){
+            h.push('<span>,</span>');
+          }else{
+            h.push('<b>'+f[i]+'</b>');
+          }
+        }
+        $("#totalProfitReturn").html(h.join(''));
+        $("#alreadyBalanceReturn").html((d2.alreadyBalanceReturn/10000).toFixed(2)+"万");
+        $("#alreadyServiceReturn").html(d2.alreadyServiceReturn);
+      });
+    },7000);
   });
-  var stockCodes=["SH000001","SZ399001","SZ399006"],p={version:V.version,requestType:V.requestType,stockCodes:stockCodes.join(',')};
-  $http.get(stock.data.user+'getOptionalStockDetail',{params:p}).success(function(d){
-    $scope.loading=false;
-    $scope.selfNav=d.optionalStockVos;
-  });
-  $scope.stock2=function(i){
-    var C=["SH000001","SZ399001","SZ399006"],D=$scope.selfNav[i];
-    location.hash="#/stock2/"+C[i]+"/"+encodeURI(D.stockName);
-  }
 }]).controller('investment', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
@@ -725,17 +820,29 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $rootScope.bodyBg="white";
   var p1=$routeParams.p1;
   $scope.android=true;
+  $scope.app=0;
   if(p1==1){
     $scope.android=false;
+    $scope.app=1;
   }
 }]).controller('guidetail', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
   $timeout.cancel($scope.auto);
   $rootScope.bodyBg="white";
-  var p1=$routeParams.p1+".html";
+  var p1=$routeParams.p1+".html",p2=$routeParams.p2;
+  $scope.app=false;
   $http.get(stock.tpl.guide+p1).success(function(d){
     $scope.content=d;
+    setTimeout(function(){
+      if(p2==1){
+        $('.guideInApp0').hide();
+        $('.guideInApp1').show();
+      }else{
+        $('.guideInApp0').show();
+        $('.guideInApp1').hide();
+      }
+    },200);
   });
 }]).controller('exchange', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   if(M.socket){M.socket.close();}
@@ -784,6 +891,12 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
           $scope.count=d.myFinanceVos.length;
         }
         $scope.lists=d.myFinanceVos;
+        $scope.d={
+          totalIncomeBalance:d.totalIncomeBalance,
+          totalAssetBalance:d.totalAssetBalance,
+          totalEnableBalance:d.totalEnableBalance,
+          totalMarketValue:d.totalMarketValue
+        }
       }else{
         location.hash="#/signIn";
       }
@@ -801,13 +914,15 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
   $scope.showdetail=function(i){
     var D=$scope.lists[i];
-    location.hash="#/myFinance/"+D.id;
+    location.hash="#/myFinance/"+D.id+"/"+(i+1);
   }
 }]).controller('myFinance', ['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
   clearTimeout(window.indexAutoK);
   var userFinanceId=$routeParams.p1,p={userFinanceId:userFinanceId,requestType:V.requestType,version:V.version};
+  $scope.title='实盘'+($routeParams.p2||'');
+  var p2=$routeParams.p2||"";
   $scope.userFinanceId=userFinanceId;
   $scope.myFinanceCancels=0;
   $http.get(stock.data.base+'user/core/getMyFinanceOrderDetail',{params:p}).success(function(d){
@@ -865,11 +980,11 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
   $scope.detail=function(){
     $scope.openMyFinances=true;
-    var D=$scope.orderdetail,suretext,orderNumber=D.orderNumber,created=D.createTime,name=D.name,endTime=D.endTime,balance=D.balance,deposit=D.deposit,addDeposit=D.addDeposit,keepRiskRatio=D.keepRiskRatio,closeRiskRatio=D.closeRiskRatio,tradersBalance=D.tradersBalance;
+    var D=$scope.orderdetail,suretext;
     if(D.status==(1||2)){
-      suretext='终止订单';
+      suretext='终止实盘';
     }else if(D.status==3){
-      suretext='订单终止清算中';
+      suretext='实盘终止清算中';
     }else if(D.status==4){
       suretext='到期终止清算中';
     }else if(D.status==5){
@@ -877,16 +992,19 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     }
     $scope.userFinanceId=D.id;
     $scope.dialog={
-      orderNumber:orderNumber,
-      created:created,
-      name:name,
-      endTime:endTime,
-      balance:balance,
-      deposit:deposit-addDeposit,
-      adddeposit:addDeposit,
-      tradersbalance:tradersBalance,
-      keepRiskRatio:keepRiskRatio,
-      closeRiskRatio:closeRiskRatio,
+      id:D.id, 
+      orderNumber:D.orderNumber,
+      created:D.createTime,
+      name:D.name,
+      endTime:D.endTime,
+      balance:D.balance,
+      diligence:D.diligence,
+      investors:D.investors,
+      deposit:D.deposit-D.addDeposit,
+      adddeposit:D.addDeposit,
+      tradersbalance:D.tradersBalance,
+      keepRiskRatio:D.keepRiskRatio,
+      closeRiskRatio:D.closeRiskRatio,
       suretext:suretext,
       cancel:function(){
         $scope.openMyFinances=false;
@@ -896,8 +1014,8 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
           $scope.openMyFinances=false;
           $scope.openDialog=true;
           $scope.dialog={
-            title:"订单终止",
-            txt:'确认终止订单么',
+            title:"实盘终止",
+            txt:'确认终止实盘么',
             suretxt:'确认',
             cancaltxt:'取消',
             cancel:function(){
@@ -957,12 +1075,22 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
   $scope.doAddDeposit=function(){
     if(confirm('确认补充保证金')){
-      var p={userFinanceId:$routeParams.p1,balance:$scope.m.balance,requestType:V.requestType,version:V.version};
+      var p={userFinanceId:$scope.userFinanceId,balance:$scope.m.balance,requestType:V.requestType,version:V.version,userFinanceCount:p2};
       $http.get(stock.data.base+'user/core/doAddDeposit',{params:p}).success(function(d){
-        alert(d.message);
-        $scope.m.balance='';
-        $scope.addDepositClose();
-        loadOrderDetail();
+        if(d.flag==2){
+          if(confirm(d.message+"，去充值？")){
+            localStorage.setItem('doAddDeposit',JSON.stringify(p));
+            location.href="#/recharge/"+d.chargeFee+'/'+d.chargeFee+'/'+d.chargeFee+'/'+d.chargeFee;
+          }
+        }else if(d.flag==1){
+          alert(d.message);
+          $scope.m.balance='';
+          $scope.addDepositClose();
+          loadOrderDetail();
+        }else{
+          alert(d.message);
+          $scope.addDepositClose();
+        }
       });
     }
   }
@@ -1465,6 +1593,240 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     return (arr.indexOf(dd)==-1)?false:true;
   }
   function addZero(i){return (i<10)?"0"+i:i;}
+}]).controller('buystock', ['$scope','$rootScope','$http','$routeParams','holidayDatas',function($scope,$rootScope,$http,$routeParams,holidayDatas){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=false;
+  $http.get(stock.data.stock+'user/core/getCurrentUserAcount',{params:V}).success(function(d){
+    if(d.flag==-1){
+      location.hash="#/signIn";
+    }else{
+      $scope.show=true;
+      if(!holidayDatas.check()){holidayDatas.set();}
+      $scope.holiday=holidayDatas.get();
+      $scope.back=function(){history.go(-1);}
+      $scope.tip1Btn=function(){$scope.tip1=!$scope.tip1;}
+      $scope.tip2Btn=function(){$scope.tip2=!$scope.tip2;}
+      $scope.financeEndTime="15:00:00";
+      $scope.closeDeposit=0;
+      $scope.managementFee=0;
+      $scope.totalMoney=0;
+      $http.get(stock.data.base+'finance/tandD',{params:V}).success(function(data){
+        $scope.financeEndTime=data.financeEndTime;
+        $scope.customList=data.tAndD.split(',');
+        $scope.tAndDRules=data.tAndDRules;
+        var i=0,len=data.tAndDRules.length,depositList=[],Periods=[];
+        for(i;i<len;i++){
+          depositList.push(data.tAndDRules[i].leverageRatio);
+        }
+        i=2;
+        for(i;i<=data.maxFinanceDays;i++){
+          Periods.push(i);
+        }
+        $scope.Periods=Periods;
+        $scope.depositList=depositList;
+        //初始化
+        // $scope.money=$scope.customList[0];
+        // $scope.period=Periods[0];
+        // $scope.deposit=depositList[0];
+        // var d=data.tAndDRules[0];
+        // $scope.financeRuleId= d.id;
+        // $scope.share_ratio=d.shareRatio;
+        // $scope.keep_risk_ratio=d.keepRiskRatio;
+        // $scope.close_risk_ratio=d.closeRiskRatio;
+        // $scope.management_fee=d.managementFee;
+        // $scope.leverage_ratio=$scope.deposit;
+        // $scope.max_balance=d.maxBalance;
+        // $scope.fundsIndex=0;
+        // $scope.periodIndex=0;
+        // $scope.depositIndex=0;
+        // calc();
+      });
+    }
+  });
+  $scope.openFundsBox=function(){
+    $("#FundsBox").addClass('show');
+    $("#FundsBoxs a").removeClass('on').eq($scope.fundsIndex).addClass('on');
+  }
+  $scope.openPeriodBox=function(){
+    $("#PeriodBox").addClass('show');
+    $("#PeriodBox a").removeClass('on').eq($scope.periodIndex).addClass('on');
+  }
+  $scope.openDepositBox=function(){
+    $("#DepositBox").addClass('show');
+    $("#DepositBox a").removeClass('on').eq($scope.depositIndex).addClass('on');
+  }
+  $scope.closeFundsBox=function(){$("#FundsBox").removeClass('show');}
+  $scope.closePeriodBox=function(){$("#PeriodBox").removeClass('show');}
+  $scope.closeDepositBox=function(){$("#DepositBox").removeClass('show');}
+  //选择金额部分
+  $scope.selectFunds=function(e){
+    var k=$scope.customList[e];
+    $("#FundsBoxs a").removeClass('on').eq(e).addClass('on');
+    $scope.tmpFundsIndex=e;
+  }
+  $scope.setFunds=function(){
+    $scope.money=$scope.customList[$scope.tmpFundsIndex];
+    $scope.fundsIndex=$scope.tmpFundsIndex;
+    calc();
+    $scope.closeFundsBox();
+  }
+  //选择交易期限
+  $scope.selectPeriod=function(e){
+    var k=$scope.Periods[e];
+    $("#PeriodBoxs a").removeClass('on').eq(e).addClass('on');
+    $scope.tmpPeriodIndex=e;
+  }
+  $scope.setPeriod=function(){
+    $scope.period=$scope.Periods[$scope.tmpPeriodIndex];
+    $scope.periodIndex=$scope.tmpPeriodIndex;
+    calc();
+    $scope.closePeriodBox();
+  }
+  //选择保证金比例
+  $scope.selectDeposit=function(e){
+    var k=$scope.depositList[e];
+    $("#DepositBoxs a").removeClass('on').eq(e).addClass('on');
+    $scope.tmpDepositIndex=e;
+  }
+  $scope.setDeposit=function(){
+    $scope.depositIndex=$scope.tmpDepositIndex;
+    calcDeposit($scope.depositIndex);
+    $scope.closeDepositBox();
+  }
+  function calcDeposit(i){
+    var d=$scope.tAndDRules[i];
+    $scope.financeRuleId= d.id;
+    $scope.deposit=d.leverageRatio;
+    $scope.share_ratio=d.shareRatio;
+    $scope.keep_risk_ratio=d.keepRiskRatio;
+    $scope.close_risk_ratio=d.closeRiskRatio;
+    $scope.management_fee=d.managementFee;
+    $scope.leverage_ratio=d.leverageRatio;
+    $scope.max_balance=d.maxBalance;
+    calc();
+  }
+  function calc(){
+    $scope.managementFee=$scope.money*$scope.management_fee*(Number($scope.period))||0;
+    $scope.closeDeposit=$scope.money*$scope.leverage_ratio||0;
+    calcDay();
+    $scope.yjx=(Number($scope.money)*(Number($scope.keep_risk_ratio)-1)).toFixed(2)||0;//预警线
+    $scope.pcx=(Number($scope.money)*(Number($scope.close_risk_ratio)-1)).toFixed(2)||0;//平仓线
+    $scope.totalMoney=(Number($scope.closeDeposit)+Number($scope.managementFee)).toFixed(2);
+    // $scope.glfjyr=$scope.money*$scope.management_fee;
+  }
+  $scope.apply=function(){
+    if(!$scope.totalMoney){return false;}
+    $scope.openDialog=true;
+    var txt='炒股资金'+$scope.money+'元<br/>交易期限'+$scope.period+'个交易日<br/>'+$scope.endtime+'<br/>合计支付<span class="red">'+$scope.totalMoney+'元</span>';
+    $scope.dialog={
+      title:"申请支付",
+      txt:txt,
+      suretxt:'确认',
+      cancaltxt:'取消',
+      cancel:function(){
+        $scope.openDialog=false;
+      },
+      sure:function(){
+        $scope.doFinance();
+        $scope.openDialog=false;
+      }
+    };
+  }
+  $scope.doFinance=function(){
+    $scope.loading=true;
+    var d={version:V.version,requestType:V.requestType,balance:$scope.money,times:$scope.period,type:2,financeRuleId:$scope.financeRuleId,endtime:$scope.endtime};
+    $http.get(stock.data.base+'user/core/doFinance',{params:d}).success(function(data){
+      $scope.loading=false;
+      if(data.flag==-1){
+        location.hash="#/signIn";
+      }else if(data.flag==1){
+        // location.hash="#/myFinances";
+        location.hash="#/rechargesuccess/"+data.userFinanceId+"/"+data.currentFinances+"/"+data.allowFinances;
+      }else if(data.flag==-2){
+        if(confirm(d.message)){
+          location.href="#/infoVerify";
+        };
+      }else if(data.flag==2){
+        if(confirm(data.message+",去充值")){
+          localStorage.setItem('doFinance',JSON.stringify(d));
+          location.href="#/recharge/"+data.chargeFee+'/'+d.times+'/'+d.financeRuleId+'/'+d.balance;
+        };
+      }else{
+        alert(data.message);
+      }
+    });
+  }
+  var step=86400000,T=[];
+  function calcDay(){
+    T=[];
+    var d=new Date().getTime()+step,sr;
+    if(new Date().getHours()>15){
+      d+=step;
+    }
+    sr=new Date(d);
+    d=sr.getFullYear()+"-"+addZero(sr.getMonth()+1)+"-"+addZero(sr.getDate())+" "+$scope.financeEndTime;
+    var ttt=new Date(d).getTime();
+    if(!ttt){
+      ttt=sr.getFullYear()+"/"+addZero(sr.getMonth()+1)+"/"+addZero(sr.getDate())+" "+$scope.financeEndTime;
+      ttt=new Date(ttt).getTime();
+    }
+    _calcDay(ttt);
+    var e=new Date(T[T.length-1]),z=new Date();
+    // $scope.endtime=addZero(e.getMonth()+1)+"-"+addZero(e.getDate())+" "+addZero(e.getHours())+":"+addZero(e.getMinutes())+":"+addZero(e.getSeconds());
+    $scope.endtime=addZero(z.getMonth()+1)+"月"+addZero(z.getDate())+"日至"+addZero(e.getMonth()+1)+"月"+addZero(e.getDate())+"日";
+  }
+  function _calcDay(d){
+    if(isWeekEnd(d)||isVacation(d)){
+      _calcDay(d+step);
+    }else{
+      T.push(d);
+      if(T.length<$scope.jyr){
+        _calcDay(d+step);
+      }
+    }
+  }
+  function isWeekEnd(d){
+    var d=new Date(d).getDay();
+    return (d==0||d==6)?true:false;
+  }
+  function isVacation(d){
+    var arr=$scope.holiday.times,e=new Date(d),dd=e.getFullYear()+addZero(e.getMonth()+1)+addZero(e.getDate())+"";
+    return (arr.indexOf(dd)==-1)?false:true;
+  }
+  function addZero(i){return (i<10)?"0"+i:i;}
+}]).controller('agreement', ['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.show=true;
+  $scope.back=function(){
+    history.go(-1);
+  }
+  var t=$routeParams.t;
+  if(t){
+    var p={userFinanceId:t,requestType:V.requestType,version:V.version};
+    $http.get(stock.data.base+'user/core/getMyFinanceOrderDetail',{params:p}).success(function(data){
+      if(data.flag==1){
+        var d=data.financeVo,
+        t=d.createTime;
+        t=new Date(t);
+        $scope.year=t.getFullYear();
+        $scope.month=t.getMonth()+1;
+        $scope.day=t.getDate();
+        $scope.investors=d.investors;
+        $scope.diligence=d.diligence;
+        $scope.balance=d.balance;
+        $scope.leverageRatio=d.leverageRatio;
+        $scope.deposit=d.deposit;
+        $scope.managementFee=d.managementFee;
+        $scope.times=d.times;
+        $scope.keepriskratio=d.keepRiskRatio;
+        $scope.closeriskratio=d.closeRiskRatio;
+      }
+    });
+  }
 }]).controller('rula', ['$scope','$rootScope', function($scope,$rootScope){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
@@ -1713,8 +2075,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
   $scope.lock=false;
+  var t=$routeParams.t,times=$routeParams.t2,financeRuleId=$routeParams.t3,balance=$routeParams.t4;
   $scope.o={};
-  $scope.o.money=100;
+  if(t){
+    $scope.o.money=t;
+  }else{
+    $scope.o.money=100;
+  }
   $scope.es=false;
   $scope.d={};
   $scope.show=false;
@@ -1771,6 +2138,9 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       return false;
     }
     var p="pay_code="+$scope.b.bankIntroduce+"&acc_no="+$scope.b.cardNo+"&id_card="+$scope.b.idCode+"&id_holder="+$scope.b.trueName+"&money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge';
+    if(balance){
+      p+='&balance='+balance+'&times='+times+'&financeRuleId='+financeRuleId;
+    }
     $("#es1").hide();
     $("#es1B").hide();
     $("#es2").show();
@@ -1778,9 +2148,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     // $http.jsonp('http://www.new.com/pay/user/core/ufubao_h5?'+p);
     $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
   }
-  $scope.btnOk=function(){
-    $('#form').submit();
-  }
+  $scope.btnOk=function(){$('#form').submit();}
   $scope.setBankCard=function(x){
     var y=$scope.z.banks[x];
     $scope.b=y;
@@ -1796,6 +2164,81 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
+  var t=$routeParams.t;
+  if(t){
+    $scope.doFinance=true;
+    $scope.loading=true;
+    var d={requestType:V.requestType,userFinanceId:t,version:V.version},t1=$routeParams.t1,t2=$routeParams.t2;
+    $http.get(stock.data.base+'user/core/getMyFinanceOrderDetail',{params:d}).success(function(data){
+      $scope.loading=false;
+      if(data.flag==1){
+        var d=data.financeVo;
+        $scope.success=true;
+        $scope.allowFinances=t2;
+        $scope.currentFinances=t1;
+        $scope.userFinanceId=d.id;
+        $scope.name=d.name;
+        $scope.balance=d.balance;
+        $scope.enableBalance=d.enableBalance;
+        $scope.endtime=d.endTime;
+      }
+    });
+  }else{
+    var doFinance=localStorage.getItem('doFinance'),doAddDeposit=localStorage.getItem('doAddDeposit');
+    $scope.doFinance=true;
+    if(doFinance){
+      $scope.loading=true;
+      var d=eval("("+doFinance+")");
+      $http.get(stock.data.base+'user/core/doFinance',{params:d}).success(function(data){
+        localStorage.removeItem('doFinance');
+        $scope.loading=false;
+        if(data.flag==1){
+          $scope.success=true;
+          // location.hash="#/myFinances";
+          $scope.allowFinances=d.allowFinances;
+          $scope.currentFinances=d.currentFinances;
+          $scope.userFinanceId=d.userFinanceId;
+          $scope.name=d.name;
+          $scope.balance=d.balance;
+          $scope.enableBalance=d.enableBalance;
+          $scope.endtime=d.endtime;
+        }else if(data.flag==2){
+          if(confirm(data.message+",去充值")){
+            localStorage.setItem('doFinance',JSON.stringify(d));
+            location.href="#/recharge/"+data.chargeFee+'/'+d.times+'/'+d.financeRuleId+'/'+d.balance;
+          };
+        }else{
+          alert(data.message);
+        }
+      });
+    }else if(doAddDeposit){
+      $scope.loading=true;
+      $scope.doAddDeposit=true;
+      var p=eval("("+doAddDeposit+")");
+      $http.get(stock.data.base+'user/core/doAddDeposit',{params:p}).success(function(d){
+        localStorage.removeItem('doAddDeposit');
+        if(d.flag==2){
+          if(confirm(d.message+"，去充值？")){
+            localStorage.setItem('doAddDeposit',JSON.stringify(p));
+            location.href="#/recharge/"+d.chargeFee+'/'+d.chargeFee+'/'+d.chargeFee+'/'+d.chargeFee;
+          }
+        }else if(d.flag==1){
+          localStorage.removeItem('doAddDeposit');
+          $scope.success=true;
+          $scope.userFinanceId=p.userFinanceId;
+          $scope.userFinanceCount=p.userFinanceCount;
+          var params={userFinanceId:p.userFinanceId,requestType:V.requestType,version:V.version};
+          $http.get(stock.data.base+'user/core/getMyFinanceOrderDetail',{params:params}).success(function(d){
+            if(d.flag==1){
+              
+            }
+          });
+        }else{
+          alert(d.message);
+        }
+      });
+    }
+  }
 }]).controller('home',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
@@ -2962,4 +3405,13 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.list=d.pictureManages;
     $scope.loading=false;
   });
+}]).controller('newmember', ['$scope','$rootScope','$routeParams', function($scope,$rootScope,$routeParams){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  if($routeParams.p1){
+    $scope.btn=false;
+  }else{
+    $scope.btn=true;
+  }
 }]);

@@ -33,42 +33,44 @@
 		<a href="http://m.ycaopan.com/download" class="ios1"></a>
 		<a href="http://m.ycaopan.com/download" class="android1"></a>
 		<p class="qr"></p>
-		<div class="banner0"></div>
 	</div>
+</div>
+<div id="banner2">
+	<div class="banner0"></div>
 </div>
 <ul class="list">
 	<li class="l0">
 		<div class="center">
 			<div class="b1"></div>
 			<div>
-				<h2>倍数高最高<b>4</b>倍</h2>
-				<p>让你的操盘资金放大4倍！</p>
+				<h2>低参与成本</h2>
+				<p>1:4小成本撬动大资金，承担有限风险</p>
 			</div>
 		</div>
 	</li>
 	<li class="l1">
 		<div class="center">
-			<div>
-				<h2><b>0</b>门槛5000元起配</h2>
-				<p>注册就送2000元炒股资金，5000元起配，小钱立马换大钱！</p>
+			<div style="width:590px;">
+				<h2>免息服务,等你来操盘</h2>
+				<p>够牛你就来，为你争取收益最大化！</p>
 			</div>
-			<div class="b2"></div>
+			<div style="width:410px;" class="b2"></div>
 		</div>
 	</li>
 	<li class="l0">
 		<div class="center">
 			<div class="b3"></div>
 			<div>
-				<h2><b>1</b>秒注册 随充随配</h2>
-				<p>注册简单，充值即时，配资1秒到账</p>
+				<h2>100%盈利分配</h2>
+				<p>所有盈利全归你，让你乐开怀！</p>
 			</div>
 		</div>
 	</li>
 	<li class="l1">
 		<div class="center">
 			<div>
-				<h2><b>5</b>道风控 保驾护航</h2>
-				<p>资金银行监管，5道风险控制环节，为您保驾护航</p>
+				<h2>提现安全无忧</h2>
+				<p>第三方资金托管，收益支取安全</p>
 			</div>
 			<div class="b4"></div>
 		</div>
@@ -77,7 +79,9 @@
 <div class="footer">
 	<div class="center">
 		<div class="nav">
-			<a href="" class="wechart">关注微信</a>
+			<a class="wechart" id="wechart">关注微信
+				<b></b>
+			</a>
 			<a href="http://m.ycaopan.com/download" class="ios2">下载应用</a>
 			<a href="http://m.ycaopan.com/download" class="android2">下载应用</a>
 		</div>
@@ -102,11 +106,16 @@ $(window).scroll(function(){
   }
 });
 if(ycp.cookies.get('pctip')!=1){
-	ycp.open();
+	// ycp.open();
 }
 $("#tip").click(function(){
 	ycp.close();
 	ycp.cookies.set('pctip',1);
+});
+$("#wechart").hover(function () {
+	$("#wechart b").show();
+},function(){
+	$("#wechart b").hide();
 });
 </script>
 </body>

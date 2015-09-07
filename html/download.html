@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<title>易操盘</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+<style type="text/css">
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin: 0; padding: 0; }
+body { font:12px/1.5 "microsoft yahei",arial,\5b8b\4f53; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; font-size: 100%; }
+img { border: none; border: 0; vertical-align: middle; }
+a { text-decoration: none; outline: none; }
+.wrap{}
+.logo{padding-top:50px;}
+.logo img{width:40%;margin:0 auto;display:block;border-radius:8px;}
+.logo h2{text-align:center;line-height:88px;font-size:30px;color:#919191;}
+.download{display: block;width: 85%;height:60px;line-height: 60px;text-align: center;color: #fff;background: #f54b00;margin: 40px auto;border-radius: 8px;font-size: 20px;}
+.none{display:none;}
+.mark{padding:30px 0;background-color:rgba(0,0,0,0.6);width:100%;position:relative;}
+.mark p{color: #fff;padding-left:20px;line-height: 25px;font-size: 16px; }
+.mark img{display: block;position: absolute;top:20px;right: 10px;}
+</style>
+</head>
+<body>
+<div class="mark none" id="marker">
+	<p>点击右上角菜单</p>
+	<p>在默认浏览器中打开并安装应用</p>
+	<img src="http://res.cp2y.com/h5/stock/images/jt.png" />
+</div>
+<div class="wrap">
+	<section class="logo">
+		<img src="http://res.cp2y.com/h5/stock/images/logo_114.png" />
+		<h2>易操盘</h2>
+	</section>
+	<a class="download" id="Btn" >下载安装</a>
+</div>
+<script>
+var sUserAgent = navigator.userAgent.toLowerCase(),
+	bIsIpad = sUserAgent.match(/ipad/i) == "ipad",
+	bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os",
+	bIsMidp = sUserAgent.match(/midp/i) == "midp",
+	bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4",
+	bIsUc = sUserAgent.match(/ucweb/i) == "ucweb",
+	bIsAndroid = sUserAgent.match(/android/i) == "android",
+	bIsCE = sUserAgent.match(/windows ce/i) == "windows ce",
+	bIsQQ = sUserAgent.match(/qq/i) == "qq",
+	bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile",
+	bMicroMess = sUserAgent.match(/micromessenger/i) == "micromessenger",url;
+if(bMicroMess || bIsQQ){
+	document.getElementById('Btn').addEventListener('click',function(e){
+		document.getElementById('marker').style.display='block';
+		window.scrollTo(0,0);
+	});
+}else{
+	if(bMicroMess){
+		url='http://m.ycaopan.com';
+	}else if (bIsIpad || bIsIphoneOs){
+		url='itms-services://?action=download-manifest&url=https://app.ycaopan.com/app-ycaopan-iphone.plist';
+	}else if(bIsAndroid){
+		url='http://res.cp2y.com/ycaopan/wap/app-ycaopan-android-2.apk';
+	}else{
+		url='http://m.ycaopan.com';
+	}
+	document.getElementById('Btn').setAttribute('href',url);
+}
+</script>
+</body>
+</html>

@@ -6,6 +6,8 @@
   <div class="pt45 historyDetail">
   	<h2>实盘编号：{{userFinance.orderNumber}}</h2>
   	<ul>
+      <li><label>操盘人：</label>{{userFinance.diligence}}</li>
+      <li><label>投资人：</label>{{userFinance.investors}}</li>
       <li><label>申请时间：</label>{{userFinance.createTime|date:'yyyy-MM-dd H:mm:ss'}}</li>
       <li><label>实盘类型：</label>{{userFinance.name}}</li>
       <li><label>截止时间：</label>{{userFinance.endTime|date:'yyyy-MM-dd H:mm:ss'}}</li>
@@ -16,7 +18,7 @@
       <li><label>申请资金：</label>{{userFinance.balance}}元</li>
       <li><label>冻结保证金：</label>{{userFinance.deposit-userFinance.addDeposit}}元</li>
       <!-- <li><label>炒股资金：</label>{{userFinance.assetBalance}}元</li> -->
-      <li><label>补充保证金：</label>{{userFinance.addDeposit}}元</li>
+      <li><label>补充保证金：</label>{{userFinance.addDeposit}}元<p>投资顾问<a ng-href="#/agreement/{{id}}">合作协议</a></p></li>
   	</ul>
     <h2>清算明细</h2>
     <ul>

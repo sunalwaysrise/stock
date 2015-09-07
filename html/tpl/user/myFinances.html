@@ -1,13 +1,24 @@
 <div ng-if="show">
 <div class="header" >
 	<h2>交易</h2>
+	<a href="#/rula" class="menu_right">规则</a>
 </div>
 <div class="exchangeContain">
-	<nav class="exchangeNav">
+	<!-- <nav class="exchangeNav">
 		<a class="n1" href="#/exchange">下单</a>
 		<a class="n2 nc1">订单<i ng-if="count">{{count}}</i></a>
-		<!-- <a class="n3" href="#/broadcast">播报</a> -->
-	</nav>
+	</nav> -->
+	<div class="exchangeNav_0">
+		<div class="exchangeNav_1">
+			<b>浮动总盈亏</b>
+			<p class="{{d.totalIncomeBalance|toUpDown}}">{{d.totalIncomeBalance}}</p>
+		</div>
+		<div class="exchangeNav_2">
+			<p><label>股票账户</label><span>{{d.totalAssetBalance}}</span></p>
+			<p><label>可用资金</label><span>{{d.totalEnableBalance}}</span></p>
+			<p><label>股票市值</label><span>{{d.totalMarketValue}}</span></p>
+		</div>
+	</div>
 	<div class="myFinancesList">
 		<ul>
 			<li ng-repeat="i in lists" class="s{{i.status}}">
@@ -47,9 +58,10 @@
 						</article>
 					</span>
 				</section>
-				<i>订单{{$index+1}}</i>
+				<i>实盘{{$index+1}}</i>
 			</li>
 		</ul>
+		<p class="myFinancesMore" ng-if="lists.length == 0">暂无实盘内容，<a href="#/buystock">我要炒股</a></p>
 	</div>
 	<a href="#/history" class="goHistory">查看历史订单</a>
 </div>
@@ -57,8 +69,8 @@
 <nav class="mainNav">
 	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
 	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
-	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
-	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/myFinances" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/myFinances" class="exchange" ng-if="!navExchange">交易</a>
 	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
 	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
 	<a href="#/home" class="home cur" ng-if="navHome">我的</a>

@@ -1,10 +1,47 @@
 <div class="header" >
 	<a class="menu_open" href="#/index"></a>
-	<h2>充值成功</h2>
+	<h2>支付成功</h2>
 </div>
-<div class="sign">
-	<div class="line1 mt2">
-		<a class="btn0" href="#index">知道了</a>
+<div class="rechargesuccess pt45" ng-if="doFinance">
+	<div class="line1 mt2" ng-show="success">
+		<h2>支付成功，已经生成实盘</h2>
+		<div class="section">
+			<i>实盘1</i>
+			<section>{{name}}<br/>{{balance}}</section>
+			<div>
+				<p><span>股票</span><b>0支</b></p>
+				<p><span>可用</span><b>{{enableBalance}}</b></p>
+				<p><span>截至</span><b>{{endtime| date:'MM-dd'}}</b></p>
+				<p><span>浮动盈亏</span><b class="red">0.00</b></p>
+			</div>
+		</div>
+		<div class="btns">
+			<a ng-href="#/myFinance/{{userFinanceId}}/1">进入实盘</a>
+			<a ng-href="#/buy/{{userFinanceId}}">马上买入</a>
+		</div>
+		<p class="tip">
+			<b>温馨提示</b><br/>
+			1.股票交易时间为工作日的9:15-15:00<br/>
+			2.您已申请{{currentFinances}}笔实盘，还可申请{{allowFinances}}笔实盘
+		</p>
+	</div>
+</div>
+<div class="rechargesuccess pt45" ng-if="doAddDeposit">
+	<div class="line1 mt2" ng-show="success">
+		<h2>支付成功，已经补充保证金</h2>
+		<div class="section2">
+			<p><label>实盘编号</label><b>{{orderNumber}}</b></p>
+			<p><label>补充保证金</label><b>{{addDeposit}}元</b></p>
+			<p><label>保证金余额</label><b>{{deposit}}</b></p>
+		</div>
+		<div class="btns2">
+			<a ng-href="#/myFinance/{{userFinanceId}}/{{userFinanceCount}}">进入实盘</a>
+		</div>
+		<p class="tip">
+			<b>温馨提示</b><br/>
+			1.补充的保证金不可用于操盘<br/>
+			2.保证金用于操盘亏损时弥补亏损，盈利时连同盈利一起100%返还
+		</p>
 	</div>
 </div>
 <loading ng-if='loading'></loading>

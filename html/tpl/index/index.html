@@ -1,5 +1,5 @@
 <div class="header" >
-	<a href="#guide" class="menu_left">新手</a>
+	<a href="#newmember" class="menu_left">新手</a>
 	<h2>{{title}}</h2>
 	<a href="#search" class="search_open"></a>
 </div>
@@ -9,33 +9,42 @@
 	</ul>
 	<p><i ng-repeat="i in banners"></i></p>
 </div>
-<div class="indexTop">
-	<div ng-repeat="i in selfNav" class="{{i.waveRatio | toUpDown}}" ng-click="stock2($index)">
-		<h2>{{i.stockName}}</h2>
-		<p>{{i.lastPrize}}<i></i></p>
-		<span>{{i.wave | addPlus}}({{i.waveRatio}}%)</span>
-	</div>
-</div>
 <div class="indexNav">
 	<a ng-href="#/news"><div><b>资讯</b></div></a>
 	<a ng-href="#/notice"><div><b>公告</b></div></a>
 	<a ng-href="#/event"><div><b>活动</b></div></a>
 </div>
+<div class="indexTop">
+	<section>
+		<article>
+			<h3>操盘人累计赚到</h3>
+			<p ng-bind-html="totalProfitReturn" id="totalProfitReturn"></p>
+		</article>
+		<a class="buystock" ng-href="#/buystock">我要炒股</a>
+	</section>
+	<div>
+		<p>投资人已投资<br/><b id="alreadyBalanceReturn">{{alreadyBalanceReturn|to10thousand}}</b>元</p>
+		<p>服务用户<br/><b id="alreadyServiceReturn">{{alreadyServiceReturn}}</b>人</p>
+		<p id="carProfitVos">
+			<span ng-repeat="i in carProfitVos">{{i.userName}}<br/>赚到<b>{{i.totalProfit}}</b>元</span>
+		</p>
+	</div>
+</div>
 <dl class="indexList">
 	<dt>投资参考 <a href="#/investment">更多&gt;</a></dt>
 	<dd ng-repeat="i in introduces">
-		<a ng-href="#/investmentDetail/{{i.id}}">{{i.title}}</a>
+		<a ng-href="#/investmentDetail/{{i.id}}"><b>{{i.title|first1}}</b>{{i.title|first2}}</a>
 	</dd>
 </dl>
 <div class="appdown" ng-show="appDownBtn">
-	<a href="/download">下载客户端</a>
+	<a href="http://m.ycaopan.com/html/download.html">下载客户端</a>
 	<i ng-click="closeAppDown()"></i>
 </div>
 <nav class="mainNav">
 	<a href="#/index" class="index cur" ng-if="navIndex">首页</a>
 	<a href="#/index" class="index" ng-if="!navIndex">首页</a>
-	<a href="#/exchange" class="exchange cur" ng-if="navExchange">交易</a>
-	<a href="#/exchange" class="exchange" ng-if="!navExchange">交易</a>
+	<a href="#/myFinances" class="exchange cur" ng-if="navExchange">交易</a>
+	<a href="#/myFinances" class="exchange" ng-if="!navExchange">交易</a>
 	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
 	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
 	<a href="#/home" class="home cur" ng-if="navHome">我的</a>

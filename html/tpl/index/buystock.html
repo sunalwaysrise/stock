@@ -1,0 +1,81 @@
+<div class="header" >
+	<a ng-click="back()" class="menu_open"></a>
+	<h2>我要炒股</h2>
+	<a href="#/rula" class="menu_right">规则</a>
+</div>
+<div class="buyStock pt45">
+	<ul>
+		<li>
+			<label>炒股资金</label>
+			<div ng-click="openFundsBox()">
+				<span ng-if="money">{{money}}</span>
+				<span ng-if="!money" class="grey">选择炒股资金</span>
+			</div>
+		</li>
+		<li>
+			<label>交易期限</label>
+			<div ng-click="openPeriodBox()">
+				<span ng-if="period" class="lin2">{{period}}个交易日<br/>{{endtime}}</span>
+				<span ng-if="!period" class="grey">选择期限</span>
+			</div>
+		</li>
+		<li>
+			<label>保证金比例</label>
+			<div ng-click="openDepositBox()">
+				<span ng-if="deposit">{{deposit|to10Percentage}}</span>
+				<span ng-if="!deposit" class="grey">选择比例</span>
+			</div>
+		</li>
+	</ul>
+	<ul class="l2">
+		<li><label>冻结保证金</label><div><span>{{closeDeposit}}</span><i ng-click="tip1Btn()">?</i></div></li>
+		<li><label>账户管理费</label><div><span>{{managementFee}}</span><i ng-click="tip2Btn()">?</i></div></li>
+	</ul>
+	<p class="tip">点击支付，即表示您已经阅读并同意<a href="#/agreement">《易操盘用户操盘协议》</a></p>
+
+	<div class="bottom">
+		<p>合计支付:<span>{{totalMoney}}元</span></p>
+		<a ng-click="apply()">支付</a>
+	</div>
+	<div class="toggleArea" id="FundsBox">
+		<div class="share_msk"></div>
+		<div class="share">
+			<h2><label>炒股资金</label></h2>
+			<div class="FundsBox" id="FundsBoxs"><a ng-repeat="i in customList" ng-click="selectFunds($index)">{{i}}</a></div>
+			<div class="btns"><a ng-click="closeFundsBox()">取消</a><a ng-click="setFunds()">确定</a></div>
+		</div>
+	</div>
+	<div class="toggleArea" id="PeriodBox">
+		<div class="share_msk"></div>
+		<div class="share">
+			<h2><label>交易期限</label><span>交易期限越长，账户管理费越多</span></h2>
+			<div class="PeriodBox" id="PeriodBoxs"><a ng-repeat="i in Periods" ng-click="selectPeriod($index)">{{i}}</a></div>
+			<div class="btns"><a ng-click="closePeriodBox()">取消</a><a ng-click="setPeriod()">确定</a></div>
+		</div>
+	</div>
+	<div class="toggleArea" id="DepositBox">
+		<div class="share_msk"></div>
+		<div class="share">
+			<h2><label>保证金比例</label><span>保证金比例越低，平仓风险越高</span></h2>
+			<div class="DepositBox" id="DepositBoxs"><a ng-repeat="i in depositList" ng-click="selectDeposit($index)">{{i|to10Percentage}}</a></div>
+			<div class="btns"><a ng-click="closeDepositBox()">取消</a><a ng-click="setDeposit()">确定</a></div>
+		</div>
+	</div>
+
+	<div class="t1lock" ng-show="tip1">
+		<div class="t1content">
+			<h2>冻结保证金</h2>
+			<p>保证金：<br/>1.保证金用于操作亏损时弥补亏损，盈利时连同盈利一起100%返还<br/>2.预警线：保证金余额小于{{yjx||'--'}}<br/>3.平仓线：保证金余额小于{{pcx||'--'}}</p>
+			<a ng-click="tip1Btn()">我知道了</a>
+		</div>
+	</div>
+	<div class="t1lock" ng-show="tip2">
+		<div class="t1content">
+			<h2>账户管理费</h2>
+			<p>1.账户管理费=申请金额*交易期限*{{management_fee*100||'--'}}%<br/>2.账户管理费不包含交易过程中产生的印花税、过户费和佣金等</p>
+			<a ng-click="tip2Btn()">我知道了</a>
+		</div>
+	</div>
+</div>
+<loading ng-if='loading'></loading>
+<mydialog ng-if='openDialog' title='{{dialog.title}}' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>
