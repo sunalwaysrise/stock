@@ -3,7 +3,7 @@ var t=angular.module('stock',['ngRoute','ngSanitize','ngTouch','infinite-scroll'
 var stock={
   tpl:{index:'/html/tpl/index/',user:'/html/tpl/user/',guide:'/html/tpl/guide/'},
   data:{stock:"/",user:"/",pay:"http://pay.ycaopan.com/",base:"/"},
-  res:'http://res2.cp2y.com/h5/stock/images',
+  res:'http://res.ycaopan.com/h5/stock/images',
   v:"20150529"
 },V={"version":"1.0","requestType":25};
 t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locationProvider){
@@ -63,8 +63,14 @@ t.config(['$routeProvider', '$locationProvider',function($routeProvider,$locatio
     templateUrl: stock.tpl.user+'password.html?v='+stock.v,controller: 'password'
   }).when('/recharge',{
     templateUrl: stock.tpl.user+'recharge.html?v='+stock.v,controller: 'recharge'
+  }).when('/recharge/:t',{
+    templateUrl: stock.tpl.user+'recharge.html?v='+stock.v,controller: 'recharge'
   }).when('/recharge/:t/:t2/:t3/:t4',{
     templateUrl: stock.tpl.user+'recharge.html?v='+stock.v,controller: 'recharge'
+  }).when('/prepaidrecords',{
+    templateUrl: stock.tpl.user+'prepaidRecords.html?v='+stock.v,controller: 'prepaidRecords'
+  }).when('/rechagestatus/:t',{
+    templateUrl: stock.tpl.user+'rechageStatus.html?v='+stock.v,controller: 'rechageStatus'
   }).when('/rechargesuccess',{
     templateUrl: stock.tpl.user+'rechargesuccess.html?v='+stock.v,controller: 'rechargeSuccess'
   }).when('/rechargesuccess/:t/:t1/:t2',{
@@ -668,24 +674,24 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
         M.draw.quote= E.quote;
         M.draw.stock2();
         $scope.numprice=E.quote.lastPrice;
-      }else{//推送
-        if(E.index!=-1){
-          var businessAmount=E.businessAmount,ii=0;lenn=M.draw.w1.length,sum=0,t;
-          for(ii;ii<lenn;ii++){
-            sum+=Number(M.draw.w1[ii].split(',')[2]);
-          }
-          if(M.draw.w1.length<=E.index){
-            t=E.lastPrice+','+null+','+null+','+ null;
-            M.draw.w1.push(t);
-          }else{
-            M.draw.w1[E.index]=E.lastPrice+','+null+','+null+','+ null;
-          }
-          M.draw.quote=E;
-          M.draw.lastPrice=E.lastPrice;
-          M.draw.stock2();
-        }
-        M.draw.wave = E.wave;
-        M.draw.waveRatio = E.waveRatio;
+      }else{//推送数据不更新
+        // if(E.index!=-1){
+        //   var businessAmount=E.businessAmount,ii=0;lenn=M.draw.w1.length,sum=0,t;
+        //   for(ii;ii<lenn;ii++){
+        //     sum+=Number(M.draw.w1[ii].split(',')[2]);
+        //   }
+        //   if(M.draw.w1.length<=E.index){
+        //     t=E.lastPrice+','+null+','+null+','+ null;
+        //     M.draw.w1.push(t);
+        //   }else{
+        //     M.draw.w1[E.index]=E.lastPrice+','+null+','+null+','+ null;
+        //   }
+        //   M.draw.quote=E;
+        //   M.draw.lastPrice=E.lastPrice;
+        //   M.draw.stock2();
+        // }
+        // M.draw.wave = E.wave;
+        // M.draw.waveRatio = E.waveRatio;
       }
     };
     M.socket.onclose=function(event){/*监听Socket的关闭*/
@@ -707,7 +713,9 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }else{
     $http.jsonp('http://quote.ycaopan.com/line/jsonp/daykline?stockCode='+t+'&callback=M.draw.getH5DayK');
   }
-}]).controller('index',['$scope','$rootScope','$timeout','$http','$routeParams','nav',function($scope,$rootScope,$timeout,$http,$routeParams,nav){
+  $http.jsonp('http://quote.ycaopan.com/quote/jsonp/quote/xq?stockCode='+t+'&callback=M.draw.dp');
+
+}]).controller('index',['$scope','$rootScope','$timeout','$http','$routeParams','nav','unread',function($scope,$rootScope,$timeout,$http,$routeParams,nav,unread){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
   $timeout.cancel($scope.auto);
@@ -722,6 +730,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.banners=[];
   $scope.auto=null;
   $scope.appDownBtn=true;
+  $scope.unread=unread.k;
   $scope.closeAppDown=function(){$scope.appDownBtn=false;}
   //从缓存中取得首页数据
   var index=localStorage.getItem('index');
@@ -791,6 +800,23 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       });
     },7000);
   });
+  $scope.status=0;
+  $scope.services='';
+  $http.get(stock.data.base+"user/core/addTaobaoImH5",{params:V}).success(function(d){
+    if(d.flag==-1){
+      $scope.status=-2;
+    }else{
+      // $scope.services='https://chat.im.taobao.com/login/oauth?appkey='+d.appkey+'&uid='+d.uid+'&credential='+d.credential+'&toAppkey='+d.appkey+'&touid='+d.touid+'&tokenFlag=64&tonick='+encodeURI(d.tonick);
+      $scope.services='/html/service.html?appkey='+d.appkey+'&uid='+d.uid+'&credential='+d.credential+'&toAppkey='+d.appkey+'&touid='+d.touid+'&tonick='+encodeURI(d.tonick);
+    }
+  });
+  $scope.service=function(){
+    if($scope.status==-2){
+      location.hash='signIn';
+    }else{
+      location.href=$scope.services;
+    }
+  }
 }]).controller('investment', ['$scope','$rootScope','$timeout','$http','$routeParams',function($scope,$rootScope,$timeout,$http,$routeParams){
   clearTimeout(window.indexAutoK);
   if(M.socket){M.socket.close();}
@@ -873,7 +899,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.count=d.myFinanceVos.length;
     }
   });
-}]).controller('myFinances', ['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+}]).controller('myFinances', ['$scope','$rootScope','$http','$routeParams','unread',function($scope,$rootScope,$http,$routeParams,unread){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
   clearTimeout(window.indexAutoK);
@@ -881,6 +907,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.count=0;
   $scope.lists=[];
   $scope.loading=true;
+  $scope.unread=unread.k;
   function get(s){
     var p={status:s,requestType:V.requestType,version:V.version};
     $http.get(stock.data.base+'user/core/getMyFinanceForOrder',{params:p}).success(function(d){
@@ -1203,11 +1230,12 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $http.get(stock.data.base+'getFinanceBroadcastMessage',{params:V}).success(function(d){
     $scope.lists=d.financeBoBaoVos;
   });
-}]).controller('self', ['$scope','$rootScope','$http','$routeParams','fave',function($scope,$rootScope,$http,$routeParams,fave){
+}]).controller('self', ['$scope','$rootScope','$http','$routeParams','fave','unread',function($scope,$rootScope,$http,$routeParams,fave,unread){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
   clearTimeout(window.indexAutoK);
   $scope.show=false;
+  $scope.unread=unread.k;
   $http.get(stock.data.stock+'user/core/getCurrentUserAcount',{params:V}).success(function(d){
     if(d.flag==-1){
       location.hash="#/signIn";
@@ -1227,8 +1255,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     init(iD);
   }
   function init(iD){
-    var ij=0,iE='';
-    stockCodes=["SH000001","SZ399001","SZ399006"];
+    var ij=0,iE='',stockCodes=[],stockCodes0=["SH000001","SZ399001","SZ399006"];
     for(ij;ij<iD.length;ij++){
       iE="";
       if(iD[ij].exchangeType=="1"){
@@ -1242,18 +1269,15 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     var p={version:V.version,requestType:V.requestType,stockCodes:stockCodes.join(',')};
     $http.get(stock.data.user+'getOptionalStockDetail',{params:p}).success(function(d){
       $scope.loading=false;
-      $scope.selfNav=[];
-      $scope.selfNav.push(d.optionalStockVos[0]);
-      $scope.selfNav.push(d.optionalStockVos[1]);
-      $scope.selfNav.push(d.optionalStockVos[2]);
-      d.optionalStockVos.splice(0,3);
+      // $scope.selfNav=[];
+      // $scope.selfNav.push(d.optionalStockVos[0]);
+      // $scope.selfNav.push(d.optionalStockVos[1]);
+      // $scope.selfNav.push(d.optionalStockVos[2]);
+      // d.optionalStockVos.splice(0,3);
       $scope.selfList=d.optionalStockVos;
     });
   }
-  $scope.stock2=function(i){
-    var C=["SH000001","SZ399001","SZ399006"],D=$scope.selfNav[i];
-    location.hash="#/stock2/"+C[i]+"/"+encodeURI(D.stockName);
-  }
+  $http.jsonp('http://quote.ycaopan.com/quote/jsonp/quote/xq?stockCode=SH000001,SZ399001,SZ399006&callback=M.self');
 }]).controller('search', ['$scope','$rootScope','$http','$routeParams','fave',function($scope,$rootScope,$http,$routeParams,fave){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='black';
@@ -1608,6 +1632,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.back=function(){history.go(-1);}
       $scope.tip1Btn=function(){$scope.tip1=!$scope.tip1;}
       $scope.tip2Btn=function(){$scope.tip2=!$scope.tip2;}
+      $scope.tip3Btn=function(){$scope.tip3=!$scope.tip3;}
       $scope.financeEndTime="15:00:00";
       $scope.closeDeposit=0;
       $scope.managementFee=0;
@@ -1714,6 +1739,7 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.yjx=(Number($scope.money)*(Number($scope.keep_risk_ratio)-1)).toFixed(2)||0;//预警线
     $scope.pcx=(Number($scope.money)*(Number($scope.close_risk_ratio)-1)).toFixed(2)||0;//平仓线
     $scope.totalMoney=(Number($scope.closeDeposit)+Number($scope.managementFee)).toFixed(2);
+    $scope.money2=( Number($scope.money) + Number($scope.closeDeposit) )||0;
     // $scope.glfjyr=$scope.money*$scope.management_fee;
   }
   $scope.apply=function(){
@@ -1873,7 +1899,8 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       $scope.lock=false;
       $scope.loading=false;
       if(data.flag==1){
-        // alert('登录成功');
+        var m={business:data.business,clear:data.clear,risk:data.risk,system:data.system};
+        sessionStorage.setItem('unread',JSON.stringify(m));
         if(history.length>2){
           history.back();
         }else{
@@ -2081,6 +2108,16 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.o.money=t;
   }else{
     $scope.o.money=100;
+    $scope.alipay=true;
+    //显示支付宝
+    $scope.payType=0;
+    $scope.setPayType=function(x){
+      $scope.payType=x;
+    }
+    var alipayacount=localStorage.getItem('alipayacount');
+    if(alipayacount){
+      $scope.o.alipayacount=alipayacount;
+    }
   }
   $scope.es=false;
   $scope.d={};
@@ -2096,6 +2133,9 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.back=function(){
     history.go(-1);
   }
+  $scope.back2=function(){
+    $scope.alipayBox=false;
+  }
   $scope.s1=function(){
     $("#es1").show();
     $("#es1B").show();
@@ -2104,11 +2144,12 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   }
   $scope.o2={
     clear:function(){
-      console.log(2);
       $scope.o.money='';
     },
     ck:function(){
-      console.log(1);
+    },
+    clearalipayacount:function(){
+      $scope.o.alipayacount='';
     }
   }
   $scope.set=function(x){
@@ -2132,21 +2173,49 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.toggleBankList=function(){
     $scope.z.showBankList=!$scope.z.showBankList;
   }
+  var useAlipay=false;
   $scope.recharge=function(){
+    useAlipay=false;
     if(!$scope.o.money){
       alert('输入金额');
       return false;
     }
-    var p="pay_code="+$scope.b.bankIntroduce+"&acc_no="+$scope.b.cardNo+"&id_card="+$scope.b.idCode+"&id_holder="+$scope.b.trueName+"&money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge';
-    if(balance){
-      p+='&balance='+balance+'&times='+times+'&financeRuleId='+financeRuleId;
+    if($scope.alipay){
+      if($scope.payType==1){
+        useAlipay=true;
+      }
     }
-    $("#es1").hide();
-    $("#es1B").hide();
-    $("#es2").show();
-    $("#es2B").show();
-    // $http.jsonp('http://www.new.com/pay/user/core/ufubao_h5?'+p);
-    $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
+    if(useAlipay){
+      $scope.alipayBox=true;
+    }else{
+      var p="pay_code="+$scope.b.bankIntroduce+"&acc_no="+$scope.b.cardNo+"&id_card="+$scope.b.idCode+"&id_holder="+$scope.b.trueName+"&money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge';
+      if(balance){
+        p+='&balance='+balance+'&times='+times+'&financeRuleId='+financeRuleId;
+      }
+      $("#es1").hide();
+      $("#es1B").hide();
+      $("#es2").show();
+      $("#es2B").show();
+      // $http.jsonp('http://www.new.com/pay/user/core/ufubao_h5?'+p);
+      $http.jsonp(stock.data.pay+'user/core/ufubao_h5?'+p);
+    }
+  }
+  $scope.recharge2=function(){
+    $scope.loading=true;
+    $("#loading").show();
+    if(!$scope.o.alipayacount){
+      return false;
+    }
+    localStorage.setItem('alipayacount',$scope.o.alipayacount);
+    var p="aliPayAcount="+$scope.o.alipayacount+"&money="+$scope.o.money+"&version="+V.version+"&requestType="+V.requestType+'&callback=M.recharge2';
+    // $http.jsonp('http://www.new.com/pay/user/core/aliPayH5?'+p);
+    $http.jsonp(stock.data.pay+'user/core/aliPayH5?'+p);
+  }
+  $scope.alipayChange=function(){
+    $("#recharged").show();
+  }
+  $scope.tip1Btn=function(){
+    $scope.tip1=!$scope.tip1;
   }
   $scope.btnOk=function(){$('#form').submit();}
   $scope.setBankCard=function(x){
@@ -2160,6 +2229,75 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
   $scope.addBankCard=function(){
     location.href="#/infoBankAdd";
   }
+}]).controller('prepaidRecords',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  $scope.PageSize=1;
+  $scope.pages=[];
+  $scope.p=0;
+  $scope.Lock=false;
+  $scope.prev=function(){
+    if($scope.p==0){
+      $scope.p=0;
+    }else{
+      $scope.p--;
+      list();
+    }
+  }
+  $scope.page=function(){
+    if($scope.p<0){
+      $scope.p=0;
+    }else if($scope.p>$scope.PageSize){
+      $scope.p=$scope.PageSize;
+    }
+    list();
+  }
+  $scope.next=function(){
+    if($scope.p>=$scope.PageSize-1){
+      $scope.p=$scope.PageSize-1;
+    }else{
+      $scope.p++;
+    }
+    list();
+  }
+  function list(){
+    if($scope.Lock){return false;}
+    $scope.Lock=true;
+    var p={version:V.version,requestType:V.requestType,firstRow:$scope.p*10,fetchSize:10};
+    $http.get(stock.data.stock+'user/core/getPrepaidRecords',{params:p}).success(function(d){
+      $scope.Lock=false;
+      if(d.flag==1){
+        $scope.show=true;
+        $scope.list=d.prepaidRecordVos;
+        var i=0,len=d.pageSize,a=[];
+        $scope.PageSize=len||1;
+        for(i;i<len;i++){
+          a.push(i);
+        }
+        $scope.pages=a;
+      }
+    });
+  }
+  list();
+}]).controller('rechageStatus',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+  if(M.socket){M.socket.close();}
+  $rootScope.bodyBg='white';
+  clearTimeout(window.indexAutoK);
+  var t=$routeParams.t;
+  var p={version:V.version,requestType:V.requestType,orderNo:t};
+  $http.get(stock.data.stock+'user/core/getPrepaidRecordOne',{params:p}).success(function(d){
+    if(d.flag==1){
+      $scope.show=true;
+      d=d.recordVo;
+      $scope.occurBalance=d.occurBalance;
+      $scope.payId=d.payId;
+      $scope.bankName=d.bankName;
+      $scope.status=d.status;
+      $scope.finishTime=d.finishTime;
+      $scope.requstTime=d.requstTime;
+    }
+  });
 }]).controller('rechargeSuccess',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
@@ -2239,13 +2377,14 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       });
     }
   }
-}]).controller('home',['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+}]).controller('home',['$scope','$rootScope','$http','$routeParams','unread',function($scope,$rootScope,$http,$routeParams,unread){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
   $scope.show=false;
   $scope.navHome=true;
   $scope.username='';
+  $scope.unread=unread.k;
   $http.get(stock.data.stock+'user/core/getCurrentUserAcount',{params:V}).success(function(d){
     if(d.flag==-1){
       location.hash="#/signIn";
@@ -2725,19 +2864,20 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
       }
     });
   }
-}]).controller('message', ['$scope','$rootScope','$http',function($scope,$rootScope,$http){
+}]).controller('message', ['$scope','$rootScope','$http','unread',function($scope,$rootScope,$http,unread){
   if(M.socket){M.socket.close();}
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);
   $scope.show=true;
   $scope.no1=9;
   $scope.no2=9;
+  $scope.unread=unread.u;
   $http.get(stock.data.stock+'user/core/getMessageType',{params:V}).success(function(d){
     if(d.flag==1){
       $scope.list=d.messageVos;
     }
   });
-}]).controller('messageDetail', ['$scope','$rootScope','$http','$routeParams',function($scope,$rootScope,$http,$routeParams){
+}]).controller('messageDetail', ['$scope','$rootScope','$http','$routeParams','unread',function($scope,$rootScope,$http,$routeParams,unread){
   if(M.socket){M.socket.close();}
   if($routeParams.p2){
     $scope.page=Number($routeParams.p2);
@@ -2748,6 +2888,33 @@ t.controller('stock',['$scope','$rootScope','$http','$routeParams','$timeout','n
     $scope.type=$routeParams.p1;
   }else{
     $scope.type=1;
+  }
+  var uk=unread.u;
+  if(uk){
+    if($scope.type==1){
+      if(uk.system){
+        clear(1,'system');
+      }
+    }else if($scope.type==2){
+      if(uk.business){
+        clear(2,'business');
+      }
+    }else if($scope.type==3){
+      if(uk.risk){
+        clear(3,'risk');
+      }
+    }else if($scope.type==4){
+      if(uk.clear){
+        clear(4,'clear');
+      }
+    }
+  }
+  function clear(x,t){
+    var p={version:V.version,requestType:V.requestType,type:x};
+    $http.get(stock.data.stock+'user/core/updateUserMessage',{params:p}).success(function(d){
+      uk[t]=false;
+      sessionStorage.setItem('unread',JSON.stringify(uk));
+    });
   }
   $rootScope.bodyBg='white';
   clearTimeout(window.indexAutoK);

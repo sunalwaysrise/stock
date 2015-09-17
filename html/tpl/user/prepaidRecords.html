@@ -1,0 +1,31 @@
+<div ng-show="show">
+	<div class="header" >
+		<a class="menu_back" href="#home"></a>
+		<h2>充值记录</h2>
+	</div>
+	<div class="pt45 prepaidRecords details">
+		<ul>
+  		<li ng-repeat="i in list">
+  			<a ng-href="#/rechagestatus/{{i.payId||0}}/{{i.id||0}}">
+  				<h2>{{i.bankName}}</h2>
+  				<p>{{i.requstTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+          <em>+{{i.occurBalance}}</em>
+  				<span class="s0" ng-if="i.status==0">处理中</span>
+  				<span class="s1" ng-if="i.status==1">充值成功</span>
+  				<span class="s2" ng-if="i.status==2">充值失败</span>
+  			</a>
+  		</li>
+  	</ul>
+  	<section class="pages">
+  		<a ng-click="prev()"></a>
+  		<p>
+  			第{{p+1}}页
+  			<select ng-model="p" ng-change="setPage()">
+  				<option ng-repeat="i in pages" value="{{i}}">第{{i}}页</option>
+  			</select>
+  		</p>
+  		<a ng-click="next()"></a>
+  	</section>
+	</div>
+</div>
+<loading ng-if='loading'></loading>

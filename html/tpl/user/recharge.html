@@ -1,53 +1,130 @@
 <div ng-if="show">
-	<div class="header" >
-		<a id="es1B" class="menu_back" ng-click="back()"></a>
-		<a id="es2B" style="display:none" class="menu_back" ng-click="s1()"></a>
-		<h2>充值</h2>
-	</div>
-	<div class="pt45 rechargre" id="es1">
-		<p class="tip">您的账户余额为<span>{{balance}}元</span></p>
-		<div class="line1">
-			<p><a ng-click="set(100)" ng-if="o.money==100" class="on">100</a>
-			<a ng-click="set(100)" ng-if="o.money!=100" class="">100</a></p>
-			<p><a ng-click="set(500)" ng-if="o.money==500" class="on">500</a>
-			<a ng-click="set(500)" ng-if="o.money!=500" class="">500</a></p>
-			<p><a ng-click="set(1000)" ng-if="o.money==1000" class="on">1000</a>
-			<a ng-click="set(1000)" ng-if="o.money!=1000" class="">1000</a></p>
-			<p><a ng-click="set(5000)" ng-if="o.money==5000" class="on">5000</a>
-			<a ng-click="set(5000)" ng-if="o.money!=5000" class="">5000</a></p>
-		</div>
-		<div class="line2">
-			<b>手动输入</b>
-			<div>
-				<numberinput dlen="5" dclass="" dplaceholder="请输入充值金额" model="o.money" clear="o2.clear" ck="o2.ck"></numberinput>
+	<div id="et1">
+		<div ng-show="!alipayBox">
+			<div class="header" >
+				<a id="es1B" class="menu_back" ng-click="back()"></a>
+				<a id="es2B" style="display:none" class="menu_back" ng-click="s1()"></a>
+				<h2>充值</h2>
+				<a class="menu_right" href="#prepaidrecords">充值记录</a>
 			</div>
-			<p>元</p>
+			<div class="pt45 rechargre" id="es1">
+				<p class="tip">您的账户余额为<span>{{balance}}元</span></p>
+				<div class="line1">
+					<p><a ng-click="set(100)" ng-if="o.money==100" class="on">100</a>
+					<a ng-click="set(100)" ng-if="o.money!=100" class="">100</a></p>
+					<p><a ng-click="set(500)" ng-if="o.money==500" class="on">500</a>
+					<a ng-click="set(500)" ng-if="o.money!=500" class="">500</a></p>
+					<p><a ng-click="set(1000)" ng-if="o.money==1000" class="on">1000</a>
+					<a ng-click="set(1000)" ng-if="o.money!=1000" class="">1000</a></p>
+					<p><a ng-click="set(5000)" ng-if="o.money==5000" class="on">5000</a>
+					<a ng-click="set(5000)" ng-if="o.money!=5000" class="">5000</a></p>
+				</div>
+				<div class="line2">
+					<b>手动输入</b>
+					<div>
+						<numberinput dlen="5" dclass="" dplaceholder="请输入充值金额" model="o.money" clear="o2.clear" ck="o2.ck"></numberinput>
+					</div>
+					<p>元</p>
+				</div>
+				<div class="line2" ng-if="!alipay">
+					<b>付款方式</b>
+					<div ng-if="z.hasBank" class="selectBank" ng-click="toggleBankList()">{{z.initBank}}</div>
+					<div ng-if="!z.hasBank" class="addBank">添加银行卡</div>
+					<ul ng-show="z.showBankList" id="showBankList">
+						<li ng-repeat="i in z.banks" ng-click="setBankCard({{$index}})">{{i.bankName}}({{i.cardNo|last4}})</li>
+						<li ng-click="addBankCard()">添加银行卡</li>
+					</ul>
+				</div>
+				<div class="line4 line2"  ng-if="alipay" ng-click='setPayType(0)'>
+					<b class="payType0 pt{{payType}}"></b>
+					<div ng-if="z.hasBank" class="selectBank" ng-click="toggleBankList()">{{z.initBank}}</div>
+					<div ng-if="!z.hasBank" class="addBank">添加银行卡</div>
+					<ul ng-show="z.showBankList" id="showBankList">
+						<li ng-repeat="i in z.banks" ng-click="setBankCard({{$index}})">{{i.bankName}}({{i.cardNo|last4}})</li>
+						<li ng-click="addBankCard()">添加银行卡</li>
+					</ul>
+				</div>
+				<div class="line4 line2"  ng-if="alipay" ng-click='setPayType(1)'>
+					<b class="payType1 pt{{payType}}"></b>
+					<div class="alipay">支付宝转账（手机转账0手续费）</div>
+				</div>
+				<div class="line3"><a class="btn6" ng-click="recharge()">充值</a></div>
+			</div>
+			<div class="pt45 rechargre" id="es2" style="display:none">
+			<form method="get" id="form" >
+				<input type="hidden" id="version" name="version" value=""/>
+				<input type="hidden" id="language" name="language" value=""/>
+				<input type="hidden" id="input_charset" name="input_charset" value=""/>
+				<input type="hidden" id="txn_type" name="txn_type" value=""/>
+				<input type="hidden" id="data_type" name="data_type" value="json" />
+				<input type="hidden" id="member_id" name="member_id" value=""/>
+				<input type="hidden" id="terminal_id" name="terminal_id" value=""/>
+				<input type="hidden" id="back_url" name="back_url" value="" />
+				<input type="hidden" id="txn_sub_type" name="txn_sub_type" value=""/>
+				<textarea name="data_content" id="data_content" class="dataMi" ></textarea>
+				<div class="line3"><a class="btn6" ng-click="btnOk()">确定充值</a></div>
+			</form>
+			</div>
+		</div>	
+		<div ng-show="alipayBox">
+			<div class="header" >
+				<a class="menu_back" ng-click="back2()"></a>
+				<h2>支付宝</h2>
+			</div>
+			<div class="pt45 rechargre">
+				<p class="tip">您的账户余额为<span>{{balance}}元</span></p>
+				<div class="line2">
+					<b>快捷转账</b>
+					<div class="alipay">支付宝转账（手机转账0手续费）</div>
+				</div>
+				<div class="line2 mr0">
+					<b>支付宝账号</b>
+					<div>
+						<textinput dplaceholder="支付宝账号" dclass="" model="o.alipayacount" clear="o2.clearalipayacount()" ck=""></textinput>
+					</div>
+				</div>
+				<div class="line2">
+					<b>充值金额</b>
+					<div>
+						<numberinput dlen="5" dclass="" dplaceholder="请输入充值金额" model="o.money" clear="o2.clear" ck="o2.ck"></numberinput>
+					</div>
+					<p>元</p>
+				</div>
+				<div class="line3"><a class="btn6" ng-click="recharge2()">支付宝转账</a></div>
+			</div>
 		</div>
-		<div class="line2">
-			<b>付款方式</b>
-			<div ng-if="z.hasBank" class="selectBank" ng-click="toggleBankList()">{{z.initBank}}</div>
-			<div ng-if="!z.hasBank" class="addBank">添加银行卡</div>
-			<ul ng-show="z.showBankList" id="showBankList">
-				<li ng-repeat="i in z.banks" ng-click="setBankCard({{$index}})">{{i.bankName}}({{i.cardNo|last4}})</li>
-				<li ng-click="addBankCard()">添加银行卡</li>
-			</ul>
-		</div>
-		<div class="line3"><a class="btn6" ng-click="recharge()">充值</a></div>
 	</div>
-	<div class="pt45 rechargre" id="es2" style="display:none">
-	<form method="get" id="form" >
-		<input type="hidden" id="version" name="version" value=""/>
-		<input type="hidden" id="language" name="language" value=""/>
-		<input type="hidden" id="input_charset" name="input_charset" value=""/>
-		<input type="hidden" id="txn_type" name="txn_type" value=""/>
-		<input type="hidden" id="data_type" name="data_type" value="json" />
-		<input type="hidden" id="member_id" name="member_id" value=""/>
-		<input type="hidden" id="terminal_id" name="terminal_id" value=""/>
-		<input type="hidden" id="back_url" name="back_url" value="" />
-		<input type="hidden" id="txn_sub_type" name="txn_sub_type" value=""/>
-		<textarea name="data_content" id="data_content" class="dataMi" ></textarea>
-		<div class="line3"><a class="btn6" ng-click="btnOk()">确定充值</a></div>
-	</form>
+	<div id="et2" style="display:none;">
+		<div class="header" >
+			<a class="menu_back" onclick='$("#et1").show();$("#et2").hide();'></a>
+			<h2>支付宝转账</h2>
+		</div>
+		<div class="pt45 rechargre2">
+			<div class="alipayTitle">
+				<p>收款人支付宝账号：</p>
+				<div>yingtou@ycaopan.com</div>
+				<section>易操盘（杭州赢透科技网络有限公司）</section>
+			</div>
+			<div class="alipayContent">
+				<p>充值金额:<b>{{o.money}}元</b></p>
+				<p>您的支付宝账号:<strong>{{o.alipayacount}}</strong></p>
+			</div>
+			<div class="alipayBtn">
+				<i ng-click="tip1Btn()">?</i>
+				<a ng-click="alipayChange()" href="https://m.alipay.com" target="_blank" class="alipay1">请打开支付宝钱包完成转账<b>(0手续费)</b></a>
+				<div>OR</div>
+				<a ng-click="alipayChange()" href="https://shenghuo.alipay.com/send/payment/fill.htm" target="_blank" class="alipay2">去支付宝网站完成转账</a>
+			</div>
+			<div class="line3"><a class="btn6" id="recharged" >我已充值</a></div>
+		</div>
+		<div class="t1lock" ng-show="tip1">
+			<div class="t1content">
+				<h2>如何转账？</h2>
+				<p>1.请牢记<b>yingtou@ycaopan.com</b>请牢记</p>
+				<p>2.登陆您的支付宝，选择<b>转账>转账到支付宝</b>输入我们的账号和您刚才的金额</p>
+				<a ng-click="tip1Btn()">我知道了</a>
+			</div>
+		</div>
 	</div>
 </div>
 <loading ng-if='loading'></loading>

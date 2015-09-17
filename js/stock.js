@@ -27,8 +27,30 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
   return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(0).slice(2) : "");
   };
 var M={
+  self:function(d){
+    var h=[],t=[],i=0,m=['SH000001','SZ399001','SZ399006'],url='',style='',ud='';
+    h.push(d.SH000001);
+    h.push(d.SZ399001);
+    h.push(d.SZ399006);
+    function toUpDown(x){
+      if(x==0){
+        return "";
+      }else if(x>0){
+        return "up";
+      }else{
+        return "down";
+      }
+    }
+    function addPlus(x){return (x>0)?"+"+x:x;}
+    for(i;i<3;i++){
+      url="#/stock2/"+m[i]+"/"+encodeURI(h[i].stockName);
+      style=toUpDown(h[i].waveRatio);
+      ud=addPlus(h[i].wave);
+      t.push('<div class="'+style+'"><a href="'+url+'"><h2>'+h[i].stockName+'</h2><p>'+h[i].lastPrice+'<i></i></p><span>'+ud+'('+h[i].waveRatio+'%)</span></a></div>');
+    }
+    $('#selfNav').html(t.join(''));
+  },
   recharge:function(data){
-    console.log(data);
     $("#version").val(data.version);
     $("#language").val(data.language);
     $("#input_charset").val(data.input_charset);
@@ -39,6 +61,12 @@ var M={
     $("#txn_sub_type").val(data.txn_sub_type);
     $("#data_content").val(data.data_content);
     $("#form").attr({"action":data.url});
+  },
+  recharge2:function(d){
+    $("#et2").show();
+    $("#et1").hide();
+    $("#loading").hide();
+    $("#recharged").hide().attr({"href":"#/rechagestatus/"+d.orderNo});
   },
   time:function(x){
     var c=function(i){return (i<10)?"0"+i:i;},D=new Date(x);
@@ -268,7 +296,7 @@ var M={
         var zgClass=Number(this.zg)>=Number(this.lastPrice)?"red":"green",zdClass=Number(this.zd)>Number(this.lastPrice)?"red":"green",jkClass=Number(this.jk)>Number(this.zs)?"red":"green";
         $('#lastMsg').html('<p><label>今开:</label><span class="'+jkClass+'">'+this.jk+'</span></p><p><label>最高:</label><span class="'+zgClass+'">'+this.zg+'</span></p><p><label>昨收:</label><span>'+this.zs+'</span></p><p><label>最低:</label><span class="'+zdClass+'">'+this.zd+'</span></p>');
       }
-      /*3开始绘制交易量*/
+      /*3开始绘制分时交易量*/
       ctx=document.getElementById("canvas3").getContext('2d');
       $("#stockDraw3").css({"width":canvasWidth/2,"height":canvasHeight2/2});
       $("#canvas3").attr({"width":canvasWidth+5,"height":canvasHeight2+1}).css({"width":canvasWidth/2,"height":canvasHeight2/2});
@@ -299,7 +327,7 @@ var M={
         ctx.dashedLineTo(0,d*i,canvasWidth,i*d,5);
       }
       /*3.3准备绘制柱状数据*/
-      var w12= this.getArr(3,w1);
+      var w12= this.getArr(2,w1);
       max=this.max(w12),min=this.min(w12),cc=max-min,kk=canvasHeight2/cc;
       /*3.4绘制柱状图*/
       i=0;
@@ -473,26 +501,14 @@ var M={
       ctx.fillText(maxBFB,canvasWidth-85,20);
       ctx.fillText(minBFB,canvasWidth-100,canvasHeight-25);
       /*绘制分时图部分全部完毕*/
-      /*2.更新顶部数据*/
-      var n2=new Date().getTime(),wave,waveRatio;
-      $('#lastPrize').html(this.lastPrice+'<i></i>');
-      $('#lastPrize2').html(this.lastPrice);
-      if(this.waveRatio>0){
-        $('#stockTop').attr({"class":"up"});
-        wave = "+"+this.wave;
-        waveRatio = "+"+this.waveRatio+"%";
-      }else{
-        $('#stockTop').attr({"class":"down"});
-        wave = this.wave;
-        waveRatio = this.waveRatio+"%";
-      }
-      $('#wave').html(wave);
-      $('#waveRatio').html(waveRatio);
+
+      /*2.更新顶部数据->移至M.draw.dp方法*/
+
       /*3开始绘制交易量*/
       ctx=document.getElementById("canvas3").getContext('2d');
       $("#stockDraw3").css({"width":canvasWidth/2,"height":canvasHeight2/2});
       $("#canvas3").attr({"width":canvasWidth+5,"height":canvasHeight2+1}).css({"width":canvasWidth/2,"height":canvasHeight2/2});
-      //w1=this.w1;
+      // w1=this.w1;
       ctx.width=canvasWidth;
       ctx.height=canvasHeight2;
       ctx.lineWidth=0;
@@ -519,7 +535,7 @@ var M={
         ctx.dashedLineTo(0,d*i,canvasWidth,i*d,5);
       }
       /*3.3准备绘制柱状数据*/
-      var w12= this.getArr(3,w1);
+      var w12= this.getArr(2,w1);
       max=this.max(w12),min=this.min(w12),cc=max-min,kk=canvasHeight2/cc;
       /*3.4绘制柱状图*/
       i=0;
@@ -539,13 +555,33 @@ var M={
         ctx.lineTo(i*tt,canvasHeight2);
         ctx.stroke();
       }
-      var h=[],cl=this.closePrice>this.quote.openPrice?'green':'red';
-      h.push('<li><p><label>昨收:</label><span>'+this.closePrice+'</span></p><p><label>今开:</label><span class="'+cl+'">'+this.quote.openPrice+'</span></p></li>');
-      h.push('<li><p><label>最高:</label><span class="red">'+this.quote.highPrice+'</span></p><p><label>最低:</label><span class="green">'+this.quote.lowPrice+'</span></p></li>');
-      h.push('<li><p><label>成交量:</label><span>'+((this.quote.businessAmount/10000).toFixed(2))+'万手</span></p><p><label>成交额:</label><span>'+((this.quote.businessBalance/100000000).toFixed(2))+'亿元</span></p></li>');
+    },
+    dp:function(d){
+      for(i in d){
+        D=d[i];
+      }
+      /*2.更新顶部数据*/
+      var n2=new Date().getTime(),wave,waveRatio;
+      $('#lastPrize').html(D.lastPrice+'<i></i>');
+      $('#lastPrize2').html(D.lastPrice);
+      if(D.waveRatio>0){
+        $('#stockTop').attr({"class":"up"});
+        wave = "+"+D.wave;
+        waveRatio = "+"+D.waveRatio+"%";
+      }else{
+        $('#stockTop').attr({"class":"down"});
+        wave = D.wave;
+        waveRatio = D.waveRatio+"%";
+      }
+      $('#wave').html(wave);
+      $('#waveRatio').html(waveRatio);
+      var h=[],cl=D.closePrice>D.openPrice?'green':'red';
+      h.push('<li><p><label>昨收:</label><span>'+D.closePrice+'</span></p><p><label>今开:</label><span class="'+cl+'">'+D.openPrice+'</span></p></li>');
+      h.push('<li><p><label>最高:</label><span class="red">'+D.highPrice+'</span></p><p><label>最低:</label><span class="green">'+D.lowPrice+'</span></p></li>');
+      h.push('<li><p><label>成交量:</label><span>'+((D.businessAmount/10000).toFixed(2))+'万手</span></p><p><label>成交额:</label><span>'+((D.businessBalance/100000000).toFixed(2))+'亿元</span></p></li>');
       // h.push('<li><p><label>量比:</label><span></span></p><p><label>沪市平盘:</label><span></span></p></li>');
       // h.push('<li><p><label>沪市上涨:</label><span></span></p><p><label>沪市下跌:</label><span></span></p></li>');
-      $('#updateTime').html(M.time(this.quote.updateTime));
+      $('#updateTime').html(M.time(n2));
       $('#stock2b').html(h.join(''));
     },
     w2:null,
@@ -628,7 +664,7 @@ var M={
       ctx.fillText(this.w2.days[0],0,canvasHeight);
       ctx.fillText(this.w2.days[Math.floor(this.w2.days.length/2)],canvasWidth/2-30,canvasHeight);
       ctx.fillText(this.w2.days[this.w2.days.length-1],(canvasWidth)-60,canvasHeight);
-      /*2开始绘制交易量*/
+      /*2开始绘制K线交易量*/
       var canvasHeight2=windowWidth*0.3;
       ctx=document.getElementById("canvas4").getContext('2d');
       $("#stockDraw4").css({"width":canvasWidth/2,"height":canvasHeight2/2});

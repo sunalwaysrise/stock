@@ -1,7 +1,7 @@
 <div class="header" >
 	<a href="#newmember" class="menu_left">新手</a>
 	<h2>{{title}}</h2>
-	<a href="#search" class="search_open"></a>
+	<a ng-click="service()" class="menu_right menu_right2">在线客服</a>
 </div>
 <div id="banners" class="banners1">
 	<ul id="banner" class="banner1" ontouchstart="touch.touchStart(event)" ontouchmove="touch.touchMove(event);" ontouchend="touch.touchEnd();">
@@ -47,8 +47,8 @@
 	<a href="#/myFinances" class="exchange" ng-if="!navExchange">交易</a>
 	<a href="#/self" class="fave cur" ng-if="navFave">自选</a>
 	<a href="#/self" class="fave" ng-if="!navFave">自选</a>
-	<a href="#/home" class="home cur" ng-if="navHome">我的</a>
-	<a href="#/home" class="home" ng-if="!navHome">我的</a>
+	<a href="#/home" class="home cur" ng-if="navHome">我的<span ng-if="unread"></span></a>
+	<a href="#/home" class="home" ng-if="!navHome">我的<span ng-if="unread"></span></a>
 </nav>
 <loading ng-if='loading'></loading>
 <mydialog ng-if='openDialog' txt='{{dialog.txt}}' suretxt='{{dialog.suretxt}}' cancaltxt='{{dialog.cancaltxt}}' sure='dialog.sure()' cancel='dialog.cancel()'></mydialog>

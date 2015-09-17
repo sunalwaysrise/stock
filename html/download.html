@@ -10,14 +10,16 @@ h1, h2, h3, h4, h5, h6 { font-weight: normal; font-size: 100%; }
 img { border: none; border: 0; vertical-align: middle; }
 a { text-decoration: none; outline: none; }
 .wrap{}
-.logo{padding-top:50px;}
-.logo img{width:40%;margin:0 auto;display:block;border-radius:8px;}
-.logo h2{text-align:center;line-height:88px;font-size:30px;color:#919191;}
-.download{display: block;width: 85%;height:60px;line-height: 60px;text-align: center;color: #fff;background: #f54b00;margin: 40px auto;border-radius: 8px;font-size: 20px;}
+.wrap img{width:100%;margin:0 auto;display:block;max-width:640px;}
+.download{display:block;line-height:40px;height:40px;text-align:center;color:#fff;background:#ce0623;margin:20px 10px 10px 10px;border-radius:5px;font-size:16px;font-weight:normal;}
+#Btn.on{background:#ddd;font-size:14px;}
 .none{display:none;}
 .mark{padding:30px 0;background-color:rgba(0,0,0,0.6);width:100%;position:relative;}
-.mark p{color: #fff;padding-left:20px;line-height: 25px;font-size: 16px; }
-.mark img{display: block;position: absolute;top:20px;right: 10px;}
+.mark p{color:#fff;padding-left:20px;line-height:25px;font-size:16px;}
+.mark img{display:block;position:absolute;top:20px;right:10px;}
+@media screen and (min-width:640px){
+.download{margin:20px auto 55px auto;max-width:640px;}
+}
 </style>
 </head>
 <body>
@@ -27,10 +29,7 @@ a { text-decoration: none; outline: none; }
 	<img src="http://res.cp2y.com/h5/stock/images/jt.png" />
 </div>
 <div class="wrap">
-	<section class="logo">
-		<img src="http://res.cp2y.com/h5/stock/images/logo_114.png" />
-		<h2>易操盘</h2>
-	</section>
+	<img src="http://res.cp2y.com/h5/stock/images/download.png" />
 	<a class="download" id="Btn" >下载安装</a>
 </div>
 <script>
@@ -42,9 +41,10 @@ var sUserAgent = navigator.userAgent.toLowerCase(),
 	bIsUc = sUserAgent.match(/ucweb/i) == "ucweb",
 	bIsAndroid = sUserAgent.match(/android/i) == "android",
 	bIsCE = sUserAgent.match(/windows ce/i) == "windows ce",
-	bIsQQ = sUserAgent.match(/qq/i) == "qq",
+	bIsQQBroswer = sUserAgent.match(/mqq/i) == "qqBroswer",
+	bIsQQ = sUserAgent.match(/ qq/i) == "qq",
 	bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile",
-	bMicroMess = sUserAgent.match(/micromessenger/i) == "micromessenger",url;
+	bMicroMess = sUserAgent.match(/micromessenger/i) == "micromessenger",url,h;
 if(bMicroMess || bIsQQ){
 	document.getElementById('Btn').addEventListener('click',function(e){
 		document.getElementById('marker').style.display='block';
@@ -53,14 +53,22 @@ if(bMicroMess || bIsQQ){
 }else{
 	if(bMicroMess){
 		url='http://m.ycaopan.com';
+		h='正在跳转...';
 	}else if (bIsIpad || bIsIphoneOs){
 		url='itms-services://?action=download-manifest&url=https://app.ycaopan.com/app-ycaopan-iphone.plist';
+		h='正在安装,请按Home键在桌面查看';
 	}else if(bIsAndroid){
 		url='http://res.cp2y.com/ycaopan/wap/app-ycaopan-android-2.apk';
+		h='正在下载';
 	}else{
 		url='http://m.ycaopan.com';
+		h='正在跳转...';
 	}
 	document.getElementById('Btn').setAttribute('href',url);
+	document.getElementById('Btn').addEventListener('click',function(){
+		document.getElementById('Btn').classList.add('on');
+		document.getElementById('Btn').innerHTML=h;
+	});
 }
 </script>
 </body>

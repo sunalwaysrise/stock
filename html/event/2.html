@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="stylesheet" href="http://res2.cp2y.com/h5/stock/css/event.css?v=20150715" />
+<link rel="stylesheet" href="http://res.ycaopan.com/stock/css/event.css?v=20150715" />
 <style type="text/css">
 body{}
 header.header{display:none;}
@@ -27,9 +27,9 @@ header.header{display:none;}
 .main div i{width:73px;height:52px;float:left;background-repeat:no-repeat;background-position:0 0;background-size:auto 52px;position:relative;}
 .main div i{width:23vw;height:16vw;background-size:auto 16vw;}
 .main div i:after{width:0px;height:0px;border-top:4px #ff3333 solid;border-left:4px transparent solid;border-right:4px transparent solid;position:absolute;left:30%;bottom:-4px;content:"";}
-.main div.li1 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l1.png);}
-.main div.li2 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l2.png);}
-.main div.li3 i{background-image:url(http://res2.cp2y.com/h5/stock/eventimages/2/l3.png);}
+.main div.li1 i{background-image:url(http://res.ycaopan.com/stock/eventimages/2/l1.png);}
+.main div.li2 i{background-image:url(http://res.ycaopan.com/stock/eventimages/2/l2.png);}
+.main div.li3 i{background-image:url(http://res.ycaopan.com/stock/eventimages/2/l3.png);}
 .main p a.li4{color:#535353;}
 .main div table{width:227px;height:51px;float:left;}
 .main div table{width:71vw;height:16vw;}
@@ -59,13 +59,13 @@ footer div{height:40px;line-height:40px;text-indent:10px;color:#000;}
 	<h2>老用户活动</h2>
 </header>
 <div class="banners">
-	<img src="http://res2.cp2y.com/h5/stock/eventimages/2/banner.jpg" alt="" class="banner" />
+	<img src="http://res.ycaopan.com/stock/eventimages/2/banner.jpg" alt="" class="banner" />
 </div>
 <div class="banner"></div>
 <div class="main">
-	<div class="li1"><i></i><table><tr><td>赠送</td><td><b>10000元</b><br/>实盘操作金</td><td>完全免费</td></tr></table></div>
-	<div class="li2"><i></i><table><tr><td>您交</td><td><b>2500元</b><br/>风险保证金</td><td>结束时如无亏损全额返还<br/>如亏损扣除亏损剩余返还</td></tr></table></div>
-	<div class="li3"><i></i><table><tr><td>总共</td><td><b>12500元</b><br/>实盘操作金</td><td>由您操盘2日，盈利全归您</td></tr></table></div>
+	<div class="li1"><i></i><table><tr><td>赠送</td><td><b>5000元</b><br/>实盘操作金</td><td>完全免费</td></tr></table></div>
+	<div class="li2"><i></i><table><tr><td>您交</td><td><b>1250元</b><br/>风险保证金</td><td>结束时如无亏损全额返还<br/>如亏损扣除亏损剩余返还</td></tr></table></div>
+	<div class="li3"><i></i><table><tr><td>总共</td><td><b>6250元</b><br/>实盘操作金</td><td>由您操盘5日，盈利全归您</td></tr></table></div>
 	<p>如果疑问请联系客服：<a class="li4" href="tel:4008880872">400-888-0872</a></p>
 	<a class="btn" id="join">我要参与</a>
 </div>
@@ -73,11 +73,11 @@ footer div{height:40px;line-height:40px;text-indent:10px;color:#000;}
 	<div>活动规则:</div>
 	<ul>
 		<li>活动时间：2015年9月1日-2015年9月30日</li>
-		<li>易操盘免息赠送10000实盘操作资金</li>
-		<li>用户交2500元保证金（结束时如无亏损全额返还，如亏损扣除亏损剩余返还）</li>
-		<li>实盘比例为1:4，本金共计12500元（由您操盘，盈利归您，亏损在您的保证金中扣除）</li>
-		<li>免息实盘操作时间共2个交易日（第2个交易日14：45分前必须卖出股票）</li>
-		<li>交易账户总资产不得低于10700元，低于时系统将自动平仓</li>
+		<li>易操盘免息赠送5000实盘操作资金</li>
+		<li>用户交1250元保证金（结束时如无亏损全额返还，如亏损扣除亏损剩余返还）</li>
+		<li>实盘比例为1:4，本金共计6250元（由您操盘，盈利归您，亏损在您的保证金中扣除）</li>
+		<li>免息实盘操作时间共5个交易日（第5个交易日14：45分前必须卖出股票）</li>
+		<li>交易账户总资产不得低于5350元，低于时系统将自动平仓</li>
 		<li>免息活动不能延期</li>
 		<li>盈利全归您，（提现免费）亏损自负</li>
 	</ul>
@@ -109,12 +109,12 @@ var e1,e2;
 if(getArgs('app')=="ios" ||getArgs('app')=="android"){
 	e1="href='app:signIn'";
 	e2="href='app:info'";
-	e3="href='app:recharge'";
+	e3="href='app:recharge";
 }else{
 	$('header').show();
 	e1="href='/html/index.html#/signIn'";
 	e2="href='/html/index.html#/info'";
-	e3="href='/html/index.html#/recharge'";
+	e3="href='/html/index.html#/recharge";
 }
 var E={
 	lock:false,
@@ -147,6 +147,9 @@ var E={
 						f:e2
 					});
 				}else if(d.flag==2){
+					console.log(e3)
+					e3+="/"+d.chargeFee+"'";
+					console.dir(e3)
 					E.error({
 						t:d.message,
 						c:d.message,

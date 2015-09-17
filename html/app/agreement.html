@@ -148,7 +148,7 @@ $.ajax({
       $("#balance").html(d.balance);
       $("#leverageRatio").html(d.leverageRatio*100);
       $("#deposit").html(d.deposit);
-      $("#managementFee").html(d.managementFee/d.times);
+      $("#managementFee").html(Number(d.managementFee/d.times).toFixed(2));
       $("#times").html(d.times);
       $("#keepriskratio").html(Number(d.keepRiskRatio).toFixed(2));
       $("#closeriskratio").html(Number(d.closeRiskRatio).toFixed(2));

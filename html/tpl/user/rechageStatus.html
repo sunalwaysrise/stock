@@ -1,0 +1,42 @@
+<div ng-if="show">
+	<div class="header" >
+		<a class="menu_back" href="#/prepaidrecords"></a>
+		<h2>充值详情</h2>
+	</div>
+	<div class="pt45 rechageStatus">
+		<div class="status status{{status}}">
+			<div class="type1">
+				<b></b>
+				<b></b>
+				<b></b>
+				<span></span>
+			</div>
+			<div class="type2">
+				<div>
+					<b>充值</b>
+					<p>{{requstTime|date:'yyyy-MM-dd HH:mm:ss'}}</p>
+				</div>
+				<div>
+					<b>充值处理中</b>
+				</div>
+				<div>
+					<b>充值成功</b>
+					<p>{{finishTime|date:'yyyy-MM-dd HH:mm:ss'}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="p2">
+			<span>充值存入</span>
+			<strong>+{{occurBalance}}</strong>
+		</div>
+		<div class="p2">
+			<label>订单号</label>
+			<b>{{payId}}</b>
+		</div>
+		<div class="p2">
+			<label>充值类型</label>
+			<b>{{bankName}}</b>
+		</div>
+	</div>
+</div>
+<loading ng-if='loading'></loading>

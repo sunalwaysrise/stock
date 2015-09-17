@@ -81,7 +81,7 @@
 					<td>
 						<b ng-if="i.entrustStatus==0">未报</b>
 						<b ng-if="i.entrustStatus==1">待报</b>
-						<b ng-if="i.entrustStatus==2">已报</b>
+						<b ng-if="i.entrustStatus==2"></b>
 						<b ng-if="i.entrustStatus==3">已报待撤</b>
 						<b ng-if="i.entrustStatus==4">部成待撤</b>
 						<b ng-if="i.entrustStatus==5">部撤</b>
@@ -89,7 +89,7 @@
 						<b ng-if="i.entrustStatus==7">部成</b>
 						<b ng-if="i.entrustStatus==8">已成</b>
 						<b ng-if="i.entrustStatus==9">废单</b>
-						<br/>
+						<br ng-if="i.entrustStatus!=2" />
 						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==0">撤单</a>
 						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==1">撤单</a>
 						<a class="b2" ng-click="cancleUserEntrust($index)" ng-if="i.entrustStatus==2">撤单</a>

@@ -8,10 +8,10 @@
       <a ng-href="#/messageDetail/{{i.type}}/0/">
         <img ng-src="http://res2.cp2y.com/h5/stock/images/message{{i.type}}.png" alt="" />
         <div>
-          <h2 ng-if="i.type==1">系统消息</h2>
-          <h2 ng-if="i.type==2">交易提醒</h2>
-          <h2 ng-if="i.type==3">风控提醒</h2>
-          <h2 ng-if="i.type==4">清算提醒</h2>
+          <h2 ng-if="i.type==1">系统消息<i ng-if="unread.system"></i></h2>
+          <h2 ng-if="i.type==2">交易提醒<i ng-if="unread.business"></i></h2>
+          <h2 ng-if="i.type==3">风控提醒<i ng-if="unread.risk"></i></h2>
+          <h2 ng-if="i.type==4">清算提醒<i ng-if="unread.clear"></i></h2>
           <p>{{i.summary}}</p>
           <span>{{i.time|date:'yyyy.MM.dd'}}</span>
         </div>
